@@ -1,18 +1,14 @@
 tailwind.config =  {
-    content: [
-      "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-      "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-      "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    ],
     theme: {
       colors: {
         "background-dark-blue": "#011F4B",
         "container-dark-blue": "#083158",
         "container-light-blue": "#005B96",
-        "select-highlight-blue": "#D0E5F5",
-        "hover-highlight-blue": "#B3CDE0",
-        "button-highlight-blue": "#819FB5",
-        "button-select-blue": "#5F7687",
+        "blue-highlight-hover": "#062542",
+        "warm-green-button": "#027148",
+        "warm-green-button-hover": "#034f33",
+        "warm-green-button-active": "#023623",
+        "green-highlight-hover": "#075236",
         "confirm-green": "#2FA71B",
         "confirm-green-hover": "#258016",
         "confirm-green-active": "#1C6110",
@@ -20,6 +16,7 @@ tailwind.config =  {
         "cancel-red-hover": "#9E2720",
         "cancel-red-active": "#7A231D",
         "outline-gray": "#868A8f",
+        "eggshell-white": "#E9DCC9",
         black: "#000000",
         white: "#FFFFFF",
       },

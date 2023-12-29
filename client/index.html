@@ -10,8 +10,46 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="/client/tailwind-config.js"></script>
   </head>
-  <body class="bg-background-dark-blue">
-    <label class="bg-confirm-green">Hello World!</label>
+  <body class="bg-background-dark-blue h-screen">
+    <div class="grid grid-rows-2 grid-cols-11 gap-3 h-full w-full p-3">
+      <div
+        class="bg-container-dark-blue border-4 relative rounded-lg col-span-2 row-span-2"
+      >
+        <div class="pl-5">
+          <h2 class="text-eggshell-white text-4xl font-bold mt-5 mb-5">
+            Playlists
+          </h2>
+        </div>
+        <ul class="pl-3 flex flex-col">
+          <li class="mb-3">
+            <option
+              class="pl-6 pb-1 pt-1 pr-6 text-3xl text-eggshell-white text-left rounded-2xl w-max cursor-pointer truncate hover:bg-blue-highlight-hover"
+            >
+              Test Playlist Title
+            </option>
+          </li>
+        </ul>
+        <div class="flex items-center justify-center">
+          <button
+            class="absolute bottom-0 left-0 w-[14.75rem] h-11 ml-[1.3rem] mb-5 rounded-lg border-2 flex bg-warm-green-button hover:bg-warm-green-button-hover active:bg-warm-green-button-active"
+          >
+            <div
+              class="w-10 h-10 bg-white rounded-lg border-2 flex items-center justify-center"
+            >
+              <img
+                src="/client/assets/icons/plus.png"
+                alt="add playlist"
+                width="24"
+                height="24"
+              />
+            </div>
+            <div class="text-eggshell-white text-3xl pl-3 pt-0.5">
+              Add Playlist
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
     <script src="/client/ext/htmx.min.js"></script>
   </body>
 </html>
