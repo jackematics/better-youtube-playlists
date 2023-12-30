@@ -11,10 +11,10 @@
     <script src="/client/tailwind-config.js"></script>
   </head>
   <body class="bg-background-dark-blue h-screen">
-    <div class="grid grid-rows-2 grid-cols-11 gap-3 h-full w-full p-3">
+    <div class="grid grid-rows-6 grid-cols-11 gap-3 h-full w-full p-3">
       <!-- playlist list -->
       <div
-        class="bg-container-dark-blue border-4 relative rounded-lg col-span-2 row-span-2"
+        class="bg-container-dark-blue border-4 relative rounded-lg col-span-2 row-span-6"
       >
         <div class="pl-5">
           <h2 class="text-eggshell-white text-4xl font-bold mt-5 mb-5">
@@ -52,20 +52,60 @@
       </div>
       <!-- youtube embed -->
       <div
-        class="bg-container-dark-blue border-4 relative rounded-lg col-span-4 row-span-1"
+        class="bg-container-dark-blue border-4 relative rounded-lg col-span-4 row-span-3 grid-cols-subgrid pt-2 pr-2 pl-2 pb-2"
       >
-        <div class="min-w-[38rem] h-[26rem] relative pl-2 pt-2">
-          <div
-            title="video-placeholder"
-            class="w-[37.75rem] h-[25.5rem] bg-black grid place-items-center"
+        <div class="w-full h-full bg-black grid place-items-center relative">
+          <img
+            src="/client/assets/logos/jackematica-logo.svg"
+            alt="page-logo"
+            width="210"
+            height="210"
+          />
+        </div>
+      </div>
+      <!-- playlist description -->
+      <div
+        class="flex-initial bg-container-dark-blue border-4 relative rounded-lg col-start-7 col-span-5 row-span-2"
+      >
+        <h2 class="h-[4rem] text-white text-5xl font-bold mt-4 ml-5 truncate">
+          Test Playlist Title
+        </h2>
+        <p
+          class="text-white text-4xl font-semibold text-shadow-black mt-5 ml-5"
+        >
+          Channel Title
+        </p>
+        <p
+          class="text-white text-4xl font-semibold text-shadow-black mt-12 ml-5"
+        >
+          Videos: 2 / 467
+        </p>
+      </div>
+      <!-- playlist operations -->
+      <div
+        class="bg-container-dark-blue border-4 relative rounded-lg col-start-7 col-span-5 row-span-1 pt-8 pb-8 pl-6"
+      >
+        <div class="flex flex-row">
+          <button
+            class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer hover:bg-hover-highlight-blue"
           >
             <img
-              src="/client/assets/logos/jackematica-logo.svg"
-              alt="page-logo"
-              width="210"
-              height="210"
+              src="/client/assets/icons/previous.png"
+              alt="prev playlist item"
+              width="42"
+              height="42"
             />
-          </div>
+          </button>
+          <button
+            class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5 hover:bg-hover-highlight-blue"
+          >
+            <img
+              src="/client/assets/icons/next.png"
+              alt="next playlist item"
+              width="42"
+              height="42"
+            />
+          </button>
         </div>
       </div>
     </div>
