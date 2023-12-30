@@ -12,11 +12,11 @@
   </head>
   <body class="bg-background-dark-blue h-screen">
     <div
-      class="grid grid-rows-[40%_10%_auto] grid-cols-[minmax(16%,16%)_minmax(36%,_autofit)_auto] gap-3 h-full w-full p-3"
+      class="grid grid-rows-[1fr,0.2fr,1.8fr] grid-cols-[0.4fr,1.1fr,1.5fr] gap-3 h-full w-full p-3 flex"
     >
       <!-- playlist list -->
       <div
-        class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-3"
+        class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-3 flex-none"
       >
         <h2
           class="text-eggshell-white text-4xl font-bold pl-5 pt-5 pb-5 inline-block truncate"
@@ -54,7 +54,7 @@
       </div>
       <!-- youtube embed -->
       <div
-        class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-2 pt-2 pr-2 pl-2 pb-2"
+        class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-2 pt-2 pr-2 pl-2 pb-2 min-w-[32.5rem]"
       >
         <div class="w-full h-full bg-black grid place-items-center relative">
           <img
@@ -67,7 +67,7 @@
       </div>
       <!-- playlist description -->
       <div
-        class="flex-initial bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1"
+        class="flex-initial bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 flex-auto"
       >
         <h2 class="h-[4rem] text-white text-5xl font-bold mt-4 ml-5 truncate">
           Test Playlist Title
@@ -81,7 +81,7 @@
       </div>
       <!-- playlist operations -->
       <div
-        class="bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 pt-2 pb-2 pl-6"
+        class="bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 pt-2 pb-2 pl-6 flex-auto"
       >
         <div class="flex flex-row">
           <button
