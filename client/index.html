@@ -19,14 +19,14 @@
         class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-3 flex-none"
       >
         <h2
-          class="text-eggshell-white text-4xl font-bold pl-5 pt-5 pb-5 inline-block truncate"
+          class="text-white text-4xl font-bold pl-5 pt-5 pb-5 inline-block truncate"
         >
           Playlists
         </h2>
         <ul class="pl-3 flex flex-col">
           <li class="mb-3">
             <option
-              class="pl-6 pb-1 pt-1 pr-6 text-3xl text-eggshell-white text-left rounded-2xl w-max cursor-pointer truncate hover:bg-blue-highlight-hover"
+              class="pl-6 pb-1 pt-1 pr-6 text-3xl text-white text-left rounded-2xl w-max cursor-pointer truncate hover:bg-blue-highlight-hover"
             >
               Test Playlist Title
             </option>
@@ -46,9 +46,7 @@
                 height="24"
               />
             </div>
-            <div class="text-eggshell-white text-3xl pl-3 pt-0.5">
-              Add Playlist
-            </div>
+            <div class="text-white text-3xl pl-3 pt-0.5">Add Playlist</div>
           </button>
         </div>
       </div>
@@ -72,10 +70,10 @@
         <h2 class="h-[4rem] text-white text-5xl font-bold mt-4 ml-5 truncate">
           Test Playlist Title
         </h2>
-        <p class="text-white text-4xl font-semibold mt-10 ml-5">
-          Channel Owner
+        <p class="text-white text-4xl font-semibold mt-8 ml-5">
+          Test Channel Owner
         </p>
-        <p class="text-white text-4xl font-semibold mt-16 ml-5">
+        <p class="text-white text-4xl font-semibold mt-12 ml-5">
           Videos: 2 / 467
         </p>
       </div>
@@ -85,7 +83,7 @@
       >
         <div class="flex flex-row">
           <button
-            class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer hover:bg-hover-highlight-blue"
+            class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer"
           >
             <img
               src="/client/assets/icons/previous.png"
@@ -95,7 +93,7 @@
             />
           </button>
           <button
-            class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5 hover:bg-hover-highlight-blue"
+            class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5"
           >
             <img
               src="/client/assets/icons/next.png"
@@ -105,7 +103,7 @@
             />
           </button>
           <button
-            class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5 hover:bg-hover-highlight-blue"
+            class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5"
           >
             <img
               src="/client/assets/icons/shuffle-bold.png"
@@ -115,7 +113,7 @@
             />
           </button>
           <button
-            class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5 hover:bg-hover-highlight-blue"
+            class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5"
           >
             <img
               src="/client/assets/icons/loop-bold.png"
@@ -127,6 +125,27 @@
         </div>
       </div>
       <!-- playlist items -->
+      <div
+        class="bg-container-dark-blue border-4 relative rounded-lg row-start-3 col-start-2 col-span-2 row-span-1 flex-auto overflow-y-scroll"
+      >
+        <ul class="flex flex-col pt-3">
+          <li
+            class="h-[3.2rem] pt-1 pb-1 pr-3 mr-2 ml-3 flex flex-row text-[1.75rem] text-left cursor-pointer text-white"
+          >
+            <div class="w-[4.5rem] flex justify-center">
+              <p class="">1</p>
+            </div>
+            <img
+              src=""
+              alt="playlist item"
+              width="70"
+              height="36"
+              class="ml-6 mr-2"
+            />
+            <p class="pl-7 w-[67rem] truncate">Test Song Title</p>
+          </li>
+        </ul>
+      </div>
     </div>
     <script src="/client/ext/htmx.min.js"></script>
   </body>
