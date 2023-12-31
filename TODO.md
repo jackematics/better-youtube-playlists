@@ -6,8 +6,8 @@ An improved user experience for anyone who likes to listen to music using Youtub
 
 ### Playlist List
 
-- PlaylistList UI (Desktop)
-- Add Playlist Modal UI (Desktop)
+- PlaylistList UI (Desktop) :white_check_mark:
+- Add Playlist Modal UI (Desktop) :white_check_mark:
 - Add playlist
   - On click, should raise a modal asking for the list url of a youtube playlist
   - Adding a list id and selecting the add button should add a playlist to the list of playlists
@@ -25,7 +25,7 @@ An improved user experience for anyone who likes to listen to music using Youtub
 
 ### Playlist Items
 
-- Items UI
+- Items UI :white_check_mark:
 - Default: Empty container
 - List playlist items of selected playlist
   - Item number, thumbnail, video title
@@ -38,7 +38,7 @@ An improved user experience for anyone who likes to listen to music using Youtub
 
 ### Video Player
 
-- Default: show a graphic
+- Default: show a graphic :white_check_mark:
 - On playlist select: Play the first video in the list
 - On playlist item select: display and play video corresponding to selected item
 - On video end: move to the next playlist item which also focuses it (Not sure how to test so didn't) :innocent:
@@ -58,6 +58,11 @@ An improved user experience for anyone who likes to listen to music using Youtub
   - Randomly select a new playlist item at the end of every video
   - Move list scroll down to the selected video
 - Loop: At the end of the playlist, loop back to the first video in the playlist
+
+### Contact
+
+- Github link
+- Email
 
 ### Misc
 
