@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -48,9 +48,11 @@
             </div>
             <div
               class="text-white text-3xl pl-3 pt-0.5"
-              hx-get="/add-playlist-modal"
-              hx-target="#add-playlist-modal-container"
+              hx-get="/api/modal?action=open"
               hx-trigger="click"
+              hx-target="#add-playlist-modal"
+              hx-trigger="click"
+              hx-swap="outerHtml"
             >
               Add Playlist
             </div>
@@ -155,7 +157,11 @@
       </div>
     </div>
     <!-- add playlist modal -->
-    <div class="hidden fixed top-1/2 left-1/2 translate-center" tabindex="-1">
+    <div
+      id="add-playlist-modal"
+      class="fixed top-1/2 left-1/2 translate-center"
+      tabindex="-1"
+    >
       <div
         class="w-[36rem] h-[23rem] bg-container-dark-blue border-4 rounded-lg"
       >

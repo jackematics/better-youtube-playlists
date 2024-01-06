@@ -1,0 +1,44 @@
+package templates
+
+templ PlaylistList() {
+	<h2
+		class="text-white text-4xl font-bold pl-5 pt-5 pb-5 inline-block truncate"
+	>
+		Playlists
+	</h2>
+	<ul class="pl-3 flex flex-col">
+		<li class="mb-3">
+			<option
+				class="pl-6 pb-1 pt-1 pr-6 text-3xl text-white text-left rounded-2xl w-max cursor-pointer truncate hover:bg-blue-highlight-hover"
+			>
+				Test Playlist Title
+			</option>
+		</li>
+	</ul>
+	<div class="flex items-center justify-center">
+		<button
+			class="absolute bottom-0 left-0 w-[14.75rem] h-11 ml-[1.3rem] mb-5 rounded-lg border-2 flex bg-warm-green-button hover:bg-warm-green-button-hover active:bg-warm-green-button-active"
+		>
+			<div
+				class="w-10 h-10 bg-white rounded-lg border-2 flex items-center justify-center"
+			>
+				<img
+					src="/static/assets/icons/plus.png"
+					alt="add playlist"
+					width="24"
+					height="24"
+				/>
+			</div>
+			<div
+				class="text-white text-3xl pl-3 pt-0.5"
+				hx-get="/api/modal?action=open"
+				hx-trigger="click"
+				hx-target="#add-playlist-modal"
+				hx-trigger="click"
+				hx-swap="outerHtml"
+			>
+				Add Playlist
+			</div>
+		</button>
+	</div>
+}

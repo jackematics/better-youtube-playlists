@@ -1,0 +1,50 @@
+package templates
+
+templ Index() {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="utf-8"/>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+			<title>Better Youtube Playlists</title>
+			<meta name="description" content=""/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<link rel="stylesheet" href="/static/css/global.css"/>
+			<script src="https://cdn.tailwindcss.com"></script>
+			<script src="/static/js/tailwind-config.js"></script>
+		</head>
+		<body class="bg-background-dark-blue h-screen">
+			<div
+				class="grid grid-rows-[1fr,0.2fr,1.8fr] grid-cols-[0.4fr,1.1fr,1.5fr] gap-3 h-full w-full p-3 flex"
+			>
+				<div
+					class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-3 flex-none"
+				>
+					@PlaylistList()
+				</div>
+				<div
+					class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-2 pt-2 pr-2 pl-2 pb-2 min-w-[32.5rem]"
+				>
+					@YoutubeEmbed()
+				</div>
+				<div
+					class="flex-initial bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 flex-auto"
+				>
+					@PlaylistDescription()
+				</div>
+				<div
+					class="bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 pt-2 pb-2 pl-6 flex-auto"
+				>
+					@PlaylistOperations()
+				</div>
+				<div
+					class="bg-container-dark-blue border-4 relative rounded-lg row-start-3 col-start-2 col-span-2 row-span-1 flex-auto overflow-y-scroll"
+				>
+					@PlaylistItems()
+				</div>
+			</div>
+			@AddPlaylistModal(false)
+			<script src="/static/js/htmx.min.js"></script>
+		</body>
+	</html>
+}
