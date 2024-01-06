@@ -5,11 +5,14 @@ import (
 	"net/http"
 
 	"github.com/a-h/templ"
-	"github.com/jackematics/better-youtube-playlists/templates"
+	"github.com/jackematics/better-youtube-playlists/template"
 )
 
 func main() {
-	index := templates.Index()
+	modal_state := ModalState{hidden: true}
+	index_state := IndexState{modal_state: modal_state}
+
+	index := template.Index(index_state)
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
