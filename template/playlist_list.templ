@@ -31,11 +31,8 @@ templ PlaylistList() {
 			</div>
 			<div
 				class="text-white text-3xl pl-3 pt-0.5"
-				hx-get="/api/modal?action=open"
+				hx-get="/toggle-add-playlist-modal"
 				hx-trigger="click"
-				hx-target="#add-playlist-modal"
-				hx-trigger="click"
-				hx-swap="outerHtml"
 			>
 				Add Playlist
 			</div>

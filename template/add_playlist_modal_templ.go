@@ -43,7 +43,7 @@ func AddPlaylistModal(modal_state model.ModalModel) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" id=\"add-playlist-modal\" hx-get=\"/toggle-add-playlist-modal\" tabindex=\"-1\"><div class=\"w-[36rem] h-[23rem] bg-container-dark-blue border-4 rounded-lg\"><h2 class=\"text-white text-5xl font-bold mt-5 ml-16\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" id=\"add-playlist-modal\" tabindex=\"-1\"><div class=\"w-[36rem] h-[23rem] bg-container-dark-blue border-4 rounded-lg\"><h2 class=\"text-white text-5xl font-bold mt-5 ml-16\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

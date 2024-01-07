@@ -23,5 +23,5 @@ func main() {
 }
 
 func ServeHttp(w http.ResponseWriter, r *http.Request) {
-	template.Index(*repository.GetPageState()).Render(r.Context(), w)
+	template.Index(repository.GetPageState()).Render(r.Context(), w)
 }

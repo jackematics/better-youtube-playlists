@@ -8,6 +8,6 @@ import (
 )
 
 func IndexRenderHandler(w http.ResponseWriter, r *http.Request) {
-	index := template.Index(*repository.GetPageState())
+	index := template.Index(repository.GetPageState())
 	index.Render(r.Context(), w)
 }

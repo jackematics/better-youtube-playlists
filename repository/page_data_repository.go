@@ -1,6 +1,8 @@
 package repository
 
-import "github.com/jackematics/better-youtube-playlists/model"
+import (
+	"github.com/jackematics/better-youtube-playlists/model"
+)
 
 var IndexState = model.IndexModel{
 	ModalState: model.ModalModel{
@@ -13,6 +15,5 @@ func GetPageState() *model.IndexModel {
 }
 
 func ToggleAddPlaylistModal() {
-	println("cheese")
 	IndexState.ModalState.Hidden = !IndexState.ModalState.Hidden
 }
