@@ -1,4 +1,4 @@
-package repository
+package page_data_repository
 
 import (
 	"github.com/jackematics/better-youtube-playlists/model"

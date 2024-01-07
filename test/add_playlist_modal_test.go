@@ -6,19 +6,19 @@ import (
 	"testing"
 
 	"github.com/jackematics/better-youtube-playlists/api"
-	"github.com/jackematics/better-youtube-playlists/repository"
+	"github.com/jackematics/better-youtube-playlists/repository/page_data_repository"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestModalHiddenByDefault(t *testing.T) {
-	state := repository.GetPageState()
+	state := page_data_repository.GetPageState()
 
 	assert.Equal(t, true, state.ModalState.Hidden)
 }
 
 func TestModalOpens(t *testing.T) {
 	req, err := http.NewRequest("GET", "/toggle-add-playlist-modal", nil)
-	state := repository.GetPageState()
+	state := page_data_repository.GetPageState()
 
 	assert.Equal(t, nil, err)
 
