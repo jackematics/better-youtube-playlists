@@ -10,7 +10,11 @@ import "context"
 import "io"
 import "bytes"
 
-func AddPlaylistModal(hidden bool) templ.Component {
+import (
+	"github.com/jackematics/better-youtube-playlists/model"
+)
+
+func AddPlaylistModal(modal_state model.ModalModel) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -27,7 +31,7 @@ func AddPlaylistModal(hidden bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if hidden {
+		if modal_state.Hidden {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"hidden fixed top-1/2 left-1/2 translate-center\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err

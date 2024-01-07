@@ -1,8 +1,12 @@
 package template
 
-templ AddPlaylistModal(hidden bool) {
+import (
+	"github.com/jackematics/better-youtube-playlists/model"
+)
+
+templ AddPlaylistModal(modal_state model.ModalModel) {
 	<div
-		if hidden {
+		if modal_state.Hidden {
 			class="hidden fixed top-1/2 left-1/2 translate-center"
 		} else {
 			class="fixed top-1/2 left-1/2 translate-center"

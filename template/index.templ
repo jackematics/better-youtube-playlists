@@ -1,6 +1,10 @@
 package template
 
-templ Index(index_state IndexState) {
+import (
+	"github.com/jackematics/better-youtube-playlists/model"
+)
+
+templ Index(index_state model.IndexModel) {
 	<!DOCTYPE html>
 	<html>
 		<head>
@@ -43,7 +47,7 @@ templ Index(index_state IndexState) {
 					@PlaylistItems()
 				</div>
 			</div>
-			@AddPlaylistModal(false)
+			@AddPlaylistModal(index_state.ModalState)
 			<script src="/static/js/htmx.min.js"></script>
 		</body>
 	</html>
