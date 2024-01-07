@@ -4,14 +4,9 @@ import (
 	"github.com/jackematics/better-youtube-playlists/model"
 )
 
-// class={ if modal_state.Hidden {"hidden"} "hidden fixed top-1/2 left-1/2 translate-center" }
 templ AddPlaylistModal(modal_state model.ModalModel) {
 	<div
-		if modal_state.Hidden {
-			class="hidden fixed top-1/2 left-1/2 translate-center"
-		} else {
-			class="fixed top-1/2 left-1/2 translate-center"
-		}
+		class={ "fixed top-1/2 left-1/2 translate-center", templ.KV("hidden", modal_state.Hidden) }
 		id="add-playlist-modal"
 		tabindex="-1"
 	>
