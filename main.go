@@ -4,21 +4,24 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/a-h/templ"
-	"github.com/jackematics/better-youtube-playlists/model"
+	"github.com/jackematics/better-youtube-playlists/api"
+	"github.com/jackematics/better-youtube-playlists/repository"
 	"github.com/jackematics/better-youtube-playlists/template"
 )
 
 func main() {
-	modal_state := model.ModalModel{Hidden: true}
-	index_state := model.IndexModel{ModalState: modal_state}
-
-	index := template.Index(index_state)
-
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
-	http.Handle("/", templ.Handler(index))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		api.IndexRenderHandler(w, r)
+	})
+
+	http.HandleFunc("/toggle-add-playlist-modal", api.ToggleAddPlaylistModalHandler)
 
 	fmt.Println("Server started on :8000")
 	http.ListenAndServe(":8000", nil)
+}
+
+func ServeHttp(w http.ResponseWriter, r *http.Request) {
+	template.Index(*repository.GetPageState()).Render(r.Context(), w)
 }

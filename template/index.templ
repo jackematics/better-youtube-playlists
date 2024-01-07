@@ -4,7 +4,7 @@ import (
 	"github.com/jackematics/better-youtube-playlists/model"
 )
 
-templ Index(index_state model.IndexModel) {
+templ Index(index_state *model.IndexModel) {
 	<!DOCTYPE html>
 	<html>
 		<head>
