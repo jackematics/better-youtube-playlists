@@ -10,7 +10,7 @@ import (
 func ToggleAddPlaylistModalHandler(writer http.ResponseWriter, reader *http.Request) {
 	page_data_repository.ToggleAddPlaylistModal()
 
-	renderModal(writer, reader)
+	IndexRenderHandler(writer, reader)
 }
 
 func renderModal(writer http.ResponseWriter, reader *http.Request) {

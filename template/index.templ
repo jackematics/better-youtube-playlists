@@ -17,34 +17,36 @@ templ Index(index_state *model.IndexModel) {
 			<script src="https://cdn.tailwindcss.com"></script>
 			<script src="/static/js/tailwind-config.js"></script>
 		</head>
-		<body class="bg-background-dark-blue h-screen">
-			<div
-				class="grid grid-rows-[1fr,0.2fr,1.8fr] grid-cols-[0.4fr,1.1fr,1.5fr] gap-3 h-full w-full p-3 flex"
-			>
+		<body>
+			<div class={ "bg-background-dark-blue h-screen", templ.KV("modal-backdrop pointer-events-none", !index_state.ModalState.Hidden) }>
 				<div
-					class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-3 flex-none"
+					class="grid grid-rows-[1fr,0.2fr,1.8fr] grid-cols-[0.4fr,1.1fr,1.5fr] gap-3 h-full w-full p-3 flex"
 				>
-					@PlaylistList()
-				</div>
-				<div
-					class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-2 pt-2 pr-2 pl-2 pb-2 min-w-[32.5rem]"
-				>
-					@YoutubeEmbed()
-				</div>
-				<div
-					class="flex-initial bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 flex-auto"
-				>
-					@PlaylistDescription()
-				</div>
-				<div
-					class="bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 pt-2 pb-2 pl-6 flex-auto"
-				>
-					@PlaylistOperations()
-				</div>
-				<div
-					class="bg-container-dark-blue border-4 relative rounded-lg row-start-3 col-start-2 col-span-2 row-span-1 flex-auto overflow-y-scroll"
-				>
-					@PlaylistItems()
+					<div
+						class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-3 flex-none"
+					>
+						@PlaylistList()
+					</div>
+					<div
+						class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-2 pt-2 pr-2 pl-2 pb-2 min-w-[32.5rem]"
+					>
+						@YoutubeEmbed()
+					</div>
+					<div
+						class="flex-initial bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 flex-auto"
+					>
+						@PlaylistDescription()
+					</div>
+					<div
+						class="bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 pt-2 pb-2 pl-6 flex-auto"
+					>
+						@PlaylistOperations()
+					</div>
+					<div
+						class="bg-container-dark-blue border-4 relative rounded-lg row-start-3 col-start-2 col-span-2 row-span-1 flex-auto overflow-y-scroll"
+					>
+						@PlaylistItems()
+					</div>
 				</div>
 			</div>
 			@AddPlaylistModal(index_state.ModalState)

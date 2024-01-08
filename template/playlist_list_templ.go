@@ -41,7 +41,7 @@ func PlaylistList() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</option></li></ul><div class=\"flex items-center justify-center\"><button class=\"absolute bottom-0 left-0 w-[14.75rem] h-11 ml-[1.3rem] mb-5 rounded-lg border-2 flex bg-warm-green-button hover:bg-warm-green-button-hover active:bg-warm-green-button-active\"><div class=\"w-10 h-10 bg-white rounded-lg border-2 flex items-center justify-center\"><img src=\"/static/assets/icons/plus.png\" alt=\"add playlist\" width=\"24\" height=\"24\"></div><div class=\"text-white text-3xl pl-3 pt-0.5\" hx-get=\"/toggle-add-playlist-modal\" hx-trigger=\"click\" hx-target=\"#add-playlist-modal\" hx-swap=\"outerHTML\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</option></li></ul><div class=\"flex items-center justify-center\"><button class=\"absolute bottom-0 left-0 w-[14.75rem] h-11 ml-[1.3rem] mb-5 rounded-lg border-2 flex bg-warm-green-button hover:bg-warm-green-button-hover active:bg-warm-green-button-active\"><div class=\"w-10 h-10 bg-white rounded-lg border-2 flex items-center justify-center\"><img src=\"/static/assets/icons/plus.png\" alt=\"add playlist\" width=\"24\" height=\"24\"></div><div class=\"text-white text-3xl pl-3 pt-0.5\" hx-get=\"/toggle-add-playlist-modal\" hx-trigger=\"click\" hx-target=\"body\" hx-swap=\"outerHTML\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
