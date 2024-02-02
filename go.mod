@@ -2,8 +2,9 @@ module github.com/jackematics/better-youtube-playlists
 
 go 1.21.1
 
+require github.com/a-h/templ v0.2.513
+
 require (
-	github.com/a-h/templ v0.2.513 // indirect
 	github.com/acroca/go-symbols v0.1.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/davidrjenni/reftools v0.0.0-20210213085015-40322ffdc2e4 // indirect

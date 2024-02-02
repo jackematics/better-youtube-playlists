@@ -9,8 +9,8 @@ An improved user experience for anyone who likes to listen to music using Youtub
 - PlaylistList UI (Desktop) :white_check_mark:
 - Add Playlist Modal UI (Desktop) :white_check_mark:
 - Add playlist
-  - On click, should raise a modal asking for the list url of a youtube playlist
-  - Adding a list id and selecting the add button should add a playlist to the list of playlists
+  - On click, should raise a modal asking for the list url of a youtube playlist :white_check_mark:
+  - Adding a list id and selecting the add button should add a playlist to the list of playlists and close the modal
   - Selecting cancel button should close the modal
   - Attempting to add an invalid video url should show an error validation message
   - Attempting to add a duplicate playlist id should show an error validation message
