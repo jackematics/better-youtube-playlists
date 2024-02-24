@@ -1,0 +1,61 @@
+package test
+
+import (
+	"io"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
+	"github.com/jackematics/better-youtube-playlists/handler"
+	"github.com/jackematics/better-youtube-playlists/repository/page_data_repository"
+	"github.com/jackematics/better-youtube-playlists/test_utils"
+	"github.com/stretchr/testify/assert"
+)
+
+func TestModalHiddenByDefault(t *testing.T) {
+	state := page_data_repository.IndexState
+
+	assert.Equal(t, true, state.ModalState.Hidden)
+}
+
+func TestModalOpens(t *testing.T) {
+	req, err := http.NewRequest("GET", "/toggle-add-playlist-modal", nil)
+	assert.Equal(t, nil, err)
+
+	res_recorder := httptest.NewRecorder()
+
+	handler.ToggleAddPlaylistModalHandler(res_recorder, req)
+
+	assert.Equal(t, http.StatusOK, res_recorder.Code)
+
+	body, err := io.ReadAll(res_recorder.Body)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html"), string(body)+"\r\n")
+}
+
+// func TestAddPlaylist(t *testing.T) {
+// 	add_playlist_data := strings.NewReader("playlist_id=PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS")
+
+// 	req, err := http.NewRequest("POST", "/add-playlist", add_playlist_data)
+
+// 	assert.Equal(t, nil, err)
+// 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+// 	recorder := httptest.NewRecorder()
+
+// 	handler := http.HandlerFunc(api.AddPlaylistHandler)
+// 	handler.ServeHTTP(recorder, req)
+
+// 	expectedResponseBody := model.PlaylistModel{
+// 		PlaylistId:    "PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS",
+// 		PlaylistTitle: "Better Youtube Playlists",
+// 		ChannelOwner:  "Jack Rimmer",
+// 	}
+
+// 	assert.Equal(t, http.StatusOK, recorder.Code)
+
+// 	state := page_data_repository.GetPageState()
+
+// 	assert.Greater(t, len(state.PlaylistState), 0)
+// 	assert.Equal(t, expectedResponseBody.PlaylistTitle, state.PlaylistState[0].PlaylistTitle)
+// }

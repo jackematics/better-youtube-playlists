@@ -8,12 +8,15 @@ var IndexState = model.IndexModel{
 	ModalState: model.ModalModel{
 		Hidden: true,
 	},
-}
-
-func GetPageState() *model.IndexModel {
-	return &IndexState
+	PlaylistState: []model.PlaylistModel{},
 }
 
 func ToggleAddPlaylistModal() {
 	IndexState.ModalState.Hidden = !IndexState.ModalState.Hidden
+}
+
+func AddPlaylist(playlist_model model.PlaylistModel) []model.PlaylistModel {
+	IndexState.PlaylistState = append(IndexState.PlaylistState, playlist_model)
+
+	return IndexState.PlaylistState
 }

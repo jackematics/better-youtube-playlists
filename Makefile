@@ -9,9 +9,6 @@ test:
 run: build
 	./$(BINARY_NAME)
 
-run-hot:
-	templ generate --watch --proxy="http://localhost:8000" --cmd="make run"
-
 all: build
 
 .PHONY: build test clean deps run all
