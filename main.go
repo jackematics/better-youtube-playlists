@@ -14,6 +14,7 @@ func main() {
 	tmpl, err := template.ParseFiles(
 		"templates/index.html",
 		"templates/add-playlist-modal.html",
+		"templates/playlist-list-item.html",
 	)
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
@@ -27,7 +28,7 @@ func main() {
 	})
 
 	http.HandleFunc("/toggle-add-playlist-modal", handler.ToggleAddPlaylistModalHandler)
-	// http.HandleFunc("/add-playlist", handler.AddPlaylistHandler)
+	http.HandleFunc("/add-playlist", handler.AddPlaylistHandler)
 
 	fmt.Println("Server started on :8000")
 	http.ListenAndServe(":8000", nil)

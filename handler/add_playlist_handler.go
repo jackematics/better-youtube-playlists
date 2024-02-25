@@ -1,25 +1,29 @@
 package handler
 
 import (
+	"encoding/json"
+	"io"
 	"net/http"
 	"text/template"
 
+	"github.com/jackematics/better-youtube-playlists/config"
+	"github.com/jackematics/better-youtube-playlists/model"
 	"github.com/jackematics/better-youtube-playlists/repository/page_data_repository"
 )
 
-// type Snippet struct {
-// 	Title        string `json:"title"`
-// 	ChannelTitle string `json:"channelTitle"`
-// }
+type Snippet struct {
+	Title        string `json:"title"`
+	ChannelTitle string `json:"channelTitle"`
+}
 
-// type MetadataItem struct {
-// 	Id      string  `json:"id"`
-// 	Snippet Snippet `json:"snippet"`
-// }
+type MetadataItem struct {
+	Id      string  `json:"id"`
+	Snippet Snippet `json:"snippet"`
+}
 
-// type YoutubePlaylistMetadataResponse struct {
-// 	Items []MetadataItem `json:"items"`
-// }
+type YoutubePlaylistMetadataResponse struct {
+	Items []MetadataItem `json:"items"`
+}
 
 func ToggleAddPlaylistModalHandler(writer http.ResponseWriter, reader *http.Request) {
 	page_data_repository.ToggleAddPlaylistModal()
@@ -28,29 +32,32 @@ func ToggleAddPlaylistModalHandler(writer http.ResponseWriter, reader *http.Requ
 	tmpl.ExecuteTemplate(writer, "add-playlist-modal", page_data_repository.IndexState.ModalState)
 }
 
-// func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
-// reader.ParseForm()
+func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
+	err := reader.ParseForm()
+	if err != nil {
+		http.Error(writer, "Failed to parse form", http.StatusBadRequest)
+	}
 
-// playlist_id := reader.FormValue("playlist_id")
+	playlist_id := reader.Form.Get("playlist-id")
 
-// youtube_playlist_metadata_response, _ := http.Get("https://youtube.googleapis.com/youtube/v3/playlists?part=snippet&id=" + playlist_id + "&key=" + youtube_api_key)
-// response_data, _ := io.ReadAll(youtube_playlist_metadata_response.Body)
+	youtube_playlist_metadata_response, _ := http.Get("https://youtube.googleapis.com/youtube/v3/playlists?part=snippet&id=" + playlist_id + "&key=" + config.Config.YoutubeApiKey)
+	response_data, _ := io.ReadAll(youtube_playlist_metadata_response.Body)
 
-// var response_object YoutubePlaylistMetadataResponse
-// err := json.Unmarshal(response_data, &response_object)
-// if err != nil {
-// 	http.Error(writer, "Error decoding JSON response", http.StatusInternalServerError)
-// 	return
-// }
+	var response_object YoutubePlaylistMetadataResponse
+	err = json.Unmarshal(response_data, &response_object)
+	if err != nil {
+		http.Error(writer, "Error decoding JSON response", http.StatusInternalServerError)
+		return
+	}
 
-// playlist_model := model.PlaylistModel{
-// 	PlaylistId:    playlist_id,
-// 	PlaylistTitle: response_object.Items[0].Snippet.Title,
-// 	ChannelOwner:  response_object.Items[0].Snippet.ChannelTitle,
-// }
+	playlist_model := model.PlaylistModel{
+		PlaylistId:    playlist_id,
+		PlaylistTitle: response_object.Items[0].Snippet.Title,
+		ChannelOwner:  response_object.Items[0].Snippet.ChannelTitle,
+	}
 
-// playlist_state := page_data_repository.AddPlaylist(playlist_model)
+	page_data_repository.AddPlaylist(playlist_model)
 
-// playlist_list := template.PlaylistList(playlist_state)
-// playlist_list.Render(reader.Context(), writer)
-// }
+	tmpl := template.Must(template.ParseFiles("templates/playlist-list-item.html"))
+	tmpl.ExecuteTemplate(writer, "playlist-list-item", playlist_model)
+}

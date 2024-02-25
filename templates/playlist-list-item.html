@@ -1,0 +1,9 @@
+{{ block "playlist-list-item" .}}
+<li key="{{ .PlaylistId }}" class="mb-3">
+  <option
+    class="pl-6 pb-1 pt-1 pr-6 text-3xl text-white text-left rounded-2xl w-max cursor-pointer truncate hover:bg-blue-highlight-hover"
+  >
+    {{ .PlaylistTitle }}
+  </option>
+</li>
+{{ end }}

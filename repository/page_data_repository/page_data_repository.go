@@ -19,8 +19,6 @@ func ToggleAddPlaylistModal() {
 	IndexState.ModalState.Hidden = !IndexState.ModalState.Hidden
 }
 
-func AddPlaylist(playlist_model model.PlaylistModel) []model.PlaylistModel {
+func AddPlaylist(playlist_model model.PlaylistModel) {
 	IndexState.PlaylistState = append(IndexState.PlaylistState, playlist_model)
-
-	return IndexState.PlaylistState
 }

@@ -17,6 +17,7 @@
             class="w-[30rem] h-14 bg-container-light-blue border-2 rounded flex justify-center mt-5"
           >
             <input
+              name="playlist-id"
               class="w-[29rem] h-10 bg-white rounded flex justify-center mt-1.5 pl-3 text-xl"
               placeholder="e.g. PLtcWcWdp-TofpVedRiMRoH7rB20gQczgh"
             />
@@ -30,6 +31,11 @@
         <div class="flex justify-center items-center mt-5">
           <button
             class="w-36 h-14 bg-confirm-green border-2 rounded-lg text-3xl font-bold hover:bg-confirm-green-hover active:bg-confirm-green-active"
+            hx-post="/add-playlist"
+            hx-target="#playlist-list"
+            hx-trigger="click"
+            hx-swap="beforeend"
+            hx-include="[name='playlist-id']"
           >
             Add
           </button>

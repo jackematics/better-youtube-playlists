@@ -24,14 +24,9 @@
           >
             Playlists
           </h2>
-          <ul class="pl-3 flex flex-col">
-            <li class="mb-3">
-              <option
-                class="pl-6 pb-1 pt-1 pr-6 text-3xl text-white text-left rounded-2xl w-max cursor-pointer truncate hover:bg-blue-highlight-hover"
-              >
-                Test Playlist Title
-              </option>
-            </li>
+          <ul id="playlist-list" class="pl-3 flex flex-col">
+            {{ range .PlaylistState }} {{ template "playlist-list-item" . }} {{
+            end }}
           </ul>
           <div class="flex items-center justify-center">
             <button
