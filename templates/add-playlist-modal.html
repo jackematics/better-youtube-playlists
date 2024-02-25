@@ -35,6 +35,10 @@
           </button>
           <button
             class="w-36 h-14 bg-cancel-red border-2 rounded-lg text-3xl font-bold ml-16 hover:bg-cancel-red-hover active:bg-cancel-red-active"
+            hx-get="/toggle-add-playlist-modal"
+            hx-target="#add-playlist-modal-container"
+            hx-trigger="click"
+            hx-swap="outerHTML"
           >
             Cancel
           </button>
