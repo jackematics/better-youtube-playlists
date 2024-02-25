@@ -4,11 +4,15 @@ import (
 	"github.com/jackematics/better-youtube-playlists/model"
 )
 
-var IndexState = model.IndexModel{
-	ModalState: model.ModalModel{
-		Hidden: true,
-	},
-	PlaylistState: []model.PlaylistModel{},
+var IndexState = SetInitialState()
+
+func SetInitialState() model.IndexModel {
+	return model.IndexModel{
+		ModalState: model.ModalModel{
+			Hidden: true,
+		},
+		PlaylistState: []model.PlaylistModel{},
+	}
 }
 
 func ToggleAddPlaylistModal() {

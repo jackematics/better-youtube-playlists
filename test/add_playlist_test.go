@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/jackematics/better-youtube-playlists/handler"
+	"github.com/jackematics/better-youtube-playlists/model"
 	"github.com/jackematics/better-youtube-playlists/repository/page_data_repository"
 	"github.com/jackematics/better-youtube-playlists/test_utils"
 	"github.com/stretchr/testify/assert"
@@ -30,7 +31,28 @@ func TestModalOpens(t *testing.T) {
 
 	body, err := io.ReadAll(res_recorder.Body)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html"), string(body)+"\r\n")
+	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.ModalModel{Hidden: false}), string(body)+"\r\n")
+
+	test_utils.ResetServerState()
+}
+
+func TestModalCloses(t *testing.T) {
+	req, err := http.NewRequest("GET", "/toggle-add-playlist-modal", nil)
+	assert.Equal(t, nil, err)
+
+	recorder := httptest.NewRecorder()
+	handler.ToggleAddPlaylistModalHandler(recorder, req)
+	recorder.Body.Reset()
+
+	handler.ToggleAddPlaylistModalHandler(recorder, req)
+
+	assert.Equal(t, http.StatusOK, recorder.Code)
+
+	body, err := io.ReadAll(recorder.Body)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.ModalModel{Hidden: true}), string(body)+"\r\n")
+
+	test_utils.ResetServerState()
 }
 
 // func TestAddPlaylist(t *testing.T) {
