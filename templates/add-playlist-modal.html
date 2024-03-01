@@ -30,6 +30,7 @@
         </div>
         <div class="flex justify-center items-center mt-5">
           <button
+            id="submit-playlist-button"
             class="w-36 h-14 bg-confirm-green border-2 rounded-lg text-3xl font-bold hover:bg-confirm-green-hover active:bg-confirm-green-active"
             hx-post="/add-playlist"
             hx-target="#playlist-list"
@@ -48,6 +49,12 @@
           >
             Cancel
           </button>
+          <div
+            hx-get="/toggle-add-playlist-modal"
+            hx-target="#add-playlist-modal-container"
+            hx-trigger="click from:#submit-playlist-button"
+            hx-swap="outerHTML"
+          ></div>
         </div>
       </div>
     </div>
