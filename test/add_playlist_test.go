@@ -59,7 +59,7 @@ func TestModalCloses(t *testing.T) {
 }
 
 func TestAddPlaylist(t *testing.T) {
-	add_playlist_data := strings.NewReader("playlist_id=PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS")
+	add_playlist_data := strings.NewReader("playlist-id=PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS")
 
 	req, err := http.NewRequest("POST", "/add-playlist", add_playlist_data)
 
@@ -72,14 +72,19 @@ func TestAddPlaylist(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 
-	body, err := io.ReadAll(recorder.Body)
-	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("templates/playlist-list-item.html", model.PlaylistModel{
+	playlistItemData := model.PlaylistModel{
 		PlaylistId:    "PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS",
 		PlaylistTitle: "Better Youtube Playlists",
 		ChannelOwner:  "Jack Rimmer",
-	},
-	), string(body)+"\r\n")
+	}
+
+	body, err := io.ReadAll(recorder.Body)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, test_utils.ParseTemplateToString("templates/playlist-list-item.html", playlistItemData), string(body)+"\r\n")
+
+	assert.Equal(t, playlistItemData.PlaylistId, page_data_repository.IndexState.PlaylistState[0].PlaylistId)
+	assert.Equal(t, playlistItemData.PlaylistTitle, page_data_repository.IndexState.PlaylistState[0].PlaylistTitle)
+	assert.Equal(t, playlistItemData.ChannelOwner, page_data_repository.IndexState.PlaylistState[0].ChannelOwner)
 
 	test_utils.ResetServerState()
 }
