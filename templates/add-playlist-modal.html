@@ -17,7 +17,7 @@
             class="w-[30rem] h-14 bg-container-light-blue border-2 rounded flex justify-center mt-5"
           >
             <input
-              name="playlist-id"
+              name="playlist_id"
               class="w-[29rem] h-10 bg-white rounded flex justify-center mt-1.5 pl-3 text-xl"
               placeholder="e.g. PLtcWcWdp-TofpVedRiMRoH7rB20gQczgh"
             />
@@ -25,7 +25,7 @@
         </div>
         <div class="h-5 mt-1 ml-16">
           <p class="text-cancel-red text-xl font-bold">
-            Test validation message
+            {{ .ValidationMessage }}
           </p>
         </div>
         <div class="flex justify-center items-center mt-5">
@@ -36,7 +36,7 @@
             hx-target="#playlist-list"
             hx-trigger="click"
             hx-swap="beforeend"
-            hx-include="[name='playlist-id']"
+            hx-include="[name='playlist_id']"
           >
             Add
           </button>
@@ -50,9 +50,10 @@
             Cancel
           </button>
           <div
-            hx-get="/toggle-add-playlist-modal"
             hx-target="#add-playlist-modal-container"
+            hx-get="/toggle-add-playlist-modal-with-validation"
             hx-trigger="click from:#submit-playlist-button"
+            hx-sync="#submit-playlist-button:queue"
             hx-swap="outerHTML"
           ></div>
         </div>

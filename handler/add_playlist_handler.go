@@ -25,7 +25,20 @@ type YoutubePlaylistMetadataResponse struct {
 	Items []MetadataItem `json:"items"`
 }
 
+func ToggleAddPlaylistModalWithValidationHandler(writer http.ResponseWriter, reader *http.Request) {
+	if page_data_repository.IndexState.ModalState.ValidationMessage == "" {
+		page_data_repository.ToggleAddPlaylistModal()
+	}
+
+	tmpl := template.Must(template.ParseFiles("templates/add-playlist-modal.html"))
+	tmpl.ExecuteTemplate(writer, "add-playlist-modal", page_data_repository.IndexState.ModalState)
+}
+
 func ToggleAddPlaylistModalHandler(writer http.ResponseWriter, reader *http.Request) {
+	if !page_data_repository.IndexState.ModalState.Hidden {
+		page_data_repository.ResetAddPlaylistValidation()
+	}
+
 	page_data_repository.ToggleAddPlaylistModal()
 
 	tmpl := template.Must(template.ParseFiles("templates/add-playlist-modal.html"))
@@ -38,9 +51,15 @@ func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 		http.Error(writer, "Failed to parse form", http.StatusBadRequest)
 	}
 
-	playlist_id := reader.Form.Get("playlist-id")
+	playlist_id := reader.Form.Get("playlist_id")
+
+	if playlist_id == "" {
+		page_data_repository.IndexState.ModalState.ValidationMessage = "Invalid playlist id"
+		return
+	}
 
 	youtube_playlist_metadata_response, _ := http.Get("https://youtube.googleapis.com/youtube/v3/playlists?part=snippet&id=" + playlist_id + "&key=" + config.Config.YoutubeApiKey)
+
 	response_data, _ := io.ReadAll(youtube_playlist_metadata_response.Body)
 
 	var response_object YoutubePlaylistMetadataResponse

@@ -32,7 +32,7 @@ func TestModalOpens(t *testing.T) {
 
 	body, err := io.ReadAll(res_recorder.Body)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.ModalModel{Hidden: false}), string(body)+"\r\n")
+	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.ModalModel{Hidden: false, ValidationMessage: ""}), string(body)+"\r\n")
 	assert.Equal(t, false, page_data_repository.IndexState.ModalState.Hidden)
 
 	test_utils.ResetServerState()
@@ -52,16 +52,42 @@ func TestModalCloses(t *testing.T) {
 
 	body, err := io.ReadAll(recorder.Body)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.ModalModel{Hidden: true}), string(body)+"\r\n")
+	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.ModalModel{Hidden: true, ValidationMessage: ""}), string(body)+"\r\n")
 	assert.Equal(t, true, page_data_repository.IndexState.ModalState.Hidden)
 
 	test_utils.ResetServerState()
 }
 
-func TestAddPlaylist(t *testing.T) {
-	add_playlist_data := strings.NewReader("playlist-id=PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS")
+func TestModalStaysOpenWithValidationFailures(t *testing.T) {
+	test_validation_message := "Test invalid"
+	page_data_repository.IndexState.ModalState.ValidationMessage = test_validation_message
+	req, err := http.NewRequest("GET", "/toggle-add-playlist-modal-with-validation", nil)
+	assert.Equal(t, nil, err)
 
-	req, err := http.NewRequest("POST", "/add-playlist", add_playlist_data)
+	recorder := httptest.NewRecorder()
+	handler.ToggleAddPlaylistModalWithValidationHandler(recorder, req)
+	recorder.Body.Reset()
+	handler.ToggleAddPlaylistModalHandler(recorder, req)
+
+	assert.Equal(t, http.StatusOK, recorder.Code)
+
+	body, err := io.ReadAll(recorder.Body)
+	assert.Equal(t, nil, err)
+	assert.Equal(
+		t,
+		test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.ModalModel{Hidden: false, ValidationMessage: test_validation_message}),
+		string(body)+"\r\n",
+	)
+	assert.Equal(t, false, page_data_repository.IndexState.ModalState.Hidden)
+	assert.Equal(t, test_validation_message, page_data_repository.IndexState.ModalState.ValidationMessage)
+
+	test_utils.ResetServerState()
+}
+
+func TestAddPlaylist(t *testing.T) {
+	add_playlist_data := strings.NewReader("playlist_id=PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS")
+
+	req, err := http.NewRequest("POST", "/add_playlist", add_playlist_data)
 
 	assert.Equal(t, nil, err)
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")

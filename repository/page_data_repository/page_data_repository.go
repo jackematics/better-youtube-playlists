@@ -9,7 +9,8 @@ var IndexState = SetInitialState()
 func SetInitialState() model.IndexModel {
 	return model.IndexModel{
 		ModalState: model.ModalModel{
-			Hidden: true,
+			Hidden:            true,
+			ValidationMessage: "",
 		},
 		PlaylistState: []model.PlaylistModel{},
 	}
@@ -21,4 +22,8 @@ func ToggleAddPlaylistModal() {
 
 func AddPlaylist(playlist_model model.PlaylistModel) {
 	IndexState.PlaylistState = append(IndexState.PlaylistState, playlist_model)
+}
+
+func ResetAddPlaylistValidation() {
+	IndexState.ModalState.ValidationMessage = ""
 }

@@ -11,8 +11,9 @@ An improved user experience for anyone who likes to listen to music using Youtub
 - Add playlist
   - On click, should raise a modal asking for the list url of a youtube playlist :white_check_mark:
   - Selecting cancel button should close the modal :white_check_mark:
-  - Adding a list id and selecting the add button should add a playlist to the list of playlists and close the modal
-  - Attempting to add an invalid video url should show an error validation message
+  - Adding a list id and selecting the add button should add a playlist to the list of playlists and close the modal :white_check_mark:
+  - Attempting to add an empty playlist id should show an error validation message :white_check_mark:
+  - Attempting to add an invalid playist id should show an error validation message
   - Attempting to add a duplicate playlist id should show an error validation message
   - Any issues with external services being called should show an error validation message
   - Elements outside of the modal while the modal is open should be unclickable

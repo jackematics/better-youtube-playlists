@@ -6,7 +6,8 @@ type IndexModel struct {
 }
 
 type ModalModel struct {
-	Hidden bool
+	Hidden            bool
+	ValidationMessage string
 }
 
 type PlaylistModel struct {
