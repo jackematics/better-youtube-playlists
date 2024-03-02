@@ -114,3 +114,37 @@ func TestAddPlaylist(t *testing.T) {
 
 	test_utils.ResetServerState()
 }
+
+func TestAddPlaylistFailsWithEmptyPlaylistId(t *testing.T) {
+	add_playlist_data := strings.NewReader("playlist_id=")
+
+	req, err := http.NewRequest("POST", "/add_playlist", add_playlist_data)
+
+	assert.Equal(t, nil, err)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	recorder := httptest.NewRecorder()
+
+	handler.AddPlaylistHandler(recorder, req)
+
+	assert.Equal(t, http.StatusBadRequest, recorder.Code)
+
+	test_utils.ResetServerState()
+}
+
+func TestAddPlaylistFailsWithInvalidPlaylistId(t *testing.T) {
+	add_playlist_data := strings.NewReader("playlist_id=test-invalid-id")
+
+	req, err := http.NewRequest("POST", "/add_playlist", add_playlist_data)
+
+	assert.Equal(t, nil, err)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	recorder := httptest.NewRecorder()
+
+	handler.AddPlaylistHandler(recorder, req)
+
+	assert.Equal(t, http.StatusBadRequest, recorder.Code)
+
+	test_utils.ResetServerState()
+}

@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"text/template"
 
@@ -55,6 +56,8 @@ func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 
 	if playlist_id == "" {
 		page_data_repository.IndexState.ModalState.ValidationMessage = "Invalid playlist id"
+		log.Println("Invalid playlist_id" + playlist_id)
+		http.Error(writer, "Bad Request: Validation failed", http.StatusBadRequest)
 		return
 	}
 
@@ -65,7 +68,15 @@ func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 	var response_object YoutubePlaylistMetadataResponse
 	err = json.Unmarshal(response_data, &response_object)
 	if err != nil {
-		http.Error(writer, "Error decoding JSON response", http.StatusInternalServerError)
+		log.Println("Error decoding JSON response from Youtube api: ", err)
+		http.Error(writer, "Failed Dependency", http.StatusFailedDependency)
+		return
+	}
+
+	if len(response_object.Items) == 0 {
+		log.Println("No playlist items returned for playlist id " + playlist_id)
+		page_data_repository.IndexState.ModalState.ValidationMessage = "Invalid playlist id"
+		http.Error(writer, "Bad Request: Validation failed", http.StatusBadRequest)
 		return
 	}
 
@@ -76,6 +87,7 @@ func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 	}
 
 	page_data_repository.AddPlaylist(playlist_model)
+	page_data_repository.ResetAddPlaylistValidation()
 
 	tmpl := template.Must(template.ParseFiles("templates/playlist-list-item.html"))
 	tmpl.ExecuteTemplate(writer, "playlist-list-item", playlist_model)
