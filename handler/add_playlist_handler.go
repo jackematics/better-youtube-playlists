@@ -99,6 +99,7 @@ func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 	page_data_repository.AddPlaylist(playlist_model)
 	page_data_repository.ResetAddPlaylistValidation()
 
+	log.Println("Added playlist \"" + playlist_model.PlaylistTitle + "\" from playlist_id \"" + playlist_id + "\"")
 	tmpl := template.Must(template.ParseFiles("templates/playlist-list-item.html"))
 	tmpl.ExecuteTemplate(writer, "playlist-list-item", playlist_model)
 }

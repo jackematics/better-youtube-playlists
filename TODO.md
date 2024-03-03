@@ -6,18 +6,18 @@ An improved user experience for anyone who likes to listen to music using Youtub
 
 ### Playlist List
 
-- PlaylistList UI (Desktop) :white_check_mark:
-- Add Playlist Modal UI (Desktop) :white_check_mark:
+- :white_check_mark: ~~PlaylistList UI (Desktop)~~
+- :white_check_mark: ~~Add Playlist Modal UI (Desktop)~~
 - Add playlist
-  - On click, should raise a modal asking for the list url of a youtube playlist :white_check_mark:
-  - Selecting cancel button should close the modal :white_check_mark:
-  - Adding a list id and selecting the add button should add a playlist to the list of playlists and close the modal :white_check_mark:
-  - Attempting to add an empty playlist id should show an error validation message :white_check_mark:
-  - Attempting to add an invalid playist id should show an error validation message :white_check_mark:
-  - Attempting to add a duplicate playlist id should show an error validation message :white_check_mark:
+  - :white_check_mark: ~~On click, should raise a modal asking for the list url of a youtube playlist~~
+  - :white_check_mark: ~~Selecting cancel button should close the modal~~
+  - :white_check_mark: ~~Adding a list id and selecting the add button should add a playlist to the list of playlists and close the modal~~
+  - :white_check_mark: ~~Attempting to add an empty playlist id should show an error validation message~~
+  - :white_check_mark: ~~Attempting to add an invalid playist id should show an error validation message~~
+  - :white_check_mark: ~~Attempting to add a duplicate playlist id should show an error validation message~~
+  - :white_check_mark: ~~Elements outside of the modal while the modal is open should be unclickable~~
+  - :white_check_mark: ~~Playlist id input and validation messages should be cleared if the playlist is closed~~
   - Any issues with external services being called should show an error validation message
-  - Elements outside of the modal while the modal is open should be unclickable
-  - Playlist id input and validation messages should be cleared if the playlist is closed
 - Select playlist
   - Should populate the playlist description and playlist items
 - Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded
@@ -26,7 +26,7 @@ An improved user experience for anyone who likes to listen to music using Youtub
 
 ### Playlist Items
 
-- Items UI :white_check_mark:
+- Items UI
 - Default: Empty container
 - List playlist items of selected playlist
   - Item number, thumbnail, video title
@@ -39,7 +39,7 @@ An improved user experience for anyone who likes to listen to music using Youtub
 
 ### Video Player
 
-- Default: show a graphic :white_check_mark:
+- Default: show a graphic
 - On playlist select: Play the first video in the list
 - On playlist item select: display and play video corresponding to selected item
 - On video end: move to the next playlist item which also focuses it (Not sure how to test so didn't) :innocent:
