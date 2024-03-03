@@ -49,16 +49,25 @@ func ToggleAddPlaylistModalHandler(writer http.ResponseWriter, reader *http.Requ
 func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 	err := reader.ParseForm()
 	if err != nil {
-		http.Error(writer, "Failed to parse form", http.StatusBadRequest)
+		http.Error(writer, "Failed to parse playlist id", http.StatusBadRequest)
 	}
 
 	playlist_id := reader.Form.Get("playlist_id")
 
 	if playlist_id == "" {
 		page_data_repository.IndexState.ModalState.ValidationMessage = "Invalid playlist id"
-		log.Println("Invalid playlist_id" + playlist_id)
-		http.Error(writer, "Bad Request: Validation failed", http.StatusBadRequest)
+		log.Println("Empty playlist_id")
+		http.Error(writer, "Empty playlist_id", http.StatusBadRequest)
 		return
+	}
+
+	for i := range page_data_repository.IndexState.PlaylistState {
+		if page_data_repository.IndexState.PlaylistState[i].PlaylistId == playlist_id {
+			page_data_repository.IndexState.ModalState.ValidationMessage = "Duplicate playlist id"
+			log.Println("Duplicate playlist id: " + playlist_id)
+			http.Error(writer, "Duplicate playlist id: "+playlist_id, http.StatusBadRequest)
+			return
+		}
 	}
 
 	youtube_playlist_metadata_response, _ := http.Get("https://youtube.googleapis.com/youtube/v3/playlists?part=snippet&id=" + playlist_id + "&key=" + config.Config.YoutubeApiKey)
@@ -76,7 +85,8 @@ func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 	if len(response_object.Items) == 0 {
 		log.Println("No playlist items returned for playlist id " + playlist_id)
 		page_data_repository.IndexState.ModalState.ValidationMessage = "Invalid playlist id"
-		http.Error(writer, "Bad Request: Validation failed", http.StatusBadRequest)
+		http.Error(writer, "Invalid playlist_id: "+playlist_id, http.StatusBadRequest)
+
 		return
 	}
 

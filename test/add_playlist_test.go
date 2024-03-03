@@ -14,6 +14,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func teardown() {
+	test_utils.ResetServerState()
+}
+
 func TestModalHiddenByDefault(t *testing.T) {
 	state := page_data_repository.IndexState
 
@@ -35,7 +39,7 @@ func TestModalOpens(t *testing.T) {
 	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.ModalModel{Hidden: false, ValidationMessage: ""}), string(body)+"\r\n")
 	assert.Equal(t, false, page_data_repository.IndexState.ModalState.Hidden)
 
-	test_utils.ResetServerState()
+	teardown()
 }
 
 func TestModalCloses(t *testing.T) {
@@ -55,7 +59,7 @@ func TestModalCloses(t *testing.T) {
 	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.ModalModel{Hidden: true, ValidationMessage: ""}), string(body)+"\r\n")
 	assert.Equal(t, true, page_data_repository.IndexState.ModalState.Hidden)
 
-	test_utils.ResetServerState()
+	teardown()
 }
 
 func TestModalStaysOpenWithValidationFailures(t *testing.T) {
@@ -81,7 +85,7 @@ func TestModalStaysOpenWithValidationFailures(t *testing.T) {
 	assert.Equal(t, false, page_data_repository.IndexState.ModalState.Hidden)
 	assert.Equal(t, test_validation_message, page_data_repository.IndexState.ModalState.ValidationMessage)
 
-	test_utils.ResetServerState()
+	teardown()
 }
 
 func TestAddPlaylist(t *testing.T) {
@@ -112,7 +116,33 @@ func TestAddPlaylist(t *testing.T) {
 	assert.Equal(t, playlistItemData.PlaylistTitle, page_data_repository.IndexState.PlaylistState[0].PlaylistTitle)
 	assert.Equal(t, playlistItemData.ChannelOwner, page_data_repository.IndexState.PlaylistState[0].ChannelOwner)
 
-	test_utils.ResetServerState()
+	teardown()
+}
+
+func TestAddPlaylistFailsWithDuplicatePlaylist(t *testing.T) {
+	test_playlist_id := "PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS"
+	page_data_repository.IndexState.PlaylistState = append(page_data_repository.IndexState.PlaylistState, model.PlaylistModel{
+		PlaylistId:    test_playlist_id,
+		PlaylistTitle: "",
+		ChannelOwner:  "",
+	})
+
+	add_playlist_data := strings.NewReader("playlist_id=" + test_playlist_id)
+
+	req, err := http.NewRequest("POST", "/add_playlist", add_playlist_data)
+
+	assert.Equal(t, nil, err)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	recorder := httptest.NewRecorder()
+
+	handler.AddPlaylistHandler(recorder, req)
+
+	assert.Equal(t, http.StatusBadRequest, recorder.Code)
+	assert.Equal(t, "Duplicate playlist id: PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS\n", string(recorder.Body.String()))
+	assert.Equal(t, 1, len(page_data_repository.IndexState.PlaylistState))
+
+	teardown()
 }
 
 func TestAddPlaylistFailsWithEmptyPlaylistId(t *testing.T) {
@@ -128,12 +158,14 @@ func TestAddPlaylistFailsWithEmptyPlaylistId(t *testing.T) {
 	handler.AddPlaylistHandler(recorder, req)
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
+	assert.Equal(t, "Empty playlist_id\n", recorder.Body.String())
 
-	test_utils.ResetServerState()
+	teardown()
 }
 
 func TestAddPlaylistFailsWithInvalidPlaylistId(t *testing.T) {
-	add_playlist_data := strings.NewReader("playlist_id=test-invalid-id")
+	test_invalid_id := "test-invalid-id"
+	add_playlist_data := strings.NewReader("playlist_id=" + test_invalid_id)
 
 	req, err := http.NewRequest("POST", "/add_playlist", add_playlist_data)
 
@@ -145,6 +177,7 @@ func TestAddPlaylistFailsWithInvalidPlaylistId(t *testing.T) {
 	handler.AddPlaylistHandler(recorder, req)
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
+	assert.Equal(t, "Invalid playlist_id: "+test_invalid_id+"\n", recorder.Body.String())
 
-	test_utils.ResetServerState()
+	teardown()
 }

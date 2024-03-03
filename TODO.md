@@ -13,8 +13,8 @@ An improved user experience for anyone who likes to listen to music using Youtub
   - Selecting cancel button should close the modal :white_check_mark:
   - Adding a list id and selecting the add button should add a playlist to the list of playlists and close the modal :white_check_mark:
   - Attempting to add an empty playlist id should show an error validation message :white_check_mark:
-  - Attempting to add an invalid playist id should show an error validation message
-  - Attempting to add a duplicate playlist id should show an error validation message
+  - Attempting to add an invalid playist id should show an error validation message :white_check_mark:
+  - Attempting to add a duplicate playlist id should show an error validation message :white_check_mark:
   - Any issues with external services being called should show an error validation message
   - Elements outside of the modal while the modal is open should be unclickable
   - Playlist id input and validation messages should be cleared if the playlist is closed
