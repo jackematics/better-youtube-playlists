@@ -17,7 +17,9 @@ An improved user experience for anyone who likes to listen to music using Youtub
   - :white_check_mark: ~~Attempting to add a duplicate playlist id should show an error validation message~~
   - :white_check_mark: ~~Elements outside of the modal while the modal is open should be unclickable~~
   - :white_check_mark: ~~Playlist id input and validation messages should be cleared if the playlist is closed~~
-  - Any issues with external services being called should show an error validation message
+  - :white_check_mark: ~~Log handle playlist quota exceeded (code 403) and return validation message to user~~
+  - :white_check_mark: ~~Log error with youtube api and return validation message to user~~
+  - :white_check_mark: ~~Log error with youtube api key and return validation message to user~~
 - Select playlist
   - Should populate the playlist description and playlist items
 - Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded

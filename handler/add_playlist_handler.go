@@ -26,6 +26,15 @@ type YoutubePlaylistMetadataResponse struct {
 	Items []MetadataItem `json:"items"`
 }
 
+type ErrorResponse struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+}
+
+type YoutubePlaylistMetadataResponseError struct {
+	Error ErrorResponse `json:"error"`
+}
+
 func ToggleAddPlaylistModalWithValidationHandler(writer http.ResponseWriter, reader *http.Request) {
 	if page_data_repository.IndexState.ModalState.ValidationMessage == "" {
 		page_data_repository.ToggleAddPlaylistModal()
@@ -71,8 +80,40 @@ func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 	}
 
 	youtube_playlist_metadata_response, _ := http.Get("https://youtube.googleapis.com/youtube/v3/playlists?part=snippet&id=" + playlist_id + "&key=" + config.Config.YoutubeApiKey)
-
 	response_data, _ := io.ReadAll(youtube_playlist_metadata_response.Body)
+
+	if youtube_playlist_metadata_response.StatusCode == http.StatusBadRequest {
+		var error_response YoutubePlaylistMetadataResponseError
+		err = json.Unmarshal(response_data, &error_response)
+
+		if err != nil {
+			log.Println("Error decoding youtube metadata error response: ", err)
+			page_data_repository.IndexState.ModalState.ValidationMessage = "Internal server error"
+			http.Error(writer, "Internal server error", http.StatusInternalServerError)
+			return
+		}
+
+		if error_response.Error.Code == http.StatusBadRequest && error_response.Error.Message == "API key not valid. Please pass a valid API key." {
+			log.Println(error_response.Error.Message)
+			page_data_repository.IndexState.ModalState.ValidationMessage = "Internal server error"
+			http.Error(writer, "Internal server error", http.StatusInternalServerError)
+			return
+		}
+
+		if error_response.Error.Code == http.StatusForbidden {
+			log.Println(error_response.Error.Message)
+			page_data_repository.IndexState.ModalState.ValidationMessage = "Internal server error"
+			http.Error(writer, "Internal server error", http.StatusInternalServerError)
+			return
+		}
+
+		if error_response.Error.Code >= 500 {
+			log.Println("Issue retrieving data from Youtube Data API: " + error_response.Error.Message)
+			page_data_repository.IndexState.ModalState.ValidationMessage = "Internal server error"
+			http.Error(writer, "Internal server error", http.StatusInternalServerError)
+			return
+		}
+	}
 
 	var response_object YoutubePlaylistMetadataResponse
 	err = json.Unmarshal(response_data, &response_object)
