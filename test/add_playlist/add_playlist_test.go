@@ -1,4 +1,4 @@
-package test
+package add_playlist
 
 import (
 	"io"
@@ -7,9 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/jackematics/better-youtube-playlists/handler"
+	"github.com/jackematics/better-youtube-playlists/handler/add_playlist"
 	"github.com/jackematics/better-youtube-playlists/model"
 	"github.com/jackematics/better-youtube-playlists/repository/page_data_repository"
+	_ "github.com/jackematics/better-youtube-playlists/test"
 	"github.com/jackematics/better-youtube-playlists/test_utils"
 	"github.com/stretchr/testify/assert"
 )
@@ -30,7 +31,7 @@ func TestModalOpens(t *testing.T) {
 
 	res_recorder := httptest.NewRecorder()
 
-	handler.ToggleAddPlaylistModalHandler(res_recorder, req)
+	add_playlist.ToggleAddPlaylistModalHandler(res_recorder, req)
 
 	assert.Equal(t, http.StatusOK, res_recorder.Code)
 
@@ -47,10 +48,10 @@ func TestModalCloses(t *testing.T) {
 	assert.Equal(t, nil, err)
 
 	recorder := httptest.NewRecorder()
-	handler.ToggleAddPlaylistModalHandler(recorder, req)
+	add_playlist.ToggleAddPlaylistModalHandler(recorder, req)
 	recorder.Body.Reset()
 
-	handler.ToggleAddPlaylistModalHandler(recorder, req)
+	add_playlist.ToggleAddPlaylistModalHandler(recorder, req)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 
@@ -69,9 +70,9 @@ func TestModalStaysOpenWithValidationFailures(t *testing.T) {
 	assert.Equal(t, nil, err)
 
 	recorder := httptest.NewRecorder()
-	handler.ToggleAddPlaylistModalWithValidationHandler(recorder, req)
+	add_playlist.ToggleAddPlaylistModalWithValidationHandler(recorder, req)
 	recorder.Body.Reset()
-	handler.ToggleAddPlaylistModalHandler(recorder, req)
+	add_playlist.ToggleAddPlaylistModalHandler(recorder, req)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 
@@ -98,7 +99,7 @@ func TestAddPlaylist(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 
-	handler.AddPlaylistHandler(recorder, req)
+	add_playlist.AddPlaylistHandler(recorder, req)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 
@@ -136,7 +137,7 @@ func TestAddPlaylistFailsWithDuplicatePlaylist(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 
-	handler.AddPlaylistHandler(recorder, req)
+	add_playlist.AddPlaylistHandler(recorder, req)
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 	assert.Equal(t, "Duplicate playlist id: PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS\n", string(recorder.Body.String()))
@@ -155,7 +156,7 @@ func TestAddPlaylistFailsWithEmptyPlaylistId(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 
-	handler.AddPlaylistHandler(recorder, req)
+	add_playlist.AddPlaylistHandler(recorder, req)
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 	assert.Equal(t, "Empty playlist_id\n", recorder.Body.String())
@@ -174,7 +175,7 @@ func TestAddPlaylistFailsWithInvalidPlaylistId(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 
-	handler.AddPlaylistHandler(recorder, req)
+	add_playlist.AddPlaylistHandler(recorder, req)
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 	assert.Equal(t, "Invalid playlist_id: "+test_invalid_id+"\n", recorder.Body.String())

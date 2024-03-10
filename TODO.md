@@ -8,7 +8,7 @@ An improved user experience for anyone who likes to listen to music using Youtub
 
 - :white_check_mark: ~~PlaylistList UI (Desktop)~~
 - :white_check_mark: ~~Add Playlist Modal UI (Desktop)~~
-- Add playlist
+- :white_check_mark: ~~Add playlist~~
   - :white_check_mark: ~~On click, should raise a modal asking for the list url of a youtube playlist~~
   - :white_check_mark: ~~Selecting cancel button should close the modal~~
   - :white_check_mark: ~~Adding a list id and selecting the add button should add a playlist to the list of playlists and close the modal~~

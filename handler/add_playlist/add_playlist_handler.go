@@ -1,4 +1,4 @@
-package handler
+package add_playlist
 
 import (
 	"encoding/json"
