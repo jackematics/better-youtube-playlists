@@ -4,15 +4,21 @@ import (
 	"github.com/jackematics/better-youtube-playlists/model"
 )
 
-var IndexState = SetInitialState()
+var IndexState = InitialiseState()
 
-func SetInitialState() model.IndexModel {
+func InitialiseState() model.IndexModel {
 	return model.IndexModel{
 		ModalState: model.ModalModel{
 			Hidden:            true,
 			ValidationMessage: "",
 		},
-		PlaylistState: []model.PlaylistModel{},
+		PlaylistState: []model.PlaylistModel{
+			{
+				PlaylistId:    "default-playlist-id",
+				PlaylistTitle: "No Playlist Selected",
+				ChannelOwner:  "",
+			},
+		},
 	}
 }
 

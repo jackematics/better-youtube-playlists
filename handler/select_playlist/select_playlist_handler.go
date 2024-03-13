@@ -9,7 +9,7 @@ import (
 	"github.com/jackematics/better-youtube-playlists/repository/page_data_repository"
 )
 
-func SetDescriptionHandler(writer http.ResponseWriter, reader *http.Request) {
+func SetPlaylistDescriptionHandler(writer http.ResponseWriter, reader *http.Request) {
 	playlist_id := reader.URL.Query().Get("playlist_id")
 
 	var selected_playlist_data model.PlaylistModel

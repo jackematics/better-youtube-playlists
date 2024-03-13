@@ -9,7 +9,7 @@ import (
 )
 
 func ResetServerState() {
-	page_data_repository.IndexState = page_data_repository.SetInitialState()
+	page_data_repository.IndexState = page_data_repository.InitialiseState()
 }
 
 func ParseTemplateToString(path string, state any) string {

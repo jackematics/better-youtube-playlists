@@ -103,7 +103,7 @@ func TestAddPlaylist(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 
-	playlistItemData := model.PlaylistModel{
+	playlist_item_data := model.PlaylistModel{
 		PlaylistId:    "PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS",
 		PlaylistTitle: "Better Youtube Playlists",
 		ChannelOwner:  "Jack Rimmer",
@@ -111,11 +111,11 @@ func TestAddPlaylist(t *testing.T) {
 
 	body, err := io.ReadAll(recorder.Body)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("templates/playlist-list-item.html", playlistItemData), string(body)+"\r\n")
+	assert.Equal(t, test_utils.ParseTemplateToString("templates/playlist-list-item.html", playlist_item_data), string(body)+"\r\n")
 
-	assert.Equal(t, playlistItemData.PlaylistId, page_data_repository.IndexState.PlaylistState[0].PlaylistId)
-	assert.Equal(t, playlistItemData.PlaylistTitle, page_data_repository.IndexState.PlaylistState[0].PlaylistTitle)
-	assert.Equal(t, playlistItemData.ChannelOwner, page_data_repository.IndexState.PlaylistState[0].ChannelOwner)
+	assert.Equal(t, playlist_item_data.PlaylistId, page_data_repository.IndexState.PlaylistState[1].PlaylistId)
+	assert.Equal(t, playlist_item_data.PlaylistTitle, page_data_repository.IndexState.PlaylistState[1].PlaylistTitle)
+	assert.Equal(t, playlist_item_data.ChannelOwner, page_data_repository.IndexState.PlaylistState[1].ChannelOwner)
 
 	teardown()
 }
@@ -141,7 +141,7 @@ func TestAddPlaylistFailsWithDuplicatePlaylist(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 	assert.Equal(t, "Duplicate playlist id: PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS\n", string(recorder.Body.String()))
-	assert.Equal(t, 1, len(page_data_repository.IndexState.PlaylistState))
+	assert.Equal(t, 2, len(page_data_repository.IndexState.PlaylistState))
 
 	teardown()
 }
