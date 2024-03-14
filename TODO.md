@@ -21,7 +21,8 @@ An improved user experience for anyone who likes to listen to music using Youtub
   - :white_check_mark: ~~Log error with youtube api and return validation message to user~~
   - :white_check_mark: ~~Log error with youtube api key and return validation message to user~~
 - Select playlist
-  - Should populate the playlist description and playlist items
+  - :white_check_mark: ~~Should populate the playlist description~~
+  - Should populate playlist items
 - Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded
 - Complete metadata fetch validation
 - Option to delete playlists
