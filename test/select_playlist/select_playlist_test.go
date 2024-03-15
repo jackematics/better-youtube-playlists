@@ -8,7 +8,7 @@ import (
 
 	"github.com/jackematics/better-youtube-playlists/handler/select_playlist"
 	"github.com/jackematics/better-youtube-playlists/model"
-	"github.com/jackematics/better-youtube-playlists/repository/page_data_repository"
+	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 	_ "github.com/jackematics/better-youtube-playlists/test"
 	"github.com/jackematics/better-youtube-playlists/test_utils"
 	"github.com/stretchr/testify/assert"
@@ -25,7 +25,7 @@ func TestSetPlaylistDescriptionHandler(t *testing.T) {
 		ChannelOwner:  "Jack Rimmer",
 	}
 
-	page_data_repository.IndexState.PlaylistState = append(page_data_repository.IndexState.PlaylistState, playlist_item_data)
+	page_data.IndexState.PlaylistState = append(page_data.IndexState.PlaylistState, playlist_item_data)
 
 	req, err := http.NewRequest("GET", "/set-playlist-description?playlist_id=PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS", nil)
 
@@ -37,7 +37,7 @@ func TestSetPlaylistDescriptionHandler(t *testing.T) {
 
 	body, err := io.ReadAll(recorder.Body)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("templates/playlist-description.html", playlist_item_data), string(body)+"\r\n")
+	assert.Equal(t, test_utils.ParseTemplateToString("templates/playlist-description.html", playlist_item_data), string(body)+"\n")
 
 	teardown()
 }

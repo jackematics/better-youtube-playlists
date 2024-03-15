@@ -5,11 +5,11 @@ import (
 	"html/template"
 	"os"
 
-	"github.com/jackematics/better-youtube-playlists/repository/page_data_repository"
+	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
 
 func ResetServerState() {
-	page_data_repository.IndexState = page_data_repository.InitialiseState()
+	page_data.IndexState = page_data.InitialiseState()
 }
 
 func ParseTemplateToString(path string, state any) string {

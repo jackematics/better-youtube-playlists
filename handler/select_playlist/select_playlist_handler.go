@@ -5,30 +5,37 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/jackematics/better-youtube-playlists/model"
-	"github.com/jackematics/better-youtube-playlists/repository/page_data_repository"
+	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
 
 func SetPlaylistDescriptionHandler(writer http.ResponseWriter, reader *http.Request) {
 	playlist_id := reader.URL.Query().Get("playlist_id")
 
-	var selected_playlist_data model.PlaylistModel
+	selected_playlist_data, found := page_data.FindPlaylist(playlist_id)
 
-	playlist_state := page_data_repository.IndexState.PlaylistState
-	for i := range playlist_state {
-		if playlist_state[i].PlaylistId == playlist_id {
-			selected_playlist_data = playlist_state[i]
-		}
+	if !found {
+		log.Println("No playlist description exists for id " + playlist_id)
+
+		http.Error(writer, "No playlist description exists for "+playlist_id, http.StatusBadRequest)
 	}
 
-	if selected_playlist_data == (model.PlaylistModel{}) {
-		log.Println("No playlist exists in state with id " + playlist_id)
-		log.Printf("Current playlist state: %v\n", playlist_state)
-
-		http.Error(writer, "Invalid playlist state: "+playlist_id, http.StatusBadRequest)
-	}
-
-	log.Println("Selected playlist \"" + selected_playlist_data.PlaylistTitle + "\" from playlist_id \"" + playlist_id + "\"")
+	log.Println("Selected description for playlist \"" + selected_playlist_data.PlaylistTitle + "\" from playlist_id \"" + playlist_id + "\"")
 	tmpl := template.Must(template.ParseFiles("templates/playlist-description.html"))
 	tmpl.ExecuteTemplate(writer, "playlist-description", selected_playlist_data)
+}
+
+func SetPlaylistItemsHandler(writer http.ResponseWriter, reader *http.Request) {
+	playlist_id := reader.URL.Query().Get("playlist_id")
+
+	selected_playlist_data, found := page_data.FindPlaylist(playlist_id)
+
+	if !found {
+		log.Println("No playlist items exist for id " + playlist_id)
+
+		http.Error(writer, "No playlist items exist for "+playlist_id, http.StatusBadRequest)
+	}
+
+	log.Println("Selected items for playlist \"" + selected_playlist_data.PlaylistTitle + "\" from playlist_d \"" + playlist_id + "\"")
+	tmpl := template.Must(template.ParseFiles("templates/playlist-items.html"))
+	tmpl.ExecuteTemplate(writer, "playlist-items", selected_playlist_data)
 }

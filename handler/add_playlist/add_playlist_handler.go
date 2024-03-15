@@ -1,15 +1,12 @@
 package add_playlist
 
 import (
-	"encoding/json"
-	"io"
 	"log"
 	"net/http"
 	"text/template"
 
-	"github.com/jackematics/better-youtube-playlists/config"
-	"github.com/jackematics/better-youtube-playlists/model"
-	"github.com/jackematics/better-youtube-playlists/repository/page_data_repository"
+	"github.com/jackematics/better-youtube-playlists/helper/youtube_data"
+	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
 
 type Snippet struct {
@@ -36,23 +33,23 @@ type YoutubePlaylistMetadataResponseError struct {
 }
 
 func ToggleAddPlaylistModalWithValidationHandler(writer http.ResponseWriter, reader *http.Request) {
-	if page_data_repository.IndexState.ModalState.ValidationMessage == "" {
-		page_data_repository.ToggleAddPlaylistModal()
+	if page_data.IndexState.ModalState.ValidationMessage == "" {
+		page_data.ToggleAddPlaylistModal()
 	}
 
 	tmpl := template.Must(template.ParseFiles("templates/add-playlist-modal.html"))
-	tmpl.ExecuteTemplate(writer, "add-playlist-modal", page_data_repository.IndexState.ModalState)
+	tmpl.ExecuteTemplate(writer, "add-playlist-modal", page_data.IndexState.ModalState)
 }
 
 func ToggleAddPlaylistModalHandler(writer http.ResponseWriter, reader *http.Request) {
-	if !page_data_repository.IndexState.ModalState.Hidden {
-		page_data_repository.ResetAddPlaylistValidation()
+	if !page_data.IndexState.ModalState.Hidden {
+		page_data.ResetAddPlaylistValidation()
 	}
 
-	page_data_repository.ToggleAddPlaylistModal()
+	page_data.ToggleAddPlaylistModal()
 
 	tmpl := template.Must(template.ParseFiles("templates/add-playlist-modal.html"))
-	tmpl.ExecuteTemplate(writer, "add-playlist-modal", page_data_repository.IndexState.ModalState)
+	tmpl.ExecuteTemplate(writer, "add-playlist-modal", page_data.IndexState.ModalState)
 }
 
 func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
@@ -64,83 +61,33 @@ func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 	playlist_id := reader.Form.Get("playlist_id")
 
 	if playlist_id == "" {
-		page_data_repository.IndexState.ModalState.ValidationMessage = "Invalid playlist id"
+		page_data.IndexState.ModalState.ValidationMessage = "Invalid playlist id"
 		log.Println("Empty playlist_id")
 		http.Error(writer, "Empty playlist_id", http.StatusBadRequest)
 		return
 	}
 
-	for i := range page_data_repository.IndexState.PlaylistState {
-		if page_data_repository.IndexState.PlaylistState[i].PlaylistId == playlist_id {
-			page_data_repository.IndexState.ModalState.ValidationMessage = "Duplicate playlist id"
-			log.Println("Duplicate playlist id: " + playlist_id)
-			http.Error(writer, "Duplicate playlist id: "+playlist_id, http.StatusBadRequest)
-			return
-		}
-	}
+	_, duplicate_playlist_found := page_data.FindPlaylist(playlist_id)
 
-	youtube_playlist_metadata_response, _ := http.Get("https://youtube.googleapis.com/youtube/v3/playlists?part=snippet&id=" + playlist_id + "&key=" + config.Config.YoutubeApiKey)
-	response_data, _ := io.ReadAll(youtube_playlist_metadata_response.Body)
-
-	if youtube_playlist_metadata_response.StatusCode == http.StatusBadRequest {
-		var error_response YoutubePlaylistMetadataResponseError
-		err = json.Unmarshal(response_data, &error_response)
-
-		if err != nil {
-			log.Println("Error decoding youtube metadata error response: ", err)
-			page_data_repository.IndexState.ModalState.ValidationMessage = "Internal server error"
-			http.Error(writer, "Internal server error", http.StatusInternalServerError)
-			return
-		}
-
-		if error_response.Error.Code == http.StatusBadRequest && error_response.Error.Message == "API key not valid. Please pass a valid API key." {
-			log.Println(error_response.Error.Message)
-			page_data_repository.IndexState.ModalState.ValidationMessage = "Internal server error"
-			http.Error(writer, "Internal server error", http.StatusInternalServerError)
-			return
-		}
-
-		if error_response.Error.Code == http.StatusForbidden {
-			log.Println(error_response.Error.Message)
-			page_data_repository.IndexState.ModalState.ValidationMessage = "Internal server error"
-			http.Error(writer, "Internal server error", http.StatusInternalServerError)
-			return
-		}
-
-		if error_response.Error.Code >= 500 {
-			log.Println("Issue retrieving data from Youtube Data API: " + error_response.Error.Message)
-			page_data_repository.IndexState.ModalState.ValidationMessage = "Internal server error"
-			http.Error(writer, "Internal server error", http.StatusInternalServerError)
-			return
-		}
-	}
-
-	var response_object YoutubePlaylistMetadataResponse
-	err = json.Unmarshal(response_data, &response_object)
-	if err != nil {
-		log.Println("Error decoding JSON response from Youtube api: ", err)
-		http.Error(writer, "Failed Dependency", http.StatusFailedDependency)
+	if duplicate_playlist_found {
+		page_data.IndexState.ModalState.ValidationMessage = "Duplicate playlist id"
+		log.Println("Duplicate playlist id: " + playlist_id)
+		http.Error(writer, "Duplicate playlist id: "+playlist_id, http.StatusBadRequest)
 		return
 	}
 
-	if len(response_object.Items) == 0 {
-		log.Println("No playlist items returned for playlist id " + playlist_id)
-		page_data_repository.IndexState.ModalState.ValidationMessage = "Invalid playlist id"
-		http.Error(writer, "Invalid playlist_id: "+playlist_id, http.StatusBadRequest)
+	youtube_playlist, youtube_err := youtube_data.FetchYoutubeMetadata(playlist_id)
 
+	if youtube_err != nil {
+		page_data.SetValidationMessage(youtube_err.Message)
+		http.Error(writer, youtube_err.Message, youtube_err.Code)
 		return
 	}
 
-	playlist_model := model.PlaylistModel{
-		PlaylistId:    playlist_id,
-		PlaylistTitle: response_object.Items[0].Snippet.Title,
-		ChannelOwner:  response_object.Items[0].Snippet.ChannelTitle,
-	}
+	page_data.AddPlaylist(*youtube_playlist)
+	page_data.ResetAddPlaylistValidation()
 
-	page_data_repository.AddPlaylist(playlist_model)
-	page_data_repository.ResetAddPlaylistValidation()
-
-	log.Println("Added playlist \"" + playlist_model.PlaylistTitle + "\" from playlist_id \"" + playlist_id + "\"")
+	log.Println("Added playlist \"" + youtube_playlist.PlaylistTitle + "\" from playlist_id \"" + playlist_id + "\"")
 	tmpl := template.Must(template.ParseFiles("templates/playlist-list-item.html"))
-	tmpl.ExecuteTemplate(writer, "playlist-list-item", playlist_model)
+	tmpl.ExecuteTemplate(writer, "playlist-list-item", youtube_playlist)
 }

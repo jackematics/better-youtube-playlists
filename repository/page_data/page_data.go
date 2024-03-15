@@ -1,4 +1,4 @@
-package page_data_repository
+package page_data
 
 import (
 	"github.com/jackematics/better-youtube-playlists/model"
@@ -32,4 +32,20 @@ func AddPlaylist(playlist_model model.PlaylistModel) {
 
 func ResetAddPlaylistValidation() {
 	IndexState.ModalState.ValidationMessage = ""
+}
+
+func SetValidationMessage(message string) {
+	IndexState.ModalState.ValidationMessage = message
+}
+
+// returns true if the value is found and false otherwise
+func FindPlaylist(playlist_id string) (*model.PlaylistModel, bool) {
+	playlist_state := IndexState.PlaylistState
+	for i := range playlist_state {
+		if playlist_state[i].PlaylistId == playlist_id {
+			return &playlist_state[i], true
+		}
+	}
+
+	return nil, false
 }
