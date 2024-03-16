@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 
 	"github.com/jackematics/better-youtube-playlists/handler/add_playlist"
@@ -12,18 +11,9 @@ import (
 )
 
 func main() {
-	tmpl, err := template.ParseFiles(
-		"templates/index.html",
-		"templates/add-playlist-modal.html",
-		"templates/playlist-list-item.html",
-		"templates/playlist-description.html",
-	)
+	tmpl := template.Must(template.ParseGlob("templates/*.html"))
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
-
-	if err != nil {
-		log.Fatalf("could not init templates: %+v", err)
-	}
 
 	http.HandleFunc("/", func(writer http.ResponseWriter, req *http.Request) {
 		tmpl.ExecuteTemplate(writer, "index.html", page_data.IndexState)
