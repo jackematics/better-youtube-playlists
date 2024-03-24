@@ -1,8 +1,9 @@
 package model
 
 type IndexModel struct {
-	ModalState    ModalModel
-	PlaylistState []PlaylistModel
+	ModalState         ModalModel
+	PlaylistState      []PlaylistModel
+	SelectedPlaylistId string
 }
 
 type ModalModel struct {

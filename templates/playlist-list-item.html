@@ -1,7 +1,7 @@
-{{ block "playlist-list-item" .}}
+{{ block "playlist-list-item" . }}
 <li id="li-{{ .PlaylistId }}" key="{{ .PlaylistId }}" class="mb-3">
   <option
-    class="w-11/12 pl-2 pb-1 pt-1 pr-6 text-2xl text-white text-left rounded-2xl cursor-pointer truncate hover:bg-blue-highlight-hover"
+    class="w-11/12 pl-2 pb-1 pt-1 pr-6 text-2xl text-left rounded-2xl cursor-pointer truncate text-white hover:bg-blue-highlight-hover"
     title="{{ .PlaylistTitle }}"
   >
     {{ .PlaylistTitle }}
@@ -10,6 +10,12 @@
 <div
   hx-target="#playlist-description"
   hx-get="/set-playlist-description?playlist_id={{ .PlaylistId }}"
+  hx-trigger="click from:#li-{{ .PlaylistId }}"
+  hx-swap="outerHTML"
+></div>
+<div
+  hx-target="#playlist-list"
+  hx-get="/highlight-selected-playlist"
   hx-trigger="click from:#li-{{ .PlaylistId }}"
   hx-swap="outerHTML"
 ></div>

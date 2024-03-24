@@ -39,3 +39,7 @@ func SetPlaylistItemsHandler(writer http.ResponseWriter, reader *http.Request) {
 	tmpl := template.Must(template.ParseFiles("templates/playlist-items.html"))
 	tmpl.ExecuteTemplate(writer, "playlist-items", selected_playlist_data)
 }
+
+func HighlightSelectedPlaylist(writer http.ResponseWriter, reader *http.Request) {
+
+}

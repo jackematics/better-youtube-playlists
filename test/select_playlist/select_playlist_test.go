@@ -41,3 +41,34 @@ func TestSetPlaylistDescriptionHandler(t *testing.T) {
 
 	teardown()
 }
+
+func TestHighlightSelectedPlaylist(t *testing.T) {
+	playlist_items := []model.PlaylistModel{
+		{
+			PlaylistId:    "test-id-1",
+			PlaylistTitle: "Test Playlist 1",
+			ChannelOwner:  "Test Owner 1",
+		},
+		{
+			PlaylistId:    "test-id-2",
+			PlaylistTitle: "Test Playlist 2",
+			ChannelOwner:  "Test Owner 2",
+		},
+	}
+
+	page_data.IndexState.PlaylistState = append(page_data.IndexState.PlaylistState, playlist_items...)
+
+	req, err := http.NewRequest("GET", "/highlight-selected-playlist/test-id-2", nil)
+
+	assert.Equal(t, nil, err)
+
+	recorder := httptest.NewRecorder()
+
+	select_playlist.HighlightSelectedPlaylist(recorder, req)
+
+	body, err := io.ReadAll(recorder.Body)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, test_utils.ParseTemplateToString("templates/playlist-list", playlist_items), string(body)+"\n")
+
+	teardown()
+}

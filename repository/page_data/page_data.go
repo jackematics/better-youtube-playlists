@@ -19,6 +19,7 @@ func InitialiseState() model.IndexModel {
 				ChannelOwner:  "",
 			},
 		},
+		SelectedPlaylistId: "",
 	}
 }
 

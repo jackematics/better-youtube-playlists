@@ -1,6 +1,7 @@
 {{ block "playlist-list" .}}
 
 <div
+  id="playlist-list-container"
   class="bg-container-dark-blue min-w-[16rem] border-4 relative rounded-lg col-span-1 row-span-3 flex-none"
 >
   <h2
@@ -8,8 +9,8 @@
   >
     Playlists
   </h2>
-  <ul id="playlist-list" class="pl-3 flex flex-col">
-    {{ range $index, $item := . }} {{ if ne $index 0 }} {{ template
+  <ul id="playlist-list" class="pl-3 flex flex-col" ></ul>
+    {{ range $index, $item := .PlaylistState }} {{ if ne $index 0 }} {{ template
     "playlist-list-item" $item }} {{ end }} {{ end }}
   </ul>
   <button
