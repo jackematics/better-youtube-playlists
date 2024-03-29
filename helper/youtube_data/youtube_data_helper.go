@@ -39,7 +39,7 @@ type YoutubeDataError struct {
 	Message string
 }
 
-func FetchYoutubeMetadata(playlist_id string) (*model.PlaylistModel, *YoutubeDataError) {
+func FetchYoutubeMetadata(playlist_id string) (*model.PlaylistItem, *YoutubeDataError) {
 	youtube_playlist_metadata_response, err := http.Get("https://youtube.googleapis.com/youtube/v3/playlists?part=snippet&id=" + playlist_id + "&key=" + config.Config.YoutubeApiKey)
 
 	if err != nil {
@@ -92,7 +92,7 @@ func FetchYoutubeMetadata(playlist_id string) (*model.PlaylistModel, *YoutubeDat
 		return nil, &YoutubeDataError{Code: http.StatusBadRequest, Message: "Invalid playlist id"}
 	}
 
-	playlist_model := model.PlaylistModel{
+	playlist_model := model.PlaylistItem{
 		PlaylistId:    playlist_id,
 		PlaylistTitle: response_object.Items[0].Snippet.Title,
 		ChannelOwner:  response_object.Items[0].Snippet.ChannelTitle,

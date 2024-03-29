@@ -1,17 +1,21 @@
 package model
 
-type IndexModel struct {
-	ModalState         ModalModel
-	PlaylistState      []PlaylistModel
-	SelectedPlaylistId string
+type Index struct {
+	ModalState    Modal
+	PlaylistState Playlist
 }
 
-type ModalModel struct {
+type Modal struct {
 	Hidden            bool
 	ValidationMessage string
 }
 
-type PlaylistModel struct {
+type Playlist struct {
+	Playlists                 []PlaylistItem
+	SelectedPlaylistItemIndex int
+}
+
+type PlaylistItem struct {
 	PlaylistId    string
 	PlaylistTitle string
 	ChannelOwner  string

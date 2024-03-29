@@ -37,7 +37,7 @@ func TestModalOpens(t *testing.T) {
 
 	body, err := io.ReadAll(res_recorder.Body)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.ModalModel{Hidden: false, ValidationMessage: ""}), string(body)+"\n")
+	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.Modal{Hidden: false, ValidationMessage: ""}), string(body)+"\n")
 	assert.Equal(t, false, page_data.IndexState.ModalState.Hidden)
 
 	teardown()
@@ -57,7 +57,7 @@ func TestModalCloses(t *testing.T) {
 
 	body, err := io.ReadAll(recorder.Body)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.ModalModel{Hidden: true, ValidationMessage: ""}), string(body)+"\n")
+	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.Modal{Hidden: true, ValidationMessage: ""}), string(body)+"\n")
 	assert.Equal(t, true, page_data.IndexState.ModalState.Hidden)
 
 	teardown()
@@ -80,7 +80,7 @@ func TestModalStaysOpenWithValidationFailures(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.Equal(
 		t,
-		test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.ModalModel{Hidden: false, ValidationMessage: test_validation_message}),
+		test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.Modal{Hidden: false, ValidationMessage: test_validation_message}),
 		string(body)+"\n",
 	)
 	assert.Equal(t, false, page_data.IndexState.ModalState.Hidden)
@@ -103,7 +103,7 @@ func TestAddPlaylist(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 
-	playlist_item_data := model.PlaylistModel{
+	playlist_item_data := model.PlaylistItem{
 		PlaylistId:    "PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS",
 		PlaylistTitle: "Better Youtube Playlists",
 		ChannelOwner:  "Jack Rimmer",
@@ -113,16 +113,16 @@ func TestAddPlaylist(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.Equal(t, test_utils.ParseTemplateToString("templates/playlist-list-item.html", playlist_item_data), string(body)+"\n")
 
-	assert.Equal(t, playlist_item_data.PlaylistId, page_data.IndexState.PlaylistState[1].PlaylistId)
-	assert.Equal(t, playlist_item_data.PlaylistTitle, page_data.IndexState.PlaylistState[1].PlaylistTitle)
-	assert.Equal(t, playlist_item_data.ChannelOwner, page_data.IndexState.PlaylistState[1].ChannelOwner)
+	assert.Equal(t, playlist_item_data.PlaylistId, page_data.IndexState.PlaylistState.Playlists[1].PlaylistId)
+	assert.Equal(t, playlist_item_data.PlaylistTitle, page_data.IndexState.PlaylistState.Playlists[1].PlaylistTitle)
+	assert.Equal(t, playlist_item_data.ChannelOwner, page_data.IndexState.PlaylistState.Playlists[1].ChannelOwner)
 
 	teardown()
 }
 
 func TestAddPlaylistFailsWithDuplicatePlaylist(t *testing.T) {
 	test_playlist_id := "PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS"
-	page_data.IndexState.PlaylistState = append(page_data.IndexState.PlaylistState, model.PlaylistModel{
+	page_data.IndexState.PlaylistState.Playlists = append(page_data.IndexState.PlaylistState.Playlists, model.PlaylistItem{
 		PlaylistId:    test_playlist_id,
 		PlaylistTitle: "",
 		ChannelOwner:  "",
@@ -141,7 +141,7 @@ func TestAddPlaylistFailsWithDuplicatePlaylist(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 	assert.Equal(t, "Duplicate playlist id: PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS\n", string(recorder.Body.String()))
-	assert.Equal(t, 2, len(page_data.IndexState.PlaylistState))
+	assert.Equal(t, 2, len(page_data.IndexState.PlaylistState.Playlists))
 
 	teardown()
 }

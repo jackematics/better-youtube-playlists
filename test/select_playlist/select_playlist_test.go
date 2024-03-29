@@ -19,13 +19,13 @@ func teardown() {
 }
 
 func TestSetPlaylistDescriptionHandler(t *testing.T) {
-	playlist_item_data := model.PlaylistModel{
+	playlist_item_data := model.PlaylistItem{
 		PlaylistId:    "PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS",
 		PlaylistTitle: "Better Youtube Playlists",
 		ChannelOwner:  "Jack Rimmer",
 	}
 
-	page_data.IndexState.PlaylistState = append(page_data.IndexState.PlaylistState, playlist_item_data)
+	page_data.IndexState.PlaylistState.Playlists = append(page_data.IndexState.PlaylistState.Playlists, playlist_item_data)
 
 	req, err := http.NewRequest("GET", "/set-playlist-description?playlist_id=PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS", nil)
 
@@ -43,7 +43,7 @@ func TestSetPlaylistDescriptionHandler(t *testing.T) {
 }
 
 func TestHighlightSelectedPlaylist(t *testing.T) {
-	playlist_items := []model.PlaylistModel{
+	playlist_items := []model.PlaylistItem{
 		{
 			PlaylistId:    "test-id-1",
 			PlaylistTitle: "Test Playlist 1",
@@ -56,7 +56,8 @@ func TestHighlightSelectedPlaylist(t *testing.T) {
 		},
 	}
 
-	page_data.IndexState.PlaylistState = append(page_data.IndexState.PlaylistState, playlist_items...)
+	page_data.IndexState.PlaylistState.Playlists = append(page_data.IndexState.PlaylistState.Playlists, playlist_items...)
+	page_data.IndexState.PlaylistState.SelectedPlaylistItemIndex = 2
 
 	req, err := http.NewRequest("GET", "/highlight-selected-playlist/test-id-2", nil)
 
