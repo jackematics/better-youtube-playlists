@@ -8,7 +8,6 @@ import (
 
 	"github.com/jackematics/better-youtube-playlists/config"
 	"github.com/jackematics/better-youtube-playlists/model"
-	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
 
 type Snippet struct {
@@ -39,7 +38,7 @@ type YoutubeDataError struct {
 	Message string
 }
 
-func FetchYoutubeMetadata(playlist_id string) (*model.PlaylistItem, *YoutubeDataError) {
+func FetchYoutubeMetadata(playlist_id string) (*model.Playlist, *YoutubeDataError) {
 	youtube_playlist_metadata_response, err := http.Get("https://youtube.googleapis.com/youtube/v3/playlists?part=snippet&id=" + playlist_id + "&key=" + config.Config.YoutubeApiKey)
 
 	if err != nil {
@@ -92,13 +91,12 @@ func FetchYoutubeMetadata(playlist_id string) (*model.PlaylistItem, *YoutubeData
 		return nil, &YoutubeDataError{Code: http.StatusBadRequest, Message: "Invalid playlist id"}
 	}
 
-	playlist_model := model.PlaylistItem{
+	playlist_model := model.Playlist{
 		PlaylistId:    playlist_id,
 		PlaylistTitle: response_object.Items[0].Snippet.Title,
 		ChannelOwner:  response_object.Items[0].Snippet.ChannelTitle,
+		Selected:      false,
 	}
-
-	page_data.AddPlaylist(playlist_model)
 
 	return &playlist_model, nil
 }

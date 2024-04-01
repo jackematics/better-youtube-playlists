@@ -12,15 +12,13 @@ func InitialiseState() model.Index {
 			Hidden:            true,
 			ValidationMessage: "",
 		},
-		PlaylistState: model.Playlist{
-			Playlists: []model.PlaylistItem{
-				{
-					PlaylistId:    "default-playlist-id",
-					PlaylistTitle: "No Playlist Selected",
-					ChannelOwner:  "",
-				},
+		PlaylistListState: []model.Playlist{
+			{
+				PlaylistId:    "default-playlist-id",
+				PlaylistTitle: "No Playlist Selected",
+				ChannelOwner:  "",
+				Selected:      false,
 			},
-			SelectedPlaylistItemIndex: -1,
 		},
 	}
 }
@@ -29,8 +27,8 @@ func ToggleAddPlaylistModal() {
 	IndexState.ModalState.Hidden = !IndexState.ModalState.Hidden
 }
 
-func AddPlaylist(playlist_model model.PlaylistItem) {
-	IndexState.PlaylistState.Playlists = append(IndexState.PlaylistState.Playlists, playlist_model)
+func AddPlaylist(playlist_model model.Playlist) {
+	IndexState.PlaylistListState = append(IndexState.PlaylistListState, playlist_model)
 }
 
 func ResetAddPlaylistValidation() {
@@ -42,11 +40,11 @@ func SetValidationMessage(message string) {
 }
 
 // returns true if the value is found and false otherwise
-func FindPlaylist(playlist_id string) (*model.PlaylistItem, bool) {
-	playlist_state := IndexState.PlaylistState.Playlists
-	for i := range playlist_state {
-		if playlist_state[i].PlaylistId == playlist_id {
-			return &playlist_state[i], true
+func FindPlaylist(playlist_id string) (*model.Playlist, bool) {
+	playlist_list_state := IndexState.PlaylistListState
+	for i := range playlist_list_state {
+		if playlist_list_state[i].PlaylistId == playlist_id {
+			return &playlist_list_state[i], true
 		}
 	}
 
@@ -54,13 +52,17 @@ func FindPlaylist(playlist_id string) (*model.PlaylistItem, bool) {
 }
 
 func SetSelectedPage(playlist_id string) bool {
-	playlists := IndexState.PlaylistState.Playlists
-	for i := range playlists {
-		if playlists[i].PlaylistId == playlist_id {
-			IndexState.PlaylistState.SelectedPlaylistItemIndex = i
-			return true
+	playlists := &IndexState.PlaylistListState
+
+	selected_found := false
+	for i := range *playlists {
+		if (*playlists)[i].PlaylistId == playlist_id {
+			(*playlists)[i].Selected = true
+			selected_found = true
+		} else {
+			(*playlists)[i].Selected = false
 		}
 	}
 
-	return false
+	return selected_found
 }

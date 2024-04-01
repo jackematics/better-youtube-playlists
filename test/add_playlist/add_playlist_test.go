@@ -37,7 +37,7 @@ func TestModalOpens(t *testing.T) {
 
 	body, err := io.ReadAll(res_recorder.Body)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.Modal{Hidden: false, ValidationMessage: ""}), string(body)+"\n")
+	assert.Equal(t, test_utils.ParseTemplateToString("add-playlist-modal", []string{"templates/add-playlist-modal.html"}, model.Modal{Hidden: false, ValidationMessage: ""}), string(body))
 	assert.Equal(t, false, page_data.IndexState.ModalState.Hidden)
 
 	teardown()
@@ -57,7 +57,7 @@ func TestModalCloses(t *testing.T) {
 
 	body, err := io.ReadAll(recorder.Body)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.Modal{Hidden: true, ValidationMessage: ""}), string(body)+"\n")
+	assert.Equal(t, test_utils.ParseTemplateToString("add-playlist-modal", []string{"templates/add-playlist-modal.html"}, model.Modal{Hidden: true, ValidationMessage: ""}), string(body))
 	assert.Equal(t, true, page_data.IndexState.ModalState.Hidden)
 
 	teardown()
@@ -80,8 +80,8 @@ func TestModalStaysOpenWithValidationFailures(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.Equal(
 		t,
-		test_utils.ParseTemplateToString("templates/add-playlist-modal.html", model.Modal{Hidden: false, ValidationMessage: test_validation_message}),
-		string(body)+"\n",
+		test_utils.ParseTemplateToString("add-playlist-modal", []string{"templates/add-playlist-modal.html"}, model.Modal{Hidden: false, ValidationMessage: test_validation_message}),
+		string(body),
 	)
 	assert.Equal(t, false, page_data.IndexState.ModalState.Hidden)
 	assert.Equal(t, test_validation_message, page_data.IndexState.ModalState.ValidationMessage)
@@ -103,29 +103,31 @@ func TestAddPlaylist(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 
-	playlist_item_data := model.PlaylistItem{
+	playlist_item_data := model.Playlist{
 		PlaylistId:    "PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS",
 		PlaylistTitle: "Better Youtube Playlists",
 		ChannelOwner:  "Jack Rimmer",
+		Selected:      false,
 	}
 
 	body, err := io.ReadAll(recorder.Body)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("templates/playlist-list-item.html", playlist_item_data), string(body)+"\n")
+	assert.Equal(t, test_utils.ParseTemplateToString("playlist-list-item", []string{"templates/playlist-list-item.html"}, playlist_item_data), string(body))
 
-	assert.Equal(t, playlist_item_data.PlaylistId, page_data.IndexState.PlaylistState.Playlists[1].PlaylistId)
-	assert.Equal(t, playlist_item_data.PlaylistTitle, page_data.IndexState.PlaylistState.Playlists[1].PlaylistTitle)
-	assert.Equal(t, playlist_item_data.ChannelOwner, page_data.IndexState.PlaylistState.Playlists[1].ChannelOwner)
+	assert.Equal(t, playlist_item_data.PlaylistId, page_data.IndexState.PlaylistListState[1].PlaylistId)
+	assert.Equal(t, playlist_item_data.PlaylistTitle, page_data.IndexState.PlaylistListState[1].PlaylistTitle)
+	assert.Equal(t, playlist_item_data.ChannelOwner, page_data.IndexState.PlaylistListState[1].ChannelOwner)
 
 	teardown()
 }
 
 func TestAddPlaylistFailsWithDuplicatePlaylist(t *testing.T) {
 	test_playlist_id := "PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS"
-	page_data.IndexState.PlaylistState.Playlists = append(page_data.IndexState.PlaylistState.Playlists, model.PlaylistItem{
+	page_data.IndexState.PlaylistListState = append(page_data.IndexState.PlaylistListState, model.Playlist{
 		PlaylistId:    test_playlist_id,
 		PlaylistTitle: "",
 		ChannelOwner:  "",
+		Selected:      false,
 	})
 
 	add_playlist_data := strings.NewReader("playlist_id=" + test_playlist_id)
@@ -141,7 +143,7 @@ func TestAddPlaylistFailsWithDuplicatePlaylist(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 	assert.Equal(t, "Duplicate playlist id: PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS\n", string(recorder.Body.String()))
-	assert.Equal(t, 2, len(page_data.IndexState.PlaylistState.Playlists))
+	assert.Equal(t, 2, len(page_data.IndexState.PlaylistListState))
 
 	teardown()
 }

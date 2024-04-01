@@ -23,7 +23,7 @@ func main() {
 	http.HandleFunc("/toggle-add-playlist-modal-with-validation", add_playlist.ToggleAddPlaylistModalWithValidationHandler)
 	http.HandleFunc("/add-playlist", add_playlist.AddPlaylistHandler)
 	http.HandleFunc("/set-playlist-description", select_playlist.SetPlaylistDescriptionHandler)
-	http.HandleFunc("/set-playlist-metadata", select_playlist.SetPlaylistMetadataHandler)
+	http.HandleFunc("/highlight-selected-playlist/", select_playlist.HighlightSelectedPlaylist)
 
 	fmt.Println("Server started on :8000")
 	http.ListenAndServe(":8000", nil)

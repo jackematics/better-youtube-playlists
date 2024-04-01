@@ -19,13 +19,14 @@ func teardown() {
 }
 
 func TestSetPlaylistDescriptionHandler(t *testing.T) {
-	playlist_item_data := model.PlaylistItem{
+	playlist_item_data := model.Playlist{
 		PlaylistId:    "PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS",
 		PlaylistTitle: "Better Youtube Playlists",
 		ChannelOwner:  "Jack Rimmer",
+		Selected:      false,
 	}
 
-	page_data.IndexState.PlaylistState.Playlists = append(page_data.IndexState.PlaylistState.Playlists, playlist_item_data)
+	page_data.IndexState.PlaylistListState = append(page_data.IndexState.PlaylistListState, playlist_item_data)
 
 	req, err := http.NewRequest("GET", "/set-playlist-description?playlist_id=PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS", nil)
 
@@ -37,27 +38,28 @@ func TestSetPlaylistDescriptionHandler(t *testing.T) {
 
 	body, err := io.ReadAll(recorder.Body)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("templates/playlist-description.html", playlist_item_data), string(body)+"\n")
+	assert.Equal(t, test_utils.ParseTemplateToString("playlist-description", []string{"templates/playlist-description.html"}, playlist_item_data), string(body))
 
 	teardown()
 }
 
 func TestHighlightSelectedPlaylist(t *testing.T) {
-	playlist_items := []model.PlaylistItem{
+	playlist_list_state := []model.Playlist{
 		{
 			PlaylistId:    "test-id-1",
 			PlaylistTitle: "Test Playlist 1",
 			ChannelOwner:  "Test Owner 1",
+			Selected:      false,
 		},
 		{
 			PlaylistId:    "test-id-2",
 			PlaylistTitle: "Test Playlist 2",
 			ChannelOwner:  "Test Owner 2",
+			Selected:      true,
 		},
 	}
 
-	page_data.IndexState.PlaylistState.Playlists = append(page_data.IndexState.PlaylistState.Playlists, playlist_items...)
-	page_data.IndexState.PlaylistState.SelectedPlaylistItemIndex = 2
+	page_data.IndexState.PlaylistListState = append(page_data.IndexState.PlaylistListState, playlist_list_state...)
 
 	req, err := http.NewRequest("GET", "/highlight-selected-playlist/test-id-2", nil)
 
@@ -69,7 +71,7 @@ func TestHighlightSelectedPlaylist(t *testing.T) {
 
 	body, err := io.ReadAll(recorder.Body)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("templates/playlist-list", playlist_items), string(body)+"\n")
+	assert.Equal(t, test_utils.ParseTemplateToString("playlist-list", []string{"templates/playlist-list.html", "templates/playlist-list-item.html"}, page_data.IndexState.PlaylistListState), string(body))
 
 	teardown()
 }

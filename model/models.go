@@ -1,8 +1,8 @@
 package model
 
 type Index struct {
-	ModalState    Modal
-	PlaylistState Playlist
+	ModalState        Modal
+	PlaylistListState []Playlist
 }
 
 type Modal struct {
@@ -11,12 +11,8 @@ type Modal struct {
 }
 
 type Playlist struct {
-	Playlists                 []PlaylistItem
-	SelectedPlaylistItemIndex int
-}
-
-type PlaylistItem struct {
 	PlaylistId    string
 	PlaylistTitle string
 	ChannelOwner  string
+	Selected      bool
 }
