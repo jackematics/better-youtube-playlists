@@ -6,6 +6,7 @@ import (
 	"text/template"
 
 	"github.com/jackematics/better-youtube-playlists/helper/youtube_data"
+	"github.com/jackematics/better-youtube-playlists/model"
 	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
 
@@ -76,7 +77,7 @@ func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 		return
 	}
 
-	youtube_playlist, youtube_err := youtube_data.FetchYoutubeMetadata(playlist_id)
+	youtube_playlist_metadata_response, youtube_err := youtube_data.FetchYoutubePlaylistMetadata(playlist_id)
 
 	if youtube_err != nil {
 		page_data.SetValidationMessage(youtube_err.Message)
@@ -84,10 +85,26 @@ func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 		return
 	}
 
-	page_data.AddPlaylist(*youtube_playlist)
+	youtube_playlist_items_response, youtube_err := youtube_data.FetchYoutubePlaylistItems(playlist_id)
+
+	if youtube_err != nil {
+		page_data.SetValidationMessage(youtube_err.Message)
+		http.Error(writer, youtube_err.Message, youtube_err.Code)
+		return
+	}
+
+	playlist_model := model.Playlist{
+		PlaylistId:    playlist_id,
+		PlaylistTitle: youtube_playlist_metadata_response.Items[0].Snippet.Title,
+		ChannelOwner:  youtube_playlist_metadata_response.Items[0].Snippet.ChannelTitle,
+		TotalVideos:   youtube_playlist_items_response.PageInfo.TotalResults,
+		Selected:      false,
+	}
+
+	page_data.AddPlaylist(playlist_model)
 	page_data.ResetAddPlaylistValidation()
 
-	log.Println("Added playlist \"" + youtube_playlist.PlaylistTitle + "\" from playlist_id \"" + playlist_id + "\"")
+	log.Println("Added playlist \"" + playlist_model.PlaylistTitle + "\" from playlist_id \"" + playlist_id + "\"")
 	tmpl := template.Must(template.ParseFiles("templates/playlist-list-item.html"))
-	tmpl.ExecuteTemplate(writer, "playlist-list-item", youtube_playlist)
+	tmpl.ExecuteTemplate(writer, "playlist-list-item", playlist_model)
 }

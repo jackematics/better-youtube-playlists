@@ -17,6 +17,7 @@ func InitialiseState() model.Index {
 				PlaylistId:    "default-playlist-id",
 				PlaylistTitle: "No Playlist Selected",
 				ChannelOwner:  "",
+				TotalVideos:   0,
 				Selected:      false,
 			},
 		},

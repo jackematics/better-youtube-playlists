@@ -14,5 +14,6 @@ type Playlist struct {
 	PlaylistId    string
 	PlaylistTitle string
 	ChannelOwner  string
+	TotalVideos   int
 	Selected      bool
 }

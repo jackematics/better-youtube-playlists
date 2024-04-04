@@ -7,6 +7,8 @@
     {{ .PlaylistTitle }}
   </h2>
   <p class="text-white text-4xl font-semibold mt-8 ml-5">{{ .ChannelOwner }}</p>
-  <p class="text-white text-4xl font-semibold mt-12 ml-5">Videos: 2 / 467</p>
+  <p class="text-white text-4xl font-semibold mt-12 ml-5">
+    {{ if ne .TotalVideos 0 }} Videos: 2 / {{ .TotalVideos }} {{ end }}
+  </p>
 </div>
 {{ end }}

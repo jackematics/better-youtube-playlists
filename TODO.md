@@ -22,6 +22,7 @@ An improved user experience for anyone who likes to listen to music using Youtub
   - :white_check_mark: ~~Log error with youtube api key and return validation message to user~~
 - Select playlist
   - :white_check_mark: ~~Should populate the playlist description~~
+  - :white_check_mark: ~~Should highlight the selected playlist~~
   - Should populate playlist items
 - Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded
 - Complete metadata fetch validation
@@ -48,10 +49,11 @@ An improved user experience for anyone who likes to listen to music using Youtub
 - On video end: move to the next playlist item which also focuses it (Not sure how to test so didn't) :innocent:
 - On playlist end: stop
 
-### Playlist Details
+### Playlist Description
 
-- Default: title only, No Playlist Selected
-- On playlist selection: Show title, owner and number of videos
+- :white_check_mark: ~~Default: title only, No Playlist Selected~~
+- :white_check_mark: ~~On playlist selection: Show title~~
+- :white_check_mark: ~~On playlist selection: Show title, owner and number of videos~~
 - Show the index of the current video in the description
 
 ### Playlist Operations

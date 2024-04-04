@@ -107,6 +107,7 @@ func TestAddPlaylist(t *testing.T) {
 		PlaylistId:    "PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS",
 		PlaylistTitle: "Better Youtube Playlists",
 		ChannelOwner:  "Jack Rimmer",
+		TotalVideos:   6,
 		Selected:      false,
 	}
 
