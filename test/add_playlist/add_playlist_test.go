@@ -117,16 +117,16 @@ func TestAddPlaylist(t *testing.T) {
 
 	playlist_list_state := &page_data.IndexState.PlaylistListState
 
-	assert.Equal(t, playlist_item_data.PlaylistId, (*playlist_list_state)[1].PlaylistId)
-	assert.Equal(t, playlist_item_data.PlaylistTitle, (*playlist_list_state)[1].PlaylistTitle)
-	assert.Equal(t, playlist_item_data.ChannelOwner, (*playlist_list_state)[1].ChannelOwner)
+	assert.Equal(t, playlist_item_data.PlaylistId, (*playlist_list_state)[0].PlaylistId)
+	assert.Equal(t, playlist_item_data.PlaylistTitle, (*playlist_list_state)[0].PlaylistTitle)
+	assert.Equal(t, playlist_item_data.ChannelOwner, (*playlist_list_state)[0].ChannelOwner)
 
-	assert.Equal(t, 6, len((*playlist_list_state)[1].PlaylistItems))
-	assert.Equal(t, "snILjFUkk_A", ((*playlist_list_state)[1].PlaylistItems[0].Id))
-	assert.Equal(t, "Depeche Mode - Never Let Me Down Again (Official Video) (Heard on Episode 1 of The Last Of Us)", ((*playlist_list_state)[1].PlaylistItems[0].Title))
-	assert.Equal(t, "https://i.ytimg.com/vi/snILjFUkk_A/default.jpg", ((*playlist_list_state)[1].PlaylistItems[0].Thumbnail.Url))
-	assert.Equal(t, 120, ((*playlist_list_state)[1].PlaylistItems[0].Thumbnail.Width))
-	assert.Equal(t, 90, ((*playlist_list_state)[1].PlaylistItems[0].Thumbnail.Height))
+	assert.Equal(t, 6, len((*playlist_list_state)[0].PlaylistItems))
+	assert.Equal(t, "snILjFUkk_A", ((*playlist_list_state)[0].PlaylistItems[0].Id))
+	assert.Equal(t, "Depeche Mode - Never Let Me Down Again (Official Video) (Heard on Episode 1 of The Last Of Us)", ((*playlist_list_state)[0].PlaylistItems[0].Title))
+	assert.Equal(t, "https://i.ytimg.com/vi/snILjFUkk_A/default.jpg", ((*playlist_list_state)[0].PlaylistItems[0].Thumbnail.Url))
+	assert.Equal(t, 120, ((*playlist_list_state)[0].PlaylistItems[0].Thumbnail.Width))
+	assert.Equal(t, 90, ((*playlist_list_state)[0].PlaylistItems[0].Thumbnail.Height))
 
 	teardown()
 }
@@ -153,7 +153,7 @@ func TestAddPlaylistFailsWithDuplicatePlaylist(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 	assert.Equal(t, "Duplicate playlist id: PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS\n", string(recorder.Body.String()))
-	assert.Equal(t, 2, len(page_data.IndexState.PlaylistListState))
+	assert.Equal(t, 1, len(page_data.IndexState.PlaylistListState))
 
 	teardown()
 }

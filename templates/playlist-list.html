@@ -9,8 +9,8 @@
     Playlists
   </h2>
   <ul id="playlist-list" class="pl-3 flex flex-col">
-    {{ range $index, $playlist := . }} {{ if ne $index 0 }} {{ template
-    "playlist-list-item" $playlist }} {{ end }} {{ end }}
+    {{ range $index, $playlist := . }} {{ template "playlist-list-item"
+    $playlist }} {{ end }}
   </ul>
   <button
     class="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-[14.75rem] h-11 rounded-lg border-2 flex bg-warm-green-button hover:bg-warm-green-button-hover active:bg-warm-green-button-active"

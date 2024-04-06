@@ -29,7 +29,8 @@
             />
           </div>
         </div>
-        {{ template "playlist-description" getSelected }}
+        {{ $selected := getSelected .PlaylistListState }} {{ template
+        "playlist-description" $selected }}
         <!-- playlist operations -->
         <div
           class="bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 pt-2 pb-2 pl-6 flex-auto"
@@ -78,7 +79,7 @@
           </div>
         </div>
         <!-- playlist items -->
-        {{ template "playlist-items" index .PlaylistListState 0}}
+        {{ template "playlist-items" index $selected }}
       </div>
     </div>
     {{ template "add-playlist-modal" .ModalState }}

@@ -74,7 +74,7 @@ func TestHighlightSelectedPlaylist(t *testing.T) {
 	body, err := io.ReadAll(recorder.Body)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, test_utils.ParseTemplateToString("playlist-list", []string{"templates/playlist-list.html", "templates/playlist-list-item.html"}, page_data.IndexState.PlaylistListState), string(body))
-	assert.Equal(t, true, page_data.IndexState.PlaylistListState[2].Selected)
+	assert.Equal(t, true, page_data.IndexState.PlaylistListState[1].Selected)
 
 	teardown()
 }
@@ -114,7 +114,7 @@ func TestPopulatePlaylistItems(t *testing.T) {
 	body, err := io.ReadAll(recorder.Body)
 
 	assert.Equal(t, nil, err)
-	assert.Equal(t, test_utils.ParseTemplateToString("playlist-items", []string{"templates/playlist-items.html", "templates/playlist-item.html"}, page_data.IndexState.PlaylistListState[1]), string(body))
+	assert.Equal(t, test_utils.ParseTemplateToString("playlist-items", []string{"templates/playlist-items.html", "templates/playlist-item.html"}, page_data.IndexState.PlaylistListState[0]), string(body))
 
 	teardown()
 }
