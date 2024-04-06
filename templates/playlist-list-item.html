@@ -19,4 +19,10 @@
   hx-trigger="click from:#li-{{ .PlaylistId }}"
   hx-swap="outerHTML"
 ></div>
+<div
+  hx-target="#playlist-items"
+  hx-get="/populate-playlist-items/{{ .PlaylistId }}"
+  hx-trigger="click from:#li-{{ .PlaylistId }}"
+  hx-swap="outerHTML"
+></div>
 {{ end }}

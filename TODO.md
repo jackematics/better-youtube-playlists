@@ -23,16 +23,16 @@ An improved user experience for anyone who likes to listen to music using Youtub
 - Select playlist
   - :white_check_mark: ~~Should populate the playlist description~~
   - :white_check_mark: ~~Should highlight the selected playlist~~
-  - Should populate playlist items
+  - :bulb: Should populate playlist items
 - Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded
 - Complete metadata fetch validation
 - Option to delete playlists
 
 ### Playlist Items
 
-- Items UI
-- Default: Empty container
-- List playlist items of selected playlist
+- :white_check_mark: ~~Items UI~~
+- :white_check_mark: ~~Default: Empty container~~
+- :bulb: List playlist items of selected playlist
   - Item number, thumbnail, video title
 - Scroll through items
 - Selecting an item highlights it

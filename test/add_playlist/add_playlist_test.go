@@ -115,9 +115,18 @@ func TestAddPlaylist(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.Equal(t, test_utils.ParseTemplateToString("playlist-list-item", []string{"templates/playlist-list-item.html"}, playlist_item_data), string(body))
 
-	assert.Equal(t, playlist_item_data.PlaylistId, page_data.IndexState.PlaylistListState[1].PlaylistId)
-	assert.Equal(t, playlist_item_data.PlaylistTitle, page_data.IndexState.PlaylistListState[1].PlaylistTitle)
-	assert.Equal(t, playlist_item_data.ChannelOwner, page_data.IndexState.PlaylistListState[1].ChannelOwner)
+	playlist_list_state := &page_data.IndexState.PlaylistListState
+
+	assert.Equal(t, playlist_item_data.PlaylistId, (*playlist_list_state)[1].PlaylistId)
+	assert.Equal(t, playlist_item_data.PlaylistTitle, (*playlist_list_state)[1].PlaylistTitle)
+	assert.Equal(t, playlist_item_data.ChannelOwner, (*playlist_list_state)[1].ChannelOwner)
+
+	assert.Equal(t, 6, len((*playlist_list_state)[1].PlaylistItems))
+	assert.Equal(t, "snILjFUkk_A", ((*playlist_list_state)[1].PlaylistItems[0].Id))
+	assert.Equal(t, "Depeche Mode - Never Let Me Down Again (Official Video) (Heard on Episode 1 of The Last Of Us)", ((*playlist_list_state)[1].PlaylistItems[0].Title))
+	assert.Equal(t, "https://i.ytimg.com/vi/snILjFUkk_A/default.jpg", ((*playlist_list_state)[1].PlaylistItems[0].Thumbnail.Url))
+	assert.Equal(t, 120, ((*playlist_list_state)[1].PlaylistItems[0].Thumbnail.Width))
+	assert.Equal(t, 90, ((*playlist_list_state)[1].PlaylistItems[0].Thumbnail.Height))
 
 	teardown()
 }

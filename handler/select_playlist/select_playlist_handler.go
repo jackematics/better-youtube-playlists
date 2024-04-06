@@ -6,6 +6,7 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/jackematics/better-youtube-playlists/helper/func_map"
 	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
 
@@ -18,6 +19,7 @@ func SetPlaylistDescriptionHandler(writer http.ResponseWriter, reader *http.Requ
 		log.Println("No playlist description exists for id " + playlist_id)
 
 		http.Error(writer, "No playlist description exists for "+playlist_id, http.StatusBadRequest)
+		return
 	}
 
 	log.Println("Selected description for playlist \"" + selected_playlist_data.PlaylistTitle + "\" from playlist_id \"" + playlist_id + "\"")
@@ -33,8 +35,24 @@ func HighlightSelectedPlaylist(writer http.ResponseWriter, reader *http.Request)
 
 	if !ok {
 		http.Error(writer, "No playlists exist for "+playlist_id, http.StatusBadRequest)
+		return
 	}
 
 	tmpl := template.Must(template.ParseFiles("templates/playlist-list-item.html", "templates/playlist-list.html"))
 	tmpl.ExecuteTemplate(writer, "playlist-list", page_data.IndexState.PlaylistListState)
+}
+
+func PopulatePlaylistItems(writer http.ResponseWriter, reader *http.Request) {
+	url_parts := strings.Split(reader.URL.Path, "/")
+	playlist_id := url_parts[len(url_parts)-1]
+
+	selectedPlaylistIndex := page_data.GetPlaylistIndex(playlist_id)
+
+	if selectedPlaylistIndex == -1 {
+		http.Error(writer, "No playlist selected", http.StatusBadRequest)
+		return
+	}
+
+	tmpl := template.Must(template.New("playlist-items").Funcs(func_map.Index).ParseFiles("templates/playlist-items.html", "templates/playlist-item.html"))
+	tmpl.ExecuteTemplate(writer, "playlist-items", page_data.IndexState.PlaylistListState[selectedPlaylistIndex])
 }

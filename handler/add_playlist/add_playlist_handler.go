@@ -93,12 +93,29 @@ func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 		return
 	}
 
+	playlist_items := []model.PlaylistItem{}
+	for i := range youtube_playlist_items_response.Items {
+		response_item := youtube_playlist_items_response.Items[i]
+		item := model.PlaylistItem{
+			Id:    response_item.Snippet.ResourceId.VideoId,
+			Title: response_item.Snippet.Title,
+			Thumbnail: model.Thumbnail{
+				Url:    response_item.Snippet.Thumbnails.Default.Url,
+				Width:  response_item.Snippet.Thumbnails.Default.Width,
+				Height: response_item.Snippet.Thumbnails.Default.Height,
+			},
+		}
+
+		playlist_items = append(playlist_items, item)
+	}
+
 	playlist_model := model.Playlist{
 		PlaylistId:    playlist_id,
 		PlaylistTitle: youtube_playlist_metadata_response.Items[0].Snippet.Title,
 		ChannelOwner:  youtube_playlist_metadata_response.Items[0].Snippet.ChannelTitle,
 		TotalVideos:   youtube_playlist_items_response.PageInfo.TotalResults,
 		Selected:      false,
+		PlaylistItems: playlist_items,
 	}
 
 	page_data.AddPlaylist(playlist_model)

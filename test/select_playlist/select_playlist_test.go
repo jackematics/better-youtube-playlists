@@ -50,12 +50,14 @@ func TestHighlightSelectedPlaylist(t *testing.T) {
 			PlaylistTitle: "Test Playlist 1",
 			ChannelOwner:  "Test Owner 1",
 			Selected:      false,
+			PlaylistItems: []model.PlaylistItem{},
 		},
 		{
 			PlaylistId:    "test-id-2",
 			PlaylistTitle: "Test Playlist 2",
 			ChannelOwner:  "Test Owner 2",
 			Selected:      true,
+			PlaylistItems: []model.PlaylistItem{},
 		},
 	}
 
@@ -72,6 +74,47 @@ func TestHighlightSelectedPlaylist(t *testing.T) {
 	body, err := io.ReadAll(recorder.Body)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, test_utils.ParseTemplateToString("playlist-list", []string{"templates/playlist-list.html", "templates/playlist-list-item.html"}, page_data.IndexState.PlaylistListState), string(body))
+	assert.Equal(t, true, page_data.IndexState.PlaylistListState[2].Selected)
+
+	teardown()
+}
+
+func TestPopulatePlaylistItems(t *testing.T) {
+	test_playlist_id := "test-id"
+	playlist_list_state := []model.Playlist{
+		{
+			PlaylistId:    test_playlist_id,
+			PlaylistTitle: "Test Playlist",
+			ChannelOwner:  "Test Owner",
+			Selected:      true,
+			PlaylistItems: []model.PlaylistItem{
+				{
+					Id:    "test-video-id",
+					Title: "Test Video Title",
+					Thumbnail: model.Thumbnail{
+						Url:    "https://test-thumbnail.com/id/default.jpg",
+						Width:  100,
+						Height: 100,
+					},
+				},
+			},
+		},
+	}
+
+	page_data.IndexState.PlaylistListState = append(page_data.IndexState.PlaylistListState, playlist_list_state...)
+
+	req, err := http.NewRequest("GET", "/populate-playlist-items/"+test_playlist_id, nil)
+
+	assert.Equal(t, nil, err)
+
+	recorder := httptest.NewRecorder()
+
+	select_playlist.PopulatePlaylistItems(recorder, req)
+
+	body, err := io.ReadAll(recorder.Body)
+
+	assert.Equal(t, nil, err)
+	assert.Equal(t, test_utils.ParseTemplateToString("playlist-items", []string{"templates/playlist-items.html", "templates/playlist-item.html"}, page_data.IndexState.PlaylistListState[1]), string(body))
 
 	teardown()
 }

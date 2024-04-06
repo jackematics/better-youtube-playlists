@@ -19,6 +19,7 @@ func InitialiseState() model.Index {
 				ChannelOwner:  "",
 				TotalVideos:   0,
 				Selected:      false,
+				PlaylistItems: []model.PlaylistItem{},
 			},
 		},
 	}
@@ -66,4 +67,16 @@ func SetSelectedPage(playlist_id string) bool {
 	}
 
 	return selected_found
+}
+
+func GetPlaylistIndex(playlist_id string) int {
+	playlists := IndexState.PlaylistListState
+
+	for i := range playlists {
+		if playlists[i].PlaylistId == playlist_id {
+			return i
+		}
+	}
+
+	return -1
 }
