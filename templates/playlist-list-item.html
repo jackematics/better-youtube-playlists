@@ -9,7 +9,7 @@
 </li>
 <div
   hx-target="#playlist-description"
-  hx-get="/set-playlist-description?playlist_id={{ .PlaylistId }}"
+  hx-get="/set-playlist-description/{{ .PlaylistId }}"
   hx-trigger="click from:#li-{{ .PlaylistId }}"
   hx-swap="outerHTML"
 ></div>

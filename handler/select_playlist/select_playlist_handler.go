@@ -11,7 +11,8 @@ import (
 )
 
 func SetPlaylistDescriptionHandler(writer http.ResponseWriter, reader *http.Request) {
-	playlist_id := reader.URL.Query().Get("playlist_id")
+	url_parts := strings.Split(reader.URL.Path, "/")
+	playlist_id := url_parts[len(url_parts)-1]
 
 	selected_playlist_data, found := page_data.FindPlaylist(playlist_id)
 
@@ -53,6 +54,6 @@ func PopulatePlaylistItems(writer http.ResponseWriter, reader *http.Request) {
 		return
 	}
 
-	tmpl := template.Must(template.New("playlist-items").Funcs(func_map.Index).ParseFiles("templates/playlist-items.html", "templates/playlist-item.html"))
+	tmpl := template.Must(template.New("playlist-items").Funcs(func_map.PageFuncs).ParseFiles("templates/playlist-items.html", "templates/playlist-item.html"))
 	tmpl.ExecuteTemplate(writer, "playlist-items", page_data.IndexState.PlaylistListState[selectedPlaylistIndex])
 }

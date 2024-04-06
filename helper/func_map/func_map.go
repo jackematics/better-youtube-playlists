@@ -4,6 +4,7 @@ import (
 	"text/template"
 
 	"github.com/jackematics/better-youtube-playlists/model"
+	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
 
 type ItemWithNumber struct {
@@ -13,7 +14,7 @@ type ItemWithNumber struct {
 	ItemNumber int
 }
 
-var getItemWithNumber = func(playlistItem model.PlaylistItem, arrayIndex int) ItemWithNumber {
+func getItemWithNumber(playlistItem model.PlaylistItem, arrayIndex int) ItemWithNumber {
 	return ItemWithNumber{
 		Id:         playlistItem.Id,
 		Title:      playlistItem.Title,
@@ -22,6 +23,17 @@ var getItemWithNumber = func(playlistItem model.PlaylistItem, arrayIndex int) It
 	}
 }
 
-var Index = template.FuncMap{
+func getSelected() *model.Playlist {
+	selectedPlaylist, ok := page_data.FindSelected()
+
+	if !ok {
+		return &page_data.NilPlaylist
+	}
+
+	return selectedPlaylist
+}
+
+var PageFuncs = template.FuncMap{
 	"getItemWithNumber": getItemWithNumber,
+	"getSelected":       getSelected,
 }

@@ -1,8 +1,4 @@
-# better-youtube-playlists
-
-An improved user experience for anyone who likes to listen to music using Youtube playlists but finds Youtube's current implementation lacking.
-
-## To Do
+# TODO
 
 ### Playlist List
 
@@ -23,7 +19,7 @@ An improved user experience for anyone who likes to listen to music using Youtub
 - Select playlist
   - :white_check_mark: ~~Should populate the playlist description~~
   - :white_check_mark: ~~Should highlight the selected playlist~~
-  - :bulb: Should populate playlist items
+  - :white_check_mark: ~~Should populate playlist items~~
 - Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded
 - Complete metadata fetch validation
 - Option to delete playlists
@@ -32,9 +28,9 @@ An improved user experience for anyone who likes to listen to music using Youtub
 
 - :white_check_mark: ~~Items UI~~
 - :white_check_mark: ~~Default: Empty container~~
-- :bulb: List playlist items of selected playlist
-  - Item number, thumbnail, video title
-- Scroll through items
+- :white_check_mark: ~~List playlist items of selected playlist~~
+  - :white_check_mark: ~~Item number, thumbnail, video title~~
+- :white_check_mark: ~~Scroll through items~~
 - Selecting an item highlights it
 - Playlist titles beyond a certain character length move to the next line
 - Selecting an item scrolls that item to the middle of the container
@@ -74,6 +70,7 @@ An improved user experience for anyone who likes to listen to music using Youtub
 
 - Description and Playlist Items shrinks on lower screen sizes
 - Fix skipping through playlist quickly bug
+- Make it accessible
 
 ### Stretch Goals
 

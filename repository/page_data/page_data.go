@@ -6,6 +6,15 @@ import (
 
 var IndexState = InitialiseState()
 
+var NilPlaylist = model.Playlist{
+	PlaylistId:    "default-playlist-id",
+	PlaylistTitle: "No Playlist Selected",
+	ChannelOwner:  "",
+	TotalVideos:   0,
+	Selected:      false,
+	PlaylistItems: []model.PlaylistItem{},
+}
+
 func InitialiseState() model.Index {
 	return model.Index{
 		ModalState: model.Modal{
@@ -79,4 +88,17 @@ func GetPlaylistIndex(playlist_id string) int {
 	}
 
 	return -1
+}
+
+func FindSelected() (*model.Playlist, bool) {
+	playlists := &IndexState.PlaylistListState
+
+	for i := range *playlists {
+		playlist := &(*playlists)[i]
+		if (*playlists)[i].Selected {
+			return playlist, true
+		}
+	}
+
+	return nil, false
 }

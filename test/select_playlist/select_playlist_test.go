@@ -28,7 +28,7 @@ func TestSetPlaylistDescriptionHandler(t *testing.T) {
 
 	page_data.IndexState.PlaylistListState = append(page_data.IndexState.PlaylistListState, playlist_item_data)
 
-	req, err := http.NewRequest("GET", "/set-playlist-description?playlist_id=PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS", nil)
+	req, err := http.NewRequest("GET", "/set-playlist-description/PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS", nil)
 
 	assert.Equal(t, nil, err)
 

@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	tmpl := template.Must(template.New("index").Funcs(func_map.Index).ParseGlob("templates/*.html"))
+	tmpl := template.Must(template.New("index").Funcs(func_map.PageFuncs).ParseGlob("templates/*.html"))
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
@@ -23,7 +23,7 @@ func main() {
 	http.HandleFunc("/toggle-add-playlist-modal", add_playlist.ToggleAddPlaylistModalHandler)
 	http.HandleFunc("/toggle-add-playlist-modal-with-validation", add_playlist.ToggleAddPlaylistModalWithValidationHandler)
 	http.HandleFunc("/add-playlist", add_playlist.AddPlaylistHandler)
-	http.HandleFunc("/set-playlist-description", select_playlist.SetPlaylistDescriptionHandler)
+	http.HandleFunc("/set-playlist-description/", select_playlist.SetPlaylistDescriptionHandler)
 	http.HandleFunc("/highlight-selected-playlist/", select_playlist.HighlightSelectedPlaylist)
 	http.HandleFunc("/populate-playlist-items/", select_playlist.PopulatePlaylistItems)
 
