@@ -3,9 +3,7 @@
   id="playlist-list-container"
   class="bg-container-dark-blue min-w-[16rem] border-4 relative rounded-lg col-span-1 row-span-3 flex-none"
 >
-  <h2
-    class="text-white text-4xl font-bold pl-5 pt-5 pb-5 inline-block truncate"
-  >
+  <h2 class="text-white text-4xl pl-5 pt-5 pb-5 inline-block truncate">
     Playlists
   </h2>
   <ul id="playlist-list" class="pl-3 flex flex-col">
@@ -13,7 +11,7 @@
     $playlist }} {{ end }}
   </ul>
   <button
-    class="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-[14.75rem] h-11 rounded-lg border-2 flex bg-warm-green-button hover:bg-warm-green-button-hover active:bg-warm-green-button-active"
+    class="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-[14.75rem] h-11 rounded-lg border-2 flex bg-warm-orange hover:bg-warm-orange-hover"
     hx-get="/toggle-add-playlist-modal"
     hx-target="#add-playlist-modal-container"
     hx-trigger="click"
@@ -29,7 +27,9 @@
         height="24"
       />
     </div>
-    <div class="text-white text-3xl pl-3 pt-0.5">Add Playlist</div>
+    <div class="text-white text-3xl font-semibold pl-3 pt-0.5">
+      Add Playlist
+    </div>
   </button>
 </div>
 {{ end }}

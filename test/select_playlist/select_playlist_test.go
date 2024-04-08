@@ -92,9 +92,7 @@ func TestPopulatePlaylistItems(t *testing.T) {
 					Id:    "test-video-id",
 					Title: "Test Video Title",
 					Thumbnail: model.Thumbnail{
-						Url:    "https://test-thumbnail.com/id/default.jpg",
-						Width:  100,
-						Height: 100,
+						Url: "https://test-thumbnail.com/id/default.jpg",
 					},
 				},
 			},

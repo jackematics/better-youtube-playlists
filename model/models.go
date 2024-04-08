@@ -11,9 +11,7 @@ type Modal struct {
 }
 
 type Thumbnail struct {
-	Url    string
-	Width  int
-	Height int
+	Url string
 }
 
 type PlaylistItem struct {

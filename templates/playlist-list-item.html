@@ -1,7 +1,7 @@
 {{ block "playlist-list-item" . }}
 <li id="li-{{ .PlaylistId }}" key="{{ .PlaylistId }}" class="mb-2">
   <option
-    class="w-11/12 pl-2 pb-1 pt-1 pr-6 text-2xl text-left rounded-2xl cursor-pointer truncate text-white {{ if .Selected }} bg-warm-green-button {{ end }} hover:bg-warm-green-button-hover"
+    class="mr-3 pl-2 pr-2 pb-1 pt-1 text-2xl text-left rounded-2xl cursor-pointer truncate font-medium text-white {{ if .Selected }} bg-warm-orange {{ end }} hover:bg-warm-orange-hover"
     title="{{ .PlaylistTitle }}"
   >
     {{ .PlaylistTitle }}

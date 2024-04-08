@@ -125,8 +125,6 @@ func TestAddPlaylist(t *testing.T) {
 	assert.Equal(t, "snILjFUkk_A", ((*playlist_list_state)[0].PlaylistItems[0].Id))
 	assert.Equal(t, "Depeche Mode - Never Let Me Down Again (Official Video) (Heard on Episode 1 of The Last Of Us)", ((*playlist_list_state)[0].PlaylistItems[0].Title))
 	assert.Equal(t, "https://i.ytimg.com/vi/snILjFUkk_A/default.jpg", ((*playlist_list_state)[0].PlaylistItems[0].Thumbnail.Url))
-	assert.Equal(t, 120, ((*playlist_list_state)[0].PlaylistItems[0].Thumbnail.Width))
-	assert.Equal(t, 90, ((*playlist_list_state)[0].PlaylistItems[0].Thumbnail.Height))
 
 	teardown()
 }

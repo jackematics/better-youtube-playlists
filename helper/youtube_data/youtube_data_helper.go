@@ -94,9 +94,7 @@ func FetchYoutubePlaylistMetadata(playlist_id string) (*YoutubePlaylistMetadataR
 }
 
 type Thumbnail struct {
-	Url    string `json:"url"`
-	Width  int    `json:"width"`
-	Height int    `json:"height"`
+	Url string `json:"url"`
 }
 
 type Thumbnails struct {

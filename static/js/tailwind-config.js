@@ -20,6 +20,8 @@ tailwind.config = {
       "eggshell-white": "#E9DCC9",
       black: "#000000",
       white: "#FFFFFF",
+      "warm-orange": "#cc5c23",
+      "warm-orange-hover": "#cc6d3d"
     },
     extend: {
       backgroundImage: {

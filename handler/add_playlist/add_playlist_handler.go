@@ -100,9 +100,7 @@ func AddPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 			Id:    response_item.Snippet.ResourceId.VideoId,
 			Title: response_item.Snippet.Title,
 			Thumbnail: model.Thumbnail{
-				Url:    response_item.Snippet.Thumbnails.Default.Url,
-				Width:  response_item.Snippet.Thumbnails.Default.Width,
-				Height: response_item.Snippet.Thumbnails.Default.Height,
+				Url: response_item.Snippet.Thumbnails.Default.Url,
 			},
 		}
 
