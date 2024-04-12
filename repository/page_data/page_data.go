@@ -44,7 +44,7 @@ func FindPlaylist(playlist_id string) (*model.Playlist, bool) {
 	return nil, false
 }
 
-func SetSelectedPage(playlist_id string) bool {
+func SetSelectedPlaylist(playlist_id string) bool {
 	playlists := &IndexState.PlaylistListState
 
 	selected_found := false
@@ -70,4 +70,35 @@ func GetPlaylistIndex(playlist_id string) int {
 	}
 
 	return -1
+}
+
+func GetSelectedPlaylistIndex() int {
+	selected_playlist_index := -1
+	for i, playlist := range IndexState.PlaylistListState {
+		if playlist.Selected {
+			selected_playlist_index = i
+			break
+		}
+	}
+
+	return selected_playlist_index
+}
+
+func SetSelectedPlaylistItem(playlist_item_id string, selected_playlist_index int) int {
+	if selected_playlist_index == -1 {
+		return -1
+	}
+
+	selected_playlist_item_index := -1
+	playlist_items_ref := &IndexState.PlaylistListState[selected_playlist_index].PlaylistItems
+	for i := range *playlist_items_ref {
+		if (*playlist_items_ref)[i].Id == playlist_item_id {
+			(*playlist_items_ref)[i].Selected = true
+			selected_playlist_item_index = i
+		} else {
+			(*playlist_items_ref)[i].Selected = false
+		}
+	}
+
+	return selected_playlist_item_index
 }

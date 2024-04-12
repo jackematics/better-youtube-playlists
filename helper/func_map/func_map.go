@@ -7,18 +7,20 @@ import (
 )
 
 type ItemWithNumber struct {
-	Id         string
-	Title      string
-	Thumbnail  model.Thumbnail
-	ItemNumber int
+	Id           string
+	Title        string
+	ThumbnailUrl string
+	ItemNumber   int
+	Selected     bool
 }
 
 func getItemWithNumber(playlistItem model.PlaylistItem, arrayIndex int) ItemWithNumber {
 	return ItemWithNumber{
-		Id:         playlistItem.Id,
-		Title:      playlistItem.Title,
-		Thumbnail:  playlistItem.Thumbnail,
-		ItemNumber: arrayIndex + 1,
+		Id:           playlistItem.Id,
+		Title:        playlistItem.Title,
+		ThumbnailUrl: playlistItem.ThumbnailUrl,
+		ItemNumber:   arrayIndex + 1,
+		Selected:     playlistItem.Selected,
 	}
 }
 

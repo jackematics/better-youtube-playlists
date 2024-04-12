@@ -7,6 +7,7 @@ import (
 
 	"github.com/jackematics/better-youtube-playlists/handler/add_playlist"
 	"github.com/jackematics/better-youtube-playlists/handler/select_playlist"
+	"github.com/jackematics/better-youtube-playlists/handler/select_playlist_item"
 	"github.com/jackematics/better-youtube-playlists/helper/func_map"
 	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
@@ -26,6 +27,7 @@ func main() {
 	http.HandleFunc("/set-playlist-description/", select_playlist.SetPlaylistDescriptionHandler)
 	http.HandleFunc("/highlight-selected-playlist/", select_playlist.HighlightSelectedPlaylist)
 	http.HandleFunc("/populate-playlist-items/", select_playlist.PopulatePlaylistItems)
+	http.HandleFunc("/highlight-selected-playlist-item/", select_playlist_item.HighlightSelectedPlaylistItem)
 
 	fmt.Println("Server started on :8000")
 	http.ListenAndServe(":8000", nil)

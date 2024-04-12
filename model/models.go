@@ -10,14 +10,11 @@ type Modal struct {
 	ValidationMessage string
 }
 
-type Thumbnail struct {
-	Url string
-}
-
 type PlaylistItem struct {
-	Id        string
-	Title     string
-	Thumbnail Thumbnail
+	Id           string
+	Title        string
+	ThumbnailUrl string
+	Selected     bool
 }
 
 type Playlist struct {

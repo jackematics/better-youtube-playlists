@@ -20,9 +20,8 @@
   - :white_check_mark: ~~Should populate the playlist description~~
   - :white_check_mark: ~~Should highlight the selected playlist~~
   - :white_check_mark: ~~Should populate playlist items~~
-- Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded
-- Complete metadata fetch validation
 - Option to delete playlists
+- Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded
 
 ### Playlist Items
 
@@ -31,7 +30,7 @@
 - :white_check_mark: ~~List playlist items of selected playlist~~
   - :white_check_mark: ~~Item number, thumbnail, video title~~
 - :white_check_mark: ~~Scroll through items~~
-- Selecting an item highlights it
+- :bulb: Selecting an item highlights it
 - Playlist titles beyond a certain character length move to the next line
 - Selecting an item scrolls that item to the middle of the container
 - Validate items fetch

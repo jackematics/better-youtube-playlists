@@ -10,6 +10,21 @@ import (
 	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
 
+func HighlightSelectedPlaylist(writer http.ResponseWriter, reader *http.Request) {
+	url_parts := strings.Split(reader.URL.Path, "/")
+	playlist_id := url_parts[len(url_parts)-1]
+
+	ok := page_data.SetSelectedPlaylist(playlist_id)
+
+	if !ok {
+		http.Error(writer, "No playlist exists with id "+playlist_id, http.StatusBadRequest)
+		return
+	}
+
+	tmpl := template.Must(template.ParseFiles("templates/playlist-list-item.html", "templates/playlist-list.html"))
+	tmpl.ExecuteTemplate(writer, "playlist-list", page_data.IndexState.PlaylistListState)
+}
+
 func SetPlaylistDescriptionHandler(writer http.ResponseWriter, reader *http.Request) {
 	url_parts := strings.Split(reader.URL.Path, "/")
 	playlist_id := url_parts[len(url_parts)-1]
@@ -26,21 +41,6 @@ func SetPlaylistDescriptionHandler(writer http.ResponseWriter, reader *http.Requ
 	log.Println("Selected description for playlist \"" + selected_playlist_data.PlaylistTitle + "\" from playlist_id \"" + playlist_id + "\"")
 	tmpl := template.Must(template.ParseFiles("templates/playlist-description.html"))
 	tmpl.ExecuteTemplate(writer, "playlist-description", selected_playlist_data)
-}
-
-func HighlightSelectedPlaylist(writer http.ResponseWriter, reader *http.Request) {
-	url_parts := strings.Split(reader.URL.Path, "/")
-	playlist_id := url_parts[len(url_parts)-1]
-
-	ok := page_data.SetSelectedPage(playlist_id)
-
-	if !ok {
-		http.Error(writer, "No playlists exist for "+playlist_id, http.StatusBadRequest)
-		return
-	}
-
-	tmpl := template.Must(template.ParseFiles("templates/playlist-list-item.html", "templates/playlist-list.html"))
-	tmpl.ExecuteTemplate(writer, "playlist-list", page_data.IndexState.PlaylistListState)
 }
 
 func PopulatePlaylistItems(writer http.ResponseWriter, reader *http.Request) {

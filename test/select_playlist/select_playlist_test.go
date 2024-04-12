@@ -89,11 +89,10 @@ func TestPopulatePlaylistItems(t *testing.T) {
 			Selected:      true,
 			PlaylistItems: []model.PlaylistItem{
 				{
-					Id:    "test-video-id",
-					Title: "Test Video Title",
-					Thumbnail: model.Thumbnail{
-						Url: "https://test-thumbnail.com/id/default.jpg",
-					},
+					Id:           "test-video-id",
+					Title:        "Test Video Title",
+					ThumbnailUrl: "https://test-thumbnail.com/id/default.jpg",
+					Selected:     false,
 				},
 			},
 		},
