@@ -1,6 +1,8 @@
 package page_data
 
 import (
+	"errors"
+
 	"github.com/jackematics/better-youtube-playlists/model"
 )
 
@@ -101,4 +103,21 @@ func SetSelectedPlaylistItem(playlist_item_id string, selected_playlist_index in
 	}
 
 	return selected_playlist_item_index
+}
+
+func GetSelectedPlaylistItem(playlist_item_id string) (*model.PlaylistItem, error) {
+	selected_playlist_index := GetSelectedPlaylistIndex()
+
+	if selected_playlist_index == -1 {
+		return nil, errors.New("no playlist selected")
+	}
+
+	playlist_items_ref := &IndexState.PlaylistListState[selected_playlist_index].PlaylistItems
+	for i := range *playlist_items_ref {
+		if (*playlist_items_ref)[i].Id == playlist_item_id {
+			return &(*playlist_items_ref)[i], nil
+		}
+	}
+
+	return nil, errors.New("no playlist item found with id: " + playlist_item_id)
 }

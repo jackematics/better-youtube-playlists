@@ -30,17 +30,17 @@
 - :white_check_mark: ~~List playlist items of selected playlist~~
   - :white_check_mark: ~~Item number, thumbnail, video title~~
 - :white_check_mark: ~~Scroll through items~~
-- :bulb: Selecting an item highlights it
-- Playlist titles beyond a certain character length move to the next line
+- :white_check_mark: ~~Selecting an item highlights it~~
+- :white_check_mark: ~~Playlist titles beyond a certain character length are truncated~~
 - Selecting an item scrolls that item to the middle of the container
 - Validate items fetch
 - Load more than 50 items on playlist select
 
 ### Video Player
 
-- Default: show a graphic
+- :white_check_mark: ~~Default: show a graphic~~
+- :white_check_mark: ~~On playlist item select: display and play video corresponding to selected item~~
 - On playlist select: Play the first video in the list
-- On playlist item select: display and play video corresponding to selected item
 - On video end: move to the next playlist item which also focuses it (Not sure how to test so didn't) :innocent:
 - On playlist end: stop
 

@@ -33,7 +33,7 @@ var nilPlaylist = model.Playlist{
 	PlaylistItems: []model.PlaylistItem{},
 }
 
-func getSelected(playlist_list []model.Playlist) model.Playlist {
+func getSelectedPlaylist(playlist_list []model.Playlist) model.Playlist {
 	for i := range playlist_list {
 		playlist := (playlist_list)[i]
 		if (playlist_list)[i].Selected {
@@ -44,7 +44,25 @@ func getSelected(playlist_list []model.Playlist) model.Playlist {
 	return nilPlaylist
 }
 
+var nilPlaylistItem = model.PlaylistItem{
+	Id:           "",
+	Title:        "",
+	ThumbnailUrl: "",
+	Selected:     false,
+}
+
+func getSelectedPlaylistItem(playlist model.Playlist) *model.PlaylistItem {
+	for _, item := range playlist.PlaylistItems {
+		if item.Selected {
+			return &item
+		}
+	}
+
+	return &nilPlaylistItem
+}
+
 var PageFuncs = template.FuncMap{
-	"getItemWithNumber": getItemWithNumber,
-	"getSelected":       getSelected,
+	"getItemWithNumber":       getItemWithNumber,
+	"getSelectedPlaylist":     getSelectedPlaylist,
+	"getSelectedPlaylistItem": getSelectedPlaylistItem,
 }

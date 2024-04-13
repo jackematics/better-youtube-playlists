@@ -69,7 +69,7 @@ func TestHighlightSelectedPlaylist(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 
-	select_playlist.HighlightSelectedPlaylist(recorder, req)
+	select_playlist.HighlightSelectedPlaylistHandler(recorder, req)
 
 	body, err := io.ReadAll(recorder.Body)
 	assert.Equal(t, nil, err)
@@ -106,7 +106,7 @@ func TestPopulatePlaylistItems(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 
-	select_playlist.PopulatePlaylistItems(recorder, req)
+	select_playlist.PopulatePlaylistItemsHandler(recorder, req)
 
 	body, err := io.ReadAll(recorder.Body)
 

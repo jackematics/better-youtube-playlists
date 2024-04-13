@@ -15,22 +15,11 @@
       <div
         class="grid grid-rows-[1fr,0.2fr,1.8fr] grid-cols-[0.45fr,1.1fr,1.35fr] gap-3 h-full w-full p-3 flex"
       >
-        {{ template "playlist-list" .PlaylistListState }}
-        <!-- youtube embed -->
-        <div
-          class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-2 pt-2 pr-2 pl-2 pb-2 min-w-[32.5rem]"
-        >
-          <div class="w-full h-full bg-black grid place-items-center relative">
-            <img
-              src="/static/assets/logos/jackematica-logo.svg"
-              alt="page-logo"
-              width="210"
-              height="210"
-            />
-          </div>
-        </div>
-        {{ $selected := getSelected .PlaylistListState }} {{ template
-        "playlist-description" $selected }}
+        {{ $selectedPlaylist := getSelectedPlaylist .PlaylistListState }} {{
+        $selectedPlaylistItem := getSelectedPlaylistItem $selectedPlaylist }} {{
+        template "playlist-list" .PlaylistListState }} {{ template
+        "youtube-embed" $selectedPlaylistItem }} {{ template
+        "playlist-description" $selectedPlaylist }}
         <!-- playlist operations -->
         <div
           class="bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 pt-2 pb-2 pl-6 flex-auto"
@@ -79,7 +68,7 @@
           </div>
         </div>
         <!-- playlist items -->
-        {{ template "playlist-items" index $selected }}
+        {{ template "playlist-items" index $selectedPlaylist }}
       </div>
     </div>
     {{ template "add-playlist-modal" .ModalState }}

@@ -22,4 +22,10 @@
   hx-trigger="click from:#li-{{ .Id }}"
   hx-swap="outerHTML"
 ></div>
+<div
+  hx-target="#youtube-embed"
+  hx-get="/play-selected-playlist-item/{{ .Id }}"
+  hx-trigger="click from:#li-{{ .Id }}"
+  hx-swap="outerHTML"
+></div>
 {{ end }}

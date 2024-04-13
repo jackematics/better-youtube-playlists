@@ -10,7 +10,7 @@ import (
 	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
 
-func HighlightSelectedPlaylist(writer http.ResponseWriter, reader *http.Request) {
+func HighlightSelectedPlaylistHandler(writer http.ResponseWriter, reader *http.Request) {
 	url_parts := strings.Split(reader.URL.Path, "/")
 	playlist_id := url_parts[len(url_parts)-1]
 
@@ -43,7 +43,7 @@ func SetPlaylistDescriptionHandler(writer http.ResponseWriter, reader *http.Requ
 	tmpl.ExecuteTemplate(writer, "playlist-description", selected_playlist_data)
 }
 
-func PopulatePlaylistItems(writer http.ResponseWriter, reader *http.Request) {
+func PopulatePlaylistItemsHandler(writer http.ResponseWriter, reader *http.Request) {
 	url_parts := strings.Split(reader.URL.Path, "/")
 	playlist_id := url_parts[len(url_parts)-1]
 
