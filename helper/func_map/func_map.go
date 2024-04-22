@@ -33,15 +33,15 @@ var nilPlaylist = model.Playlist{
 	PlaylistItems: []model.PlaylistItem{},
 }
 
-func getSelectedPlaylist(playlist_list []model.Playlist) model.Playlist {
+func getSelectedPlaylist(playlist_list []model.Playlist) *model.Playlist {
 	for i := range playlist_list {
 		playlist := (playlist_list)[i]
 		if (playlist_list)[i].Selected {
-			return playlist
+			return &playlist
 		}
 	}
 
-	return nilPlaylist
+	return &nilPlaylist
 }
 
 var nilPlaylistItem = model.PlaylistItem{

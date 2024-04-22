@@ -34,7 +34,6 @@ func SetValidationMessage(message string) {
 	IndexState.ModalState.ValidationMessage = message
 }
 
-// returns true if the value is found and false otherwise
 func FindPlaylist(playlist_id string) (*model.Playlist, bool) {
 	playlist_list_state := IndexState.PlaylistListState
 	for i := range playlist_list_state {

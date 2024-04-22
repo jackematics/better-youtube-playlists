@@ -35,13 +35,14 @@
 - Selecting an item scrolls that item to the middle of the container
 - Validate items fetch
 - Load more than 50 items on playlist select
+- Handle unavailable videos
 
 ### Video Player
 
 - :white_check_mark: ~~Default: show a graphic~~
 - :white_check_mark: ~~On playlist item select: display and play video corresponding to selected item~~
 - On playlist select: Play the first video in the list
-- On video end: move to the next playlist item which also focuses it (Not sure how to test so didn't) :innocent:
+- On video end: move to the next playlist item which also focuses it
 - On playlist end: stop
 
 ### Playlist Description
@@ -49,7 +50,7 @@
 - :white_check_mark: ~~Default: title only, No Playlist Selected~~
 - :white_check_mark: ~~On playlist selection: Show title~~
 - :white_check_mark: ~~On playlist selection: Show title, owner and number of videos~~
-- Show the index of the current video in the description
+- :bulb: Show the index of the current video in the description
 
 ### Playlist Operations
 
@@ -78,3 +79,8 @@
 - Ads
 - Merged playlists
 - Keyboard shortcuts if possible
+
+### Refactoring
+
+- Add more sad path tests
+- Stop directly updating page state in tests
