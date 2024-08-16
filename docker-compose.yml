@@ -1,0 +1,12 @@
+services:
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - "5438:5432"
+    environment:
+      - POSTGRES_DB=test-name
+      - POSTGRES_USER=test-user
+      - POSTGRES_PASSWORD=test-password
+    volumes:
+      - ./db_scripts/ddl/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
