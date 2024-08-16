@@ -12,7 +12,7 @@ run: build
 all: build
 
 localdb: 
-	docker compose up -d
+	docker compose up
 
 kill-localdb:
 	docker compose kill; docker compose rm -vf

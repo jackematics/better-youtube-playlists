@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 
+	"github.com/jackematics/better-youtube-playlists/db/connection"
 	"github.com/jackematics/better-youtube-playlists/handler/add_playlist"
 	"github.com/jackematics/better-youtube-playlists/handler/select_playlist"
 	"github.com/jackematics/better-youtube-playlists/handler/select_playlist_item"
@@ -13,6 +14,7 @@ import (
 )
 
 func main() {
+	connection.Connect()
 	tmpl := template.Must(template.New("index").Funcs(func_map.PageFuncs).ParseGlob("templates/*.html"))
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
