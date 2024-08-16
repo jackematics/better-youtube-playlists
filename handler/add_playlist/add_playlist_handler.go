@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"text/template"
 
-	"github.com/jackematics/better-youtube-playlists/helper/youtube_data"
+	"github.com/jackematics/better-youtube-playlists/lib/youtube_data"
 	"github.com/jackematics/better-youtube-playlists/model"
 	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )

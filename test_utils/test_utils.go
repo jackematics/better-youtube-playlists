@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"html/template"
 
-	"github.com/jackematics/better-youtube-playlists/helper/func_map"
+	"github.com/jackematics/better-youtube-playlists/lib/func_map"
 	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
 

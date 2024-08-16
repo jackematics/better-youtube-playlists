@@ -8,7 +8,7 @@ import (
 	"github.com/jackematics/better-youtube-playlists/handler/add_playlist"
 	"github.com/jackematics/better-youtube-playlists/handler/select_playlist"
 	"github.com/jackematics/better-youtube-playlists/handler/select_playlist_item"
-	"github.com/jackematics/better-youtube-playlists/helper/func_map"
+	"github.com/jackematics/better-youtube-playlists/lib/func_map"
 	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
 
