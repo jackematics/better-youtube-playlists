@@ -11,4 +11,10 @@ run: build
 
 all: build
 
+localdb: 
+	docker compose up -d
+
+kill-localdb:
+	docker compose kill; docker compose rm -vf
+
 .PHONY: build test clean deps run all
