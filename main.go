@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -13,7 +14,13 @@ import (
 	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
 
+var dbConnection *sql.DB
+
 func main() {
+	if dbConnection == nil {
+		dbConnection = connection.Connect()
+	}
+
 	connection.Connect()
 	tmpl := template.Must(template.New("index").Funcs(func_map.PageFuncs).ParseGlob("templates/*.html"))
 

@@ -16,9 +16,8 @@ const (
 	password="test-password"
 )
 
-func Connect() {
+func Connect() (dbConnection *sql.DB) {
 	psqlInfo := fmt.Sprintf("host=" + host + " port=" + strconv.Itoa(port) + " user=" + user + " password=" + password + " dbname=" + dbname + " sslmode=disable")
-	fmt.Println(psqlInfo)
 
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
@@ -33,4 +32,6 @@ func Connect() {
 	}
 
 	fmt.Println("DB Connection successful")
+
+	return db
 }
