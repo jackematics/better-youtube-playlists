@@ -1,0 +1,121 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "BetterYoutubePlaylistsUser": {
+      "Type": "AWS::IAM::User",
+      "Properties": {
+        "UserName": "BetterYoutubePlaylistsUser",
+        "Policies": [
+          {
+            "PolicyName": "BetterYoutubePlaylistsUserPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:PutObject",
+                    "s3:GetObject",
+                    "s3:ListBucket",
+                    "lambda:UpdateFunctionCode",
+                    "lambda:CreateFunction",
+                    "lambda:ListFunctions",
+                    "cloudformation:UpdateStack",
+                    "cloudformation:CreateStack",
+                    "cloudformation:DescribeStacks"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "BetterYoutubePlaylistsUserAccessKey": {
+      "Type": "AWS::IAM::AccessKey",
+      "Properties": {
+        "UserName": {
+          "Ref": "BetterYoutubePlaylistsUser"
+        }
+      }
+    },
+    "LambdaExecutionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Path": "/",
+        "Policies": [
+          {
+            "PolicyName": "LambdaBasicExecution",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": "s3:*",
+                  "Resource": "*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": "arn:aws:logs:*:*:*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "BetterYoutubePlaylistsLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Handler": "better-youtube-playlists",
+        "Role": {
+          "Fn::GetAtt": ["LambdaExecutionRole", "Arn"]
+        },
+        "Code": {
+          "S3Bucket": "better-youtube-playlists-lambda",
+          "S3Key": "better-youtube-playlists-lambda.zip"
+        },
+        "Runtime": "provided.al2",
+        "FunctionName": "BetterYoutubePlaylistsLambdaFunction"
+      }
+    },
+    "LambdaFunctionUrl": {
+      "Type": "AWS::Lambda::Url",
+      "Properties": {
+        "AuthType": "NONE",
+        "TargetFunctionArn": {
+          "Fn::GetAtt": ["BetterYoutubePlaylistsLambdaFunction", "Arn"]
+        }
+      }
+    },
+    "LambdaFunctionUrlPermission": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunctionUrl",
+        "FunctionName": {
+          "Ref": "BetterYoutubePlaylistsLambdaFunction"
+        },
+        "Principal": "*",
+        "FunctionUrlAuthType": "NONE"
+      }
+    }
+  }
+}

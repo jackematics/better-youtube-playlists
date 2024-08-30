@@ -1,0 +1,12 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "BetterYoutubePlaylistsLambdaBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "better-youtube-playlists-lambda",
+        "AccessControl": "Private"
+      }
+    }
+  }
+}
