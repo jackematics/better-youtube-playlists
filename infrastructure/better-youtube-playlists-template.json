@@ -97,24 +97,76 @@
         "FunctionName": "BetterYoutubePlaylistsLambdaFunction"
       }
     },
-    "LambdaFunctionUrl": {
-      "Type": "AWS::Lambda::Url",
+    "ApiGateway": {
+      "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
-        "AuthType": "NONE",
-        "TargetFunctionArn": {
-          "Fn::GetAtt": ["BetterYoutubePlaylistsLambdaFunction", "Arn"]
+        "Name": "BetterYoutubePlaylistsApi",
+        "Description": "Api Gateway for retrieving Youtube Playlist data"
+      }
+    },
+    "ApiGatewayResource": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn:GetAtt": ["ApiGateway", "RootResourceId"]
+        },
+        "PathPart": "better-youtube-playlists",
+        "RestApiId": {
+          "Ref": "ApiGateway"
         }
       }
     },
-    "LambdaFunctionUrlPermission": {
-      "Type": "AWS::Lambda::Permission",
+    "ApiGatewayMethod": {
+      "Type": "AWS::ApiGateway::Method",
       "Properties": {
-        "Action": "lambda:InvokeFunctionUrl",
-        "FunctionName": {
-          "Ref": "BetterYoutubePlaylistsLambdaFunction"
+        "HttpMethod": "ANY",
+        "AuthorizationType": "NONE",
+        "ResourceId": {
+          "Ref": "ApiGatewayResource"
         },
-        "Principal": "*",
-        "FunctionUrlAuthType": "NONE"
+        "RestApiId": {
+          "Ref": "ApiGateway"
+        },
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Sub": [
+              "arn:aws:apigateway:${Region}:lambda:path/2015-03-31/functions/${LambdaArn}/invocations",
+              {
+                "Region": {
+                  "Ref": "AWS::Region"
+                },
+                "LambdaArn": {
+                  "Fn::GetAtt": ["BetterYoutubePlaylistsLambdaFunction", "Arn"]
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ApiGatewayDeployment": {
+      "Type": "AWS::ApiGateway::Deployment",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "ApiGateway"
+        },
+        "StageName": "prod"
+      },
+      "DependsOn": ["ApiGatewayMethod"]
+    },
+    "LambdaApiGatewayInvokePermission": {
+      "Type": "AWS::Lambda::Permission",
+      "SourceArn": {
+        "Fn::Sub": [
+          "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGateway}/*/*",
+          {
+            "ApiGateway": {
+              "Ref": "ApiGateway"
+            }
+          }
+        ]
       }
     }
   }

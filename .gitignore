@@ -3,6 +3,6 @@ ignore/
 
 tmp/
 
-config/config.go
+src/config/config.go
 
 better-youtube-playlists

@@ -1,15 +1,20 @@
 BINARY_NAME := better-youtube-playlists
 
 build:
-	go build -o $(BINARY_NAME) -v
+	cd src && GOOS=linux GOARCH=amd64 go build -o ../$(BINARY_NAME)
+	chmod +x $(BINARY_NAME)
+
+run:
+	sam local start-api
+
+
+clean:
+	rm -f $(BINARY_NAME) 
 
 test:
-	go test -v ./test/...
+	cd src && go test -v ./test/...
 
-run: build
-	./$(BINARY_NAME)
-
-all: build
+# database
 
 localdb: 
 	docker compose up
@@ -17,4 +22,23 @@ localdb:
 kill-localdb:
 	docker compose kill; docker compose rm -vf
 
-.PHONY: build test clean deps run all
+# infrastructure
+
+deploy-s3:
+	aws cloudformation deploy \
+			--template-file infrastructure/s3-template.json \
+			--stack-name  BetterYoutubePlaylistsS3Stack \
+			--capabilities CAPABILITY_NAMED_IAM
+
+deploy-lambda:
+	aws cloudformation deploy \
+			--template-file infrastructure/better-youtube-playlists-template.json \
+			--stack-name  BetterYoutubePlaylistsLambdaStack \
+			--capabilities CAPABILITY_NAMED_IAM
+
+delete-stacks:
+	aws cloudformation delete-stack --stack-name BetterYoutubePlaylistsLambdaStack
+	aws cloudformation delete-stack --stack-name BetterYoutubePlaylistsS3Stack
+
+
+.PHONY: build test clean 
