@@ -1,0 +1,11 @@
+{{ block "playlist-items" . }}
+<div
+  id="playlist-items"
+  class="bg-container-dark-blue border-4 relative rounded-lg row-start-3 col-start-2 col-span-2 row-span-1 flex-auto overflow-y-scroll"
+>
+  <ul class="flex flex-col pt-3">
+    {{ range $index, $item := .PlaylistItems }} {{ template "playlist-item"
+    getItemWithNumber $item $index }} {{ end }}
+  </ul>
+</div>
+{{ end }}

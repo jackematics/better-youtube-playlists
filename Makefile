@@ -1,18 +1,17 @@
-BINARY_NAME := better-youtube-playlists
+BINARY_NAME := better-youtube-playlists 
+ARTIFACTS_DIRECTORY := .aws-sam/build/LambdaFunction
 
 build:
-	cd src && GOOS=linux GOARCH=amd64 go build -o ../$(BINARY_NAME)
-	chmod +x $(BINARY_NAME)
+	cd app && GOOS=linux GOARCH=arm64 go build -o ../$(BINARY_NAME) main.go
 
-run:
-	sam local start-api
-
+build-local:
+	cd app && go build -o $(BINARY_NAME) && HTTP_PORT=8000 $(BINARY_NAME)
 
 clean:
 	rm -f $(BINARY_NAME) 
 
 test:
-	cd src && go test -v ./test/...
+	cd app && go test -v ./test/...
 
 # database
 

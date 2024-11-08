@@ -22,7 +22,7 @@ jobs:
         run: go mod tidy
 
       - name: build Go binary
-        run: GOOS=linux GOARCH=amd64 go build -o better-youtube-playlists
+        run: GOOS=linux GOARCH=arm64 go build -o better-youtube-playlists
 
       - name: Zip Go binary
         run: zip better-youtube-playlists-lambda.zip better-youtube-playlists
