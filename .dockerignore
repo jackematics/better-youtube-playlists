@@ -1,0 +1,8 @@
+# flyctl launch added from .gitignore
+
+**/ignore
+
+**/tmp
+
+**/main
+fly.toml

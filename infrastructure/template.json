@@ -1,0 +1,31 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Cloudformation template to deploy a Dockerized Golang HTMX app on Amazon Linux",
+  "Resources": {
+    "EC2Instance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t4g.nano",
+        "ImageId": { "Ref": "AmazonLinuxAmiId" },
+        "KeyName": "better-youtube-playlists-key-pair",
+        "SecurityGroups": [{ "Ref": "InstanceSecurityGroup" }],
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Sub": [
+              "#!/bin/bash\n" +
+              "yum update -y\n" +
+              "amazon-linux-extras enable docker\n" +
+              "amazon-linux-extras install -y docker\n" +
+              "systemctl start docker\n" +
+              "systemctl enable docker\n" +
+              "usermod -a -G docker ec2-user\n" +
+              "aws ecr get-login-password --region ${AWS::Region} | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.${AWS::Region}.amazonaws.com\n" +
+              "docker pull <aws_account_id>.dkr.ecr.${AWS::Region}.amazonaws.com/golang-api:latest\n" +
+              "docker run -d -p 8080:8080 <aws_account_id>.dkr.ecr.${AWS::Region}.amazonaws.com/golang-api:latest"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
