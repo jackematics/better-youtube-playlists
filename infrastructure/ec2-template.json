@@ -1,0 +1,133 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Deploy a Go application binary to an EC2 instance.",
+  "Resources": {
+    "GitHubOIDCRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Federated": "arn:aws:iam::905418474445:oidc-provider/token.actions.githubusercontent.com"
+              },
+              "Action": "sts:AssumeRoleWithWebIdentity",
+              "Condition": {
+                "StringEquals": {
+                  "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
+                  "token.actions.githubusercontent.com:sub": {
+                    "Fn::Sub": "repo:${Repository}:ref:${Environment}"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "InstanceSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Enable SSH and HTTP access to the application",
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 22,
+            "ToPort": 22,
+            "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 8080,
+            "ToPort": 8080,
+            "CidrIp": "0.0.0.0/0"
+          }
+        ]
+      }
+    },
+    "EC2InstanceRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2010-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        }
+      }
+    },
+    "Policies": [
+      {
+        "PolicyName": "S3AccessPolicy",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": ["s3:PutObject", "s3:GetObject"],
+              "Resource": "arn:aws:s3:::better-youtube-playlists-bucket/*"
+            }
+          ]
+        }
+      },
+      {
+        "PolicyName": "SecretsManagerAccessPolicy",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:ListSecrets"
+              ],
+              "Resource": "*"
+            }
+          ]
+        }
+      }
+    ],
+    "EC2InstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Roles": [{ "Ref": "EC2InstanceRole" }]
+      }
+    },
+    "EC2Instance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t4g.nano",
+        "KeyName": "better-youtube-playlists-key",
+        "SecurityGroups": [{ "Ref": "InstanceSecurityGroup" }],
+        "ImageId": "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-arm64",
+        "IamInstanceProfile": { "Ref": "EC2InstanceProfile" },
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "\n",
+              [
+                "#!/bin/bash",
+                "yum update -y",
+                "yum install -y aws-cli",
+                "cd /home/ec2-user",
+                {
+                  "Fn::Sub": "aws s3 cp s3://better-youtube-playlists-bucket/better-youtube-playlists-key ./better-youtube-playlists"
+                },
+                "chmod +x better-youtube-playlists",
+                "./better-youtube-playlists > better-youtube-playlists.log 2>&1 &"
+              ]
+            ]
+          }
+        }
+      }
+    }
+  }
+}

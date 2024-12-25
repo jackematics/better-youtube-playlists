@@ -1,0 +1,43 @@
+name: Deploy app to EC2
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.23
+
+      - name: Run tests
+        run: make test
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::YOUR_ACCOUNT_ID:role/GitHubOIDCRole
+          aws-region: eu-west-2
+
+      - name: Build Go executable
+        run: |
+          make build
+
+      - name: Deploy Go binary
+        run: |
+          aws s3 cp ./better-youtube-playlists s3://better-youtube-playlists-bucket/better-youtube-playlists-key
+          aws cloudformation deploy \
+            --template-file ec2-template.json \
+            --stack-name BetterYoutubePlaylistsEC2Stack \
+            --capabilities CAPABILITY_NAMED_IAM
