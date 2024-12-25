@@ -24,7 +24,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: arn:aws:iam::YOUR_ACCOUNT_ID:role/GitHubOIDCRole
+          role-to-assume: arn:aws:iam::905418474445:role/GitHubOIDCRole
           aws-region: eu-west-2
 
       - name: Run tests
