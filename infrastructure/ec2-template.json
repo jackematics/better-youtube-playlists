@@ -18,7 +18,7 @@
                 "StringEquals": {
                   "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
                   "token.actions.githubusercontent.com:sub": {
-                    "Fn::Sub": "repo:${Repository}:ref:${Environment}"
+                    "Fn::Sub": "repo:jackematics:ref:refs/heads/master"
                   }
                 }
               }
