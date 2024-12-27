@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Deploy a Go application binary to an EC2 instance.",
+  "Description": "Deploy a Go application binary to EC2 with auto-scaling",
   "Resources": {
     "GitHubOIDCRole": {
       "Type": "AWS::IAM::Role",
@@ -61,72 +61,105 @@
               "Action": "sts:AssumeRole"
             }
           ]
-        }
+        },
+        "Policies": [
+          {
+            "PolicyName": "S3AccessPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": ["s3:PutObject", "s3:GetObject"],
+                  "Resource": "arn:aws:s3:::better-youtube-playlists-bucket/*"
+                }
+              ]
+            }
+          },
+          {
+            "PolicyName": "SecretsManagerAccessPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "secretsmanager:GetSecretValue",
+                    "secretsmanager:ListSecrets"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
       }
     },
-    "Policies": [
-      {
-        "PolicyName": "S3AccessPolicy",
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": ["s3:PutObject", "s3:GetObject"],
-              "Resource": "arn:aws:s3:::better-youtube-playlists-bucket/*"
-            }
-          ]
-        }
-      },
-      {
-        "PolicyName": "SecretsManagerAccessPolicy",
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:ListSecrets"
-              ],
-              "Resource": "*"
-            }
-          ]
-        }
-      }
-    ],
     "EC2InstanceProfile": {
       "Type": "AWS::IAM::InstanceProfile",
       "Properties": {
         "Roles": [{ "Ref": "EC2InstanceRole" }]
       }
     },
-    "EC2Instance": {
-      "Type": "AWS::EC2::Instance",
+    "LaunchTemplate": {
+      "Type": "AWS::EC2::LaunchTemplate",
       "Properties": {
-        "InstanceType": "t4g.nano",
-        "KeyName": "better-youtube-playlists-key",
-        "SecurityGroups": [{ "Ref": "InstanceSecurityGroup" }],
-        "ImageId": "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-arm64",
-        "IamInstanceProfile": { "Ref": "EC2InstanceProfile" },
-        "UserData": {
-          "Fn::Base64": {
-            "Fn::Join": [
-              "\n",
-              [
-                "#!/bin/bash",
-                "yum update -y",
-                "yum install -y aws-cli",
-                "cd /home/ec2-user",
-                {
-                  "Fn::Sub": "aws s3 cp s3://better-youtube-playlists-bucket/better-youtube-playlists-key ./better-youtube-playlists"
-                },
-                "chmod +x better-youtube-playlists",
-                "./better-youtube-playlists > better-youtube-playlists.log 2>&1 &"
+        "LaunchTemplateData": {
+          "InstanceType": "t4g.nano",
+          "KeyName": "better-youtube-playlists-key",
+          "SecurityGroupIds": [
+            { "Fn::GetAtt": ["InstanceSecurityGroup", "GroupId"] }
+          ],
+          "ImageId": "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-arm64",
+          "IamInstanceProfile": {
+            "Name": { "Ref": "EC2InstanceProfile" }
+          },
+          "UserData": {
+            "Fn::Base64": {
+              "Fn::Join": [
+                "\n",
+                [
+                  "#!/bin/bash",
+                  "yum update -y",
+                  "yum install -y aws-cli",
+                  "cd /home/ec2-user",
+                  "aws s3 cp s3://better-youtube-playlists-bucket/better-youtube-playlists-key ./better-youtube-playlists",
+                  "chmod +x better-youtube-playlists",
+                  "cat > /etc/systemd/system/youtube-playlists.service << 'EOL'",
+                  "[Unit]",
+                  "Description=Better YouTube Playlists Service",
+                  "After=network.target",
+                  "",
+                  "[Service]",
+                  "Type=simple",
+                  "User=ec2-user",
+                  "WorkingDirectory=/home/ec2-user",
+                  "ExecStart=/home/ec2-user/better-youtube-playlists",
+                  "Restart=always",
+                  "",
+                  "[Install]",
+                  "WantedBy=multi-user.target",
+                  "EOL",
+                  "systemctl enable youtube-playlists",
+                  "systemctl start youtube-playlists"
+                ]
               ]
-            ]
+            }
           }
         }
+      }
+    },
+    "AutoScalingGroup": {
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "Properties": {
+        "LaunchTemplate": {
+          "LaunchTemplateId": { "Ref": "LaunchTemplate" },
+          "Version": { "Fn::GetAtt": ["LaunchTemplate", "LatestVersionNumber"] }
+        },
+        "MinSize": "1",
+        "MaxSize": "3",
+        "DesiredCapacity": "1",
+        "AvailabilityZones": { "Fn::GetAZs": "" }
       }
     }
   }

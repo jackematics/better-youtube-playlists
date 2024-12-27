@@ -1,14 +1,22 @@
 BINARY_NAME := better-youtube-playlists 
-ARTIFACTS_DIRECTORY := .aws-sam/build/LambdaFunction
+OS := linux
 
 build:
+ifeq ($(OS),mac)
+	GOOS=darwin GOARCH=amd64 go build -o $(BINARY_NAME) main.go
+else
 	GOOS=linux GOARCH=arm64 go build -o $(BINARY_NAME) main.go
+endif
 
 clean:
 	rm -f $(BINARY_NAME) 
 
 test:
 	go test -v ./test/...
+
+run:
+	$(MAKE) build
+	./$(BINARY_NAME)
 
 # database
 

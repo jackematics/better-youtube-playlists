@@ -34,10 +34,20 @@ jobs:
         run: |
           make build
 
-      - name: Deploy Go binary
+      - name: Deploy and update
         run: |
           aws s3 cp ./better-youtube-playlists s3://better-youtube-playlists-bucket/better-youtube-playlists-key
+
           aws cloudformation deploy \
             --template-file ec2-template.json \
             --stack-name BetterYoutubePlaylistsEC2Stack \
             --capabilities CAPABILITY_NAMED_IAM
+
+          ASG_NAME=$(aws cloudformation describe-stacks \
+            --stack-name BetterYoutubePlaylistsEC2Stack \
+            --query 'Stacks[0].Outputs[?OutputKey==`AutoScalingGroupName`].OutputValue' \
+            --output text)
+
+          aws autoscaling start-instance-refresh \
+            --auto-scaling-group-name "$ASG_NAME" \
+            --preferences '{"MinHealthyPercentage": 50}'

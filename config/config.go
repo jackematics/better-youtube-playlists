@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -22,19 +23,30 @@ func fetchYoutubeApiKey() string {
 		log.Fatal(err)
 	}
 
+	
 	svc := secretsmanager.NewFromConfig(config)
-
+	
 	input := &secretsmanager.GetSecretValueInput{
 		SecretId:     aws.String(secretName),
 		VersionStage: aws.String("AWSCURRENT"),
 	}
-
+	
 	result, err := svc.GetSecretValue(context.TODO(), input)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	return *result.SecretString
+	var secretMap map[string]string
+	if result.SecretString != nil {
+		secret := *result.SecretString 
+
+		err = json.Unmarshal([]byte(secret), &secretMap)
+		if err != nil {
+			log.Fatal("Error fetching Youtube data api key: ", err)
+		}
+	} 
+
+	return secretMap["YOUTUBE_API_KEY"]
 }
 
 var Config = EnvConfig {
