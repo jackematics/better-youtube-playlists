@@ -39,7 +39,7 @@ jobs:
           aws s3 cp ./better-youtube-playlists s3://better-youtube-playlists-bucket/better-youtube-playlists-key
 
           aws cloudformation deploy \
-            --template-file ec2-template.json \
+            --template-file infrastructure/ec2-template.json \
             --stack-name BetterYoutubePlaylistsEC2Stack \
             --capabilities CAPABILITY_NAMED_IAM
 
