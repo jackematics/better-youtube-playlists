@@ -40,9 +40,11 @@ deploy-ec2:
 		--stack-name BetterYoutubePlaylistsEC2Stack \
 		--capabilities CAPABILITY_NAMED_IAM
 
-delete-stacks:
-	aws cloudformation delete-stack --stack-name BetterYoutubePlaylistsEC2Stack
+delete-s3-stack:
 	aws cloudformation delete-stack --stack-name BetterYoutubePlaylistsS3Stack
+
+delete-ec2-stack:
+	aws cloudformation delete-stack --stack-name BetterYoutubePlaylistsEC2Stack
 
 
 .PHONY: build test clean 
