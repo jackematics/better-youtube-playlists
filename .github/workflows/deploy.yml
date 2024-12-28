@@ -1,17 +1,14 @@
 name: Deploy app to EC2
-
 on:
   push:
     branches:
       - master
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -36,18 +33,32 @@ jobs:
 
       - name: Deploy and update
         run: |
+          # Upload new binary to S3
           aws s3 cp ./better-youtube-playlists s3://better-youtube-playlists-bucket/better-youtube-playlists-key
 
+          # Update CloudFormation stack
           aws cloudformation deploy \
             --template-file infrastructure/ec2-template.json \
             --stack-name BetterYoutubePlaylistsEC2Stack \
             --capabilities CAPABILITY_NAMED_IAM
 
+          # Wait for stack update to complete
+          echo "Waiting for stack update to complete..."
+          aws cloudformation wait stack-update-complete \
+            --stack-name BetterYoutubePlaylistsEC2Stack
+
+          # Get ASG name and start instance refresh
           ASG_NAME=$(aws cloudformation describe-stacks \
             --stack-name BetterYoutubePlaylistsEC2Stack \
             --query 'Stacks[0].Outputs[?OutputKey==`AutoScalingGroupName`].OutputValue' \
             --output text)
 
-          aws autoscaling start-instance-refresh \
-            --auto-scaling-group-name "$ASG_NAME" \
-            --preferences '{"MinHealthyPercentage": 50}'
+          if [ -n "$ASG_NAME" ]; then
+            echo "Starting instance refresh for ASG: $ASG_NAME"
+            aws autoscaling start-instance-refresh \
+              --auto-scaling-group-name "$ASG_NAME" \
+              --preferences '{"MinHealthyPercentage": 50}'
+          else
+            echo "Error: Could not find AutoScalingGroup name in stack outputs"
+            exit 1
+          fi
