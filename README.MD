@@ -13,17 +13,11 @@ There are two Cloudformation templates: one for s3 and one for lambda. When crea
 make deploy-s3
 ```
 
-3.  Manually uploading a placeholder zip file called `better-youtube-playlists-lambda.zip` to it, this should contain code in the shape of a default golang lambda handler.
-4.  Deploying the lambda function using
-
-```
-make deploy-lambda
-```
-
-Now you should have an s3 bucket with a placeholder zip file and lambda infrastructure that references the s3 bucket zip file. You should now be able upload any custom lambda code and replace the placeholder zip file in the bucket which should now be executable by the lambda.
+3. Now whenever a code change is pushed, your code should be deployed to EC2. You can visit the site via https://better-youtube-playlists.com
 
 If for any reason you need to delete the infrastructure, this can be done via this two commands:
 
 ```
-make delete-stacks
+make delete-s3-stack
+make delete-ec2-stack
 ```
