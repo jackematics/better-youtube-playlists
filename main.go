@@ -32,5 +32,5 @@ func main() {
 	http.HandleFunc("/play-selected-playlist-item/", select_playlist_item.PlaySelectedPlaylistItem)
 
 	fmt.Println("Server started on :8000")
-	http.ListenAndServe("localhost:8000", nil)	
+	http.ListenAndServe(":8000", nil)	
 }
