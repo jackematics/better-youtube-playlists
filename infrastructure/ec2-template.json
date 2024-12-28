@@ -144,5 +144,11 @@
         "AvailabilityZones": { "Fn::GetAZs": "" }
       }
     }
+  },
+  "Outputs": {
+    "AutoScalingGroupName": {
+      "Description": "Name of the Auto Scaling Group",
+      "Value": { "Ref": "AutoScalingGroup" }
+    }
   }
 }
