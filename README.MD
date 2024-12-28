@@ -13,7 +13,7 @@ There are two Cloudformation templates: one for s3 and one for lambda. When crea
 make deploy-s3
 ```
 
-3. Now whenever a code change is pushed, your code should be deployed to EC2. You can visit the site via https://better-youtube-playlists.com
+3. Now whenever a code change is pushed, your code should be deployed to EC2. You can visit the site via https://better-youtube-playlists.com.
 
 If for any reason you need to delete the infrastructure, this can be done via this two commands:
 
