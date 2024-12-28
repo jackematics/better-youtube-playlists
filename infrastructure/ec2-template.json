@@ -2,31 +2,6 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "Deploy a Go application binary to EC2 with auto-scaling",
   "Resources": {
-    "GitHubOIDCRole": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "Federated": "arn:aws:iam::905418474445:oidc-provider/token.actions.githubusercontent.com"
-              },
-              "Action": "sts:AssumeRoleWithWebIdentity",
-              "Condition": {
-                "StringEquals": {
-                  "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-                  "token.actions.githubusercontent.com:sub": {
-                    "Fn::Sub": "repo:jackematics:ref:refs/heads/master"
-                  }
-                }
-              }
-            }
-          ]
-        }
-      }
-    },
     "InstanceSecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
