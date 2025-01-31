@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -12,9 +13,11 @@ import (
 	"github.com/jackematics/better-youtube-playlists/repository/page_data"
 )
 
+//go:embed templates/*.html
+var templateFS embed.FS
 
 func main() {
-	tmpl := template.Must(template.New("index").Funcs(func_map.PageFuncs).ParseGlob("templates/*.html"))
+	tmpl := template.Must(template.New("index").Funcs(func_map.PageFuncs).ParseFS(templateFS, "templates/*.html"))
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
