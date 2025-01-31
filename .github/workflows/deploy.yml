@@ -42,10 +42,17 @@ jobs:
             --stack-name BetterYoutubePlaylistsEC2Stack \
             --capabilities CAPABILITY_NAMED_IAM
 
-          # Wait for stack update to complete
-          echo "Waiting for stack update to complete..."
-          aws cloudformation wait stack-update-complete \
-            --stack-name BetterYoutubePlaylistsEC2Stack
+          STACK_STATUS=$(aws cloudformation describe-stacks) \
+            --stack-name BetterYoutubePlaylistsEC2Stack \
+            --query 'Stacks[0].StackStatus' --output text)
+
+          if [[ "$STACK_STATUS" == "UPDATE_IN_PROGRESS" || "$STACK_STATUS" == "CREATE_IN_PROGRESS"]]; then
+            echo "Waiting for stack update to complete..."
+            aws cloudformation wait stack-update-complete \
+              --stack-name BetterYoutubePlaylistsEC2Stack
+          else
+            echo "No stack update was necessary."
+          fi
 
           # Get ASG name and start instance refresh
           ASG_NAME=$(aws cloudformation describe-stacks \
