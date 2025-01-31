@@ -42,9 +42,14 @@ jobs:
             --stack-name BetterYoutubePlaylistsEC2Stack \
             --capabilities CAPABILITY_NAMED_IAM
 
-          STACK_STATUS=$(aws cloudformation describe-stacks) \
+          STACK_STATUS=$(aws cloudformation describe-stacks \
             --stack-name BetterYoutubePlaylistsEC2Stack \
             --query 'Stacks[0].StackStatus' --output text)
+
+          if [[ -z "$STACK_STATUS" ]]; then
+            echo "Error: Failed to fetch stack status"
+            exit 1
+          fi
 
           if [[ "$STACK_STATUS" == "UPDATE_IN_PROGRESS" || "$STACK_STATUS" == "CREATE_IN_PROGRESS"]]; then
             echo "Waiting for stack update to complete..."
