@@ -1,5 +1,5 @@
 BINARY_NAME := better-youtube-playlists 
-OS := linux
+OS := mac
 
 build:
 ifeq ($(OS),mac)
