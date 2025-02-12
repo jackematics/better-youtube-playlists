@@ -18,10 +18,7 @@ type PlaylistItem struct {
 }
 
 type Playlist struct {
-	PlaylistId    string
-	PlaylistTitle string
-	ChannelOwner  string
-	TotalVideos   int
-	Selected      bool
-	PlaylistItems []PlaylistItem
+	PlaylistId    string `json:"playlistId"`
+	PlaylistTitle string `json:"playlistTitle"`
+	ChannelOwner  string `json:"channelOwner"`
 }

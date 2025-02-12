@@ -15,11 +15,73 @@
       <div
         class="grid grid-rows-[1fr,0.2fr,1.8fr] grid-cols-[0.45fr,1.1fr,1.35fr] gap-3 h-full w-full p-3 flex"
       >
-        {{ $selectedPlaylist := getSelectedPlaylist .PlaylistListState }} {{
-        $selectedPlaylistItem := getSelectedPlaylistItem $selectedPlaylist }} {{
-        template "playlist-list" .PlaylistListState }} {{ template
-        "youtube-embed" $selectedPlaylistItem }} {{ template
-        "playlist-description" $selectedPlaylist }}
+        <!-- playlist-list -->
+        <div
+          id="playlist-list"
+          class="bg-container-dark-blue min-w-[16rem] border-4 relative rounded-lg col-span-1 row-span-3 flex-none"
+        >
+          <h2 class="text-white text-4xl pl-5 pt-5 pb-5 inline-block truncate">
+            Playlists
+          </h2>
+          <ul id="playlist-list-items" class="pl-3 flex flex-col">
+            <li id="li-" key="" class="mb-2">
+              <option
+                class="mr-3 pl-2 pr-2 pb-1 pt-1 text-2xl text-left rounded-2xl cursor-pointer truncate font-medium text-white hover:bg-warm-orange-hover"
+                title=""
+              ></option>
+            </li>
+          </ul>
+          <button
+            class="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-[14.75rem] h-11 rounded-lg border-2 flex bg-warm-orange hover:bg-warm-orange-hover"
+          >
+            <div
+              class="w-10 h-10 bg-white rounded-lg border-2 flex items-center justify-center"
+            >
+              <img
+                src="/static/assets/icons/plus.png"
+                alt="add playlist"
+                width="24"
+                height="24"
+              />
+            </div>
+            <div
+              id="open-add-playlist-modal-btn"
+              class="text-white text-3xl font-semibold pl-3 pt-0.5"
+            >
+              Add Playlist
+            </div>
+          </button>
+        </div>
+        <!-- youtube-embed -->
+        <div
+          id="youtube-embed"
+          class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-2 pt-2 pr-2 pl-2 pb-2 min-w-[32.5rem]"
+        >
+          <div class="w-full h-full bg-black grid place-items-center relative">
+            <img
+              src="/static/assets/logos/jackematica-logo.svg"
+              alt="page-logo"
+              width="210"
+              height="210"
+            />
+          </div>
+        </div>
+        <div
+          id="playlist-description"
+          class="flex-initial bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 flex-auto"
+        >
+          <h2
+            class="h-[4rem] text-white text-5xl font-bold mt-4 ml-5 truncate"
+          ></h2>
+          <p
+            id="channel-owner"
+            class="text-white text-4xl font-semibold mt-8 ml-5"
+          ></p>
+          <p
+            id="total-videos"
+            class="text-white text-4xl font-semibold mt-12 ml-5"
+          ></p>
+        </div>
         <!-- playlist operations -->
         <div
           class="bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 pt-2 pb-2 pl-6 flex-auto"
@@ -68,11 +130,87 @@
           </div>
         </div>
         <!-- playlist items -->
-        {{ template "playlist-items" index $selectedPlaylist }}
+        <div
+          id="playlist-items"
+          class="bg-container-dark-blue border-4 relative rounded-lg row-start-3 col-start-2 col-span-2 row-span-1 flex-auto overflow-y-scroll"
+        >
+          <ul class="flex flex-col pt-3">
+            <!-- playlist-item template -->
+            <!-- <li id="li-1" key="1">
+              <div class="w-[4.5rem] flex justify-center">
+                <p>1</p>
+              </div>
+              <img
+                src=""
+                alt="playlist item"
+                width="70"
+                height="36"
+                class="ml-6 mr-2"
+              />
+              <p class="pl-7 w-[67rem] truncate"></p>
+            </li> -->
+          </ul>
+        </div>
       </div>
     </div>
-    {{ template "add-playlist-modal" .ModalState }}
+    <div id="add-playlist-modal" class="invisible">
+      <div class="fixed w-full h-full top-0 left-0 bg-black/[.5]">
+        <div class="fixed top-1/2 left-1/2 translate-center" tabindex="-1">
+          <div
+            class="w-[36rem] h-[23rem] bg-container-dark-blue border-4 rounded-lg"
+          >
+            <h2 class="text-white text-5xl font-bold pt-5 pl-16">
+              Add Playlist
+            </h2>
+            <p class="text-white text-lg pt-7 ml-11">
+              Input the playlist id of a Youtube playlist. This is the part
+              after &apos;<i>www.youtube.com/playlist?list=</i>&apos; in the
+              YouTube playlist url.
+            </p>
+            <div class="flex justify-center items-center">
+              <div
+                class="w-[30rem] h-14 bg-container-light-blue border-2 rounded flex justify-center mt-5"
+              >
+                <input
+                  id="playlist-id-input"
+                  class="w-[29rem] h-10 bg-white rounded flex justify-center mt-1.5 pl-3 text-xl"
+                  placeholder="e.g. PLtcWcWdp-TofpVedRiMRoH7rB20gQczgh"
+                />
+              </div>
+            </div>
+            <div class="h-5 mt-1 ml-16">
+              <p
+                id="validation-message"
+                class="text-cancel-red text-xl font-bold"
+              ></p>
+            </div>
+            <div class="flex justify-center items-center mt-5">
+              <button
+                id="submit-playlist-button"
+                class="w-36 h-14 bg-confirm-green border-2 rounded-lg text-3xl font-bold hover:bg-confirm-green-hover active:bg-confirm-green-active"
+              >
+                Add
+              </button>
+              <button
+                id="close-add-playlist-modal-btn"
+                class="w-36 h-14 bg-cancel-red border-2 rounded-lg text-3xl font-bold ml-16 hover:bg-cancel-red-hover active:bg-cancel-red-active"
+              >
+                Cancel
+              </button>
+              <!-- <div
+                hx-target="#add-playlist-modal-container"
+                hx-get="/toggle-add-playlist-modal-with-validation"
+                hx-trigger="click from:#submit-playlist-button"
+                hx-sync="#submit-playlist-button:queue"
+                hx-swap="outerHTML"
+              ></div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="/static/js/external/htmx.min.js"></script>
     <script src="/static/js/modal.js"></script>
+    <script src="/static/js/playlist-list.js"></script>
   </body>
 </html>
