@@ -17,21 +17,21 @@
   - :white_check_mark: ~~Log error with youtube api and return validation message to user~~
   - :white_check_mark: ~~Log error with youtube api key and return validation message to user~~
 - Select playlist
-  - :white_check_mark: ~~Should populate the playlist description~~
-  - :white_check_mark: ~~Should highlight the selected playlist~~
-  - :white_check_mark: ~~Should populate playlist items~~
+  - :white_check_mark: Should populate the playlist description
+  - :white_check_mark: Should highlight the selected playlist
+  - :white_check_mark: Should populate playlist items
 - Option to delete playlists
 - Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded
 
 ### Playlist Items
 
 - :white_check_mark: ~~Items UI~~
-- :white_check_mark: ~~Default: Empty container~~
-- :white_check_mark: ~~List playlist items of selected playlist~~
-  - :white_check_mark: ~~Item number, thumbnail, video title~~
-- :white_check_mark: ~~Scroll through items~~
-- :white_check_mark: ~~Selecting an item highlights it~~
-- :white_check_mark: ~~Playlist titles beyond a certain character length are truncated~~
+- :white_check_mark: Default: Empty container
+- :white_check_mark: List playlist items of selected playlist
+  - :white_check_mark: Item number, thumbnail, video title
+- :white_check_mark: Scroll through items
+- :white_check_mark: Selecting an item highlights it
+- :white_check_mark: Playlist titles beyond a certain character length are truncated
 - Selecting an item scrolls that item to the middle of the container
 - Validate items fetch
 - Load more than 50 items on playlist select
@@ -40,16 +40,16 @@
 ### Video Player
 
 - :white_check_mark: ~~Default: show a graphic~~
-- :white_check_mark: ~~On playlist item select: display and play video corresponding to selected item~~
+- :white_check_mark: On playlist item select: display and play video corresponding to selected item
 - On playlist select: Play the first video in the list
 - On video end: move to the next playlist item which also focuses it
 - On playlist end: stop
 
 ### Playlist Description
 
-- :white_check_mark: ~~Default: title only, No Playlist Selected~~
-- :white_check_mark: ~~On playlist selection: Show title~~
-- :white_check_mark: ~~On playlist selection: Show title, owner and number of videos~~
+- :white_check_mark: Default: title only, No Playlist Selected
+- :white_check_mark: On playlist selection: Show title
+- :white_check_mark: On playlist selection: Show title, owner and number of videos
 - :bulb: Show the index of the current video in the description
 
 ### Playlist Operations
@@ -83,4 +83,3 @@
 ### Refactoring
 
 - Add more sad path tests
-- Stop directly updating page state in tests

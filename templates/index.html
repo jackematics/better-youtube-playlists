@@ -197,20 +197,13 @@
               >
                 Cancel
               </button>
-              <!-- <div
-                hx-target="#add-playlist-modal-container"
-                hx-get="/toggle-add-playlist-modal-with-validation"
-                hx-trigger="click from:#submit-playlist-button"
-                hx-sync="#submit-playlist-button:queue"
-                hx-swap="outerHTML"
-              ></div> -->
             </div>
           </div>
         </div>
       </div>
     </div>
-    <script src="/static/js/external/htmx.min.js"></script>
-    <script src="/static/js/modal.js"></script>
-    <script src="/static/js/playlist-list.js"></script>
+    <script type="module" src="/static/js/external/htmx.min.js"></script>
+    <script type="module" src="/static/js/modal.js"></script>
+    <script type="module" src="/static/js/playlist-list.js"></script>
   </body>
 </html>

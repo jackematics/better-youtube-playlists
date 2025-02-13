@@ -1,3 +1,5 @@
+import { closeModal } from "./modal.js";
+
 function renderList() {
   const list = document.getElementById("playlist-list-items");
   list.innerHTML = "";
@@ -64,6 +66,8 @@ document
         "playlistListItems",
         JSON.stringify([...playlistListItems, newPlaylistListItem])
       );
+
+      closeModal();
     } catch (err) {
       console.log(err);
       if ([500, 424].includes(err.statusCode)) {
