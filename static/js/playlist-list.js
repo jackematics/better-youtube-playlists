@@ -3,6 +3,7 @@ import { closeModal } from "./modal.js";
 function renderList() {
   const list = document.getElementById("playlist-list-items");
   list.innerHTML = "";
+
   const playlistListItems =
     JSON.parse(localStorage.getItem("playlistListItems")) || [];
   playlistListItems.forEach((item) => {
@@ -13,9 +14,22 @@ function renderList() {
 
     const option = document.createElement("option");
     option.className =
-      "mr-3 pl-2 pr-2 pb-1 pt-1 text-2xl text-left rounded-2xl cursor-pointer truncate font-medium text-white hover:bg-warm-orange-hover";
+      "playlist mr-3 pl-2 pr-2 pb-1 pt-1 text-2xl text-left rounded-2xl cursor-pointer truncate font-medium text-white hover:bg-warm-orange-hover";
     option.title = item.playlistTitle;
     option.textContent = item.playlistTitle;
+
+    option.addEventListener("click", function () {
+      // populate title in description
+      const playlistTitle = document.getElementById("playlist-title");
+      playlistTitle.textContent = item.playlistTitle;
+
+      document.querySelectorAll(".playlist").forEach((playlist) => {
+        playlist.classList.remove("bg-warm-orange");
+      });
+      option.classList.add("bg-warm-orange");
+
+      // populate playlist items
+    });
 
     li.appendChild(option);
     list.appendChild(li);
