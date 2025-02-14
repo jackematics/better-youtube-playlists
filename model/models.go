@@ -2,7 +2,7 @@ package model
 
 type Index struct {
 	ModalState        Modal
-	PlaylistListState []Playlist
+	PlaylistListState []PlaylistMetadata
 }
 
 type Modal struct {
@@ -10,14 +10,18 @@ type Modal struct {
 	ValidationMessage string
 }
 
-type PlaylistItem struct {
-	Id           string
-	Title        string
-	ThumbnailUrl string
-	Selected     bool
+type Item struct {
+	Id           string `json:"id"`
+	Title        string `json:"title"`
+	ThumbnailUrl string `json:"thumbnailUrl"`
 }
 
 type Playlist struct {
+	TotalVideos  int `json:"totalVideos"`
+	Items        []Item `json:"items"`
+}
+
+type PlaylistMetadata struct {
 	PlaylistId    string `json:"playlistId"`
 	PlaylistTitle string `json:"playlistTitle"`
 	ChannelOwner  string `json:"channelOwner"`

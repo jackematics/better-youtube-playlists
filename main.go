@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/jackematics/better-youtube-playlists/handler/add_playlist"
+	playlist "github.com/jackematics/better-youtube-playlists/handler/playlist"
 )
 
 //go:embed templates/*.html
@@ -56,8 +56,9 @@ func main() {
 		tmpl.ExecuteTemplate(writer, "index.html", nil)
 	})
 
-	http.HandleFunc("/add-playlist/", add_playlist.AddPlaylistHandler)
+	http.HandleFunc("/playlist-metadata/", playlist.GetPlaylistMetadata)
+	http.HandleFunc("/playlist-items/", playlist.GetPlaylistItems)
 
 	fmt.Println("Server started on :8000")
-	http.ListenAndServe(":8000", nil)	
+	http.ListenAndServe("localhost:8000", nil)	
 }

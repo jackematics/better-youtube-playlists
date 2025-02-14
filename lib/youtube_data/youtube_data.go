@@ -87,7 +87,7 @@ func FetchYoutubePlaylistMetadata(playlistId string) (*YoutubePlaylistMetadataRe
 	if len(youtubePlaylistMetadataResponse.Items) == 0 {
 		log.Println("No playlist items returned for playlist id " + playlistId)
 
-		return nil, &YoutubeDataError{Code: http.StatusBadRequest, Message: "Invalid playlist id"}
+		return nil, &YoutubeDataError{Code: http.StatusBadRequest, Message: "Invalid playlist ID"}
 	}
 
 	return &youtubePlaylistMetadataResponse, nil
@@ -131,6 +131,7 @@ func FetchYoutubePlaylistItems(playlist_id string) (*YoutubePlaylistItemsRespons
 
 	if err != nil {
 		log.Println("Error fetching youtube playlist items from https://youtube.googleapis.com/youtube/v3/playlistItems: " + err.Error())
+		return nil, &YoutubeDataError{Code: http.StatusInternalServerError, Message: "Internal server error"}
 	}
 
 	response_data, err := io.ReadAll(youtube_playlist_items_response.Body)

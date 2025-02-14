@@ -19,9 +19,10 @@
 - Select playlist
   - :white_check_mark: ~~Should populate the playlist description~~
   - :white_check_mark: ~~Should highlight the selected playlist~~
-  - :white_check_mark: Should populate playlist items
+  - :white_check_mark: ~~Should populate playlist items~~
+  - Should show a toast if there's an error fetching playlist items
 - Option to delete playlists
-- Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded
+- :white_check_mark: ~~Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded~~
 
 ### Playlist Items
 
