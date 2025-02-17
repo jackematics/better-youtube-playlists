@@ -42,6 +42,8 @@ function renderList() {
 
         const newPlaylist = await response.json();
 
+        // populate playlist description
+
         document.getElementById(
           "total-videos"
         ).textContent = `Videos: ${newPlaylist.totalVideos}`;
@@ -56,10 +58,16 @@ function renderList() {
           document.getElementById("channel-owner").textContent = channelOwner;
         }
 
+        // show operations
+
+        document
+          .getElementById("playlist-operations")
+          .classList.remove("invisible");
+
+        // create list items
         const playlistItems = document.getElementById("playlist-items");
         playlistItems.innerHTML = "";
 
-        // create list item
         for (let i = 0; i < newPlaylist.items.length; i++) {
           const playlistItem = document.createElement("li");
           playlistItem.id = newPlaylist.items[i].id;
@@ -95,7 +103,7 @@ function renderList() {
       } catch (err) {
         console.log("cheese", err);
 
-        // handle error getting playlist items toast?
+        // handle error getting playlist items? toast?
       }
     });
 

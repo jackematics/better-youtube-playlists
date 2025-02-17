@@ -21,7 +21,6 @@
   - :white_check_mark: ~~Should highlight the selected playlist~~
   - :white_check_mark: ~~Should populate playlist items~~
   - Should show a toast if there's an error fetching playlist items
-- Option to delete playlists
 - :white_check_mark: ~~Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded~~
 
 ### Playlist Items
@@ -61,6 +60,7 @@
   - Randomly select a new playlist item at the end of every video
   - Move list scroll down to the selected video
 - Loop: At the end of the playlist, loop back to the first video in the playlist
+- Bin: Remove playlists from list
 
 ### Contact
 

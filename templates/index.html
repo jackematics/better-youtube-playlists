@@ -23,14 +23,7 @@
           <h2 class="text-white text-4xl pl-5 pt-5 pb-5 inline-block truncate">
             Playlists
           </h2>
-          <ul id="playlist-list-items" class="pl-3 flex flex-col">
-            <li id="li-" key="" class="mb-2">
-              <option
-                class="mr-3 pl-2 pr-2 pb-1 pt-1 text-2xl text-left rounded-2xl cursor-pointer truncate font-medium text-white hover:bg-warm-orange-hover"
-                title=""
-              ></option>
-            </li>
-          </ul>
+          <ul id="playlist-list-items" class="pl-3 flex flex-col"></ul>
           <button
             class="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-[14.75rem] h-11 rounded-lg border-2 flex bg-warm-orange hover:bg-warm-orange-hover"
           >
@@ -90,7 +83,7 @@
         <div
           class="bg-container-dark-blue border-4 relative rounded-lg col-start-3 col-span-1 row-span-1 pt-2 pb-2 pl-6 flex-auto"
         >
-          <div class="flex flex-row">
+          <div id="playlist-operations" class="flex flex-row invisible">
             <button
               class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer"
             >
@@ -131,28 +124,23 @@
                 height="55"
               />
             </button>
+            <button
+              class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5"
+            >
+              <img
+                src="/static/assets/icons/bin.png"
+                alt="loop"
+                width="48"
+                height="48"
+              />
+            </button>
           </div>
         </div>
         <!-- playlist items -->
         <div
           class="bg-container-dark-blue border-4 relative rounded-lg row-start-3 col-start-2 col-span-2 row-span-1 flex-auto overflow-y-scroll"
         >
-          <ul id="playlist-items" class="flex flex-col pt-3">
-            <!-- playlist-item template -->
-            <!-- <li id="li-1" key="1">
-              <div class="w-[4.5rem] flex justify-center">
-                <p>1</p>
-              </div>
-              <img
-                src=""
-                alt="playlist item"
-                width="70"
-                height="36"
-                class="ml-6 mr-2"
-              />
-              <p class="pl-7 w-[67rem] truncate"></p>
-            </li> -->
-          </ul>
+          <ul id="playlist-items" class="flex flex-col pt-3"></ul>
         </div>
       </div>
     </div>

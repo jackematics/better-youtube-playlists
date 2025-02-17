@@ -1,4 +1,5 @@
 
 better-youtube-playlists-key.pem
 better-youtube-playlists
-tmp/main
+**/.DS_Store
+.DS_Store
