@@ -26,11 +26,11 @@
 ### Playlist Items
 
 - :white_check_mark: ~~Items UI~~
-- :white_check_mark: Default: Empty container
-- :white_check_mark: List playlist items of selected playlist
-  - :white_check_mark: Item number, thumbnail, video title
-- :white_check_mark: Scroll through items
-- :white_check_mark: Selecting an item highlights it
+- :white_check_mark: ~~Default: Empty container~~
+- :white_check_mark: ~~List playlist items of selected playlist~~
+  - :white_check_mark: ~~Item number, thumbnail, video title~~
+- :white_check_mark: ~~Scroll through items~~
+- :white_check_mark: ~~Selecting an item highlights it~~
 - :white_check_mark: Playlist titles beyond a certain character length are truncated
 - Selecting an item scrolls that item to the middle of the container
 - Validate items fetch
