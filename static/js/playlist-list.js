@@ -1,5 +1,26 @@
 import { closeModal } from "./modal.js";
 
+async function handlePlaylistItemClick(event) {
+  // highlight selected
+  document.querySelectorAll(".playlist-items").forEach((item) => {
+    item.classList.remove("bg-warm-orange");
+  });
+
+  event.currentTarget.classList.add("bg-warm-orange");
+
+  // scroll to centre of container
+  const playlistItemsContainer = document.getElementById(
+    "playlist-items-container"
+  );
+
+  playlistItemsContainer.scrollTo({
+    top:
+      event.currentTarget.offsetTop -
+      (playlistItemsContainer.clientHeight / 2 - 51.2),
+    behavior: "smooth",
+  });
+}
+
 async function createPlaylistItem(itemNumber, playlistItemData) {
   const playlistItem = document.createElement("li");
   playlistItem.id = playlistItemData.id;
@@ -30,26 +51,7 @@ async function createPlaylistItem(itemNumber, playlistItemData) {
   playlistItem.appendChild(thumbnail);
   playlistItem.appendChild(title);
 
-  playlistItem.addEventListener("click", function () {
-    // highlight selected
-    document.querySelectorAll(".playlist-items").forEach((item) => {
-      item.classList.remove("bg-warm-orange");
-    });
-    playlistItem.classList.add("bg-warm-orange");
-
-    // scroll to centre of container
-    const playlistItemsContainer = document.getElementById(
-      "playlist-items-container"
-    );
-
-    // item.scrollTop = playlistItemsContainer.offsetTop;
-    playlistItemsContainer.scrollTo({
-      top:
-        playlistItem.offsetTop -
-        (playlistItemsContainer.clientHeight / 2 - 51.2),
-      behavior: "smooth",
-    });
-  });
+  playlistItem.addEventListener("click", handlePlaylistItemClick);
 
   return playlistItem;
 }
