@@ -31,8 +31,8 @@
   - :white_check_mark: ~~Item number, thumbnail, video title~~
 - :white_check_mark: ~~Scroll through items~~
 - :white_check_mark: ~~Selecting an item highlights it~~
-- :white_check_mark: Playlist titles beyond a certain character length are truncated
-- Selecting an item scrolls that item to the middle of the container
+- :white_check_mark: ~~Playlist titles beyond a certain character length are truncated~~
+- :white_check_mark: ~~Selecting an item scrolls that item to the middle of the container~~
 - Validate items fetch
 - Load more than 50 items on playlist select
 - Handle unavailable videos

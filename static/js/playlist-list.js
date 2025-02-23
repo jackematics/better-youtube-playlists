@@ -36,6 +36,19 @@ async function createPlaylistItem(itemNumber, playlistItemData) {
       item.classList.remove("bg-warm-orange");
     });
     playlistItem.classList.add("bg-warm-orange");
+
+    // scroll to centre of container
+    const playlistItemsContainer = document.getElementById(
+      "playlist-items-container"
+    );
+
+    // item.scrollTop = playlistItemsContainer.offsetTop;
+    playlistItemsContainer.scrollTo({
+      top:
+        playlistItem.offsetTop -
+        (playlistItemsContainer.clientHeight / 2 - 51.2),
+      behavior: "smooth",
+    });
   });
 
   return playlistItem;
