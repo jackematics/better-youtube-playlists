@@ -49,6 +49,4 @@ func fetchYoutubeApiKey() string {
 	return secretMap["YOUTUBE_API_KEY"]
 }
 
-var Config = EnvConfig {
-	YoutubeApiKey: fetchYoutubeApiKey(),
-}
+var YoutubeApiKey = fetchYoutubeApiKey()

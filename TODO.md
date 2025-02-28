@@ -33,8 +33,9 @@
 - :white_check_mark: ~~Selecting an item highlights it~~
 - :white_check_mark: ~~Playlist titles beyond a certain character length are truncated~~
 - :white_check_mark: ~~Selecting an item scrolls that item to the middle of the container~~
-- Validate items fetch
-- Load more than 50 items on playlist select
+- :white_check_mark: ~~Validate items fetch~~
+- :white_check_mark: ~~Load more than 50 items on playlist select~~
+- Loading spinner when loading items
 - Handle unavailable videos
 
 ### Video Player
@@ -50,7 +51,7 @@
 - :white_check_mark: Default: title only, No Playlist Selected
 - :white_check_mark: On playlist selection: Show title
 - :white_check_mark: On playlist selection: Show title, owner and number of videos
-- :bulb: Show the index of the current video in the description
+- Show the index of the current video in the description
 
 ### Playlist Operations
 

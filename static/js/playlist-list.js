@@ -56,6 +56,66 @@ async function createPlaylistItem(itemNumber, playlistItemData) {
   return playlistItem;
 }
 
+async function handlePlaylistClick(event, playlistId) {
+  const playlistTitle = document.getElementById("playlist-title");
+  playlistTitle.textContent = event.currentTarget.textContent;
+
+  document.querySelectorAll(".playlist").forEach((playlist) => {
+    playlist.classList.remove("bg-warm-orange");
+  });
+  event.currentTarget.classList.add("bg-warm-orange");
+
+  try {
+    const response = await fetch(`/playlist-items/${playlistId}`);
+
+    if ([500, 424].includes(response.status)) {
+      validationMessage.textContent = "Internal server error";
+      return;
+    }
+
+    if (response.status === 400) {
+      validationMessage.textContent = "Invalid playlist ID";
+      return;
+    }
+
+    const playlist = await response.json();
+
+    // populate playlist description
+
+    document.getElementById(
+      "total-videos"
+    ).textContent = `Videos: ${playlist.totalVideos}`;
+
+    const channelOwner = JSON.parse(
+      localStorage.getItem("playlistListItems")
+    ).find((storedItem) => storedItem.playlistId === playlistId).channelOwner;
+
+    if (channelOwner) {
+      document.getElementById("channel-owner").textContent = channelOwner;
+    }
+
+    // show operations
+
+    document
+      .getElementById("playlist-operations")
+      .classList.remove("invisible");
+
+    // create list items
+    const playlistItems = document.getElementById("playlist-items");
+    playlistItems.innerHTML = "";
+
+    for (let i = 0; i < playlist.items.length; i++) {
+      playlistItems.appendChild(
+        await createPlaylistItem(i + 1, playlist.items[i])
+      );
+    }
+  } catch (err) {
+    console.log("cheese", err);
+
+    // handle error getting playlist items? toast?
+  }
+}
+
 function createPlaylistListItem(item) {
   const playlistListItem = document.createElement("li");
   playlistListItem.id = `li-${item.playlistId}`;
@@ -68,71 +128,71 @@ function createPlaylistListItem(item) {
   option.title = item.playlistTitle;
   option.textContent = item.playlistTitle;
 
-  option.addEventListener("click", async function () {
-    const playlistTitle = document.getElementById("playlist-title");
-    playlistTitle.textContent = item.playlistTitle;
-
-    document.querySelectorAll(".playlist").forEach((playlist) => {
-      playlist.classList.remove("bg-warm-orange");
-    });
-    option.classList.add("bg-warm-orange");
-
-    try {
-      const response = await fetch(`/playlist-items/${item.playlistId}`);
-
-      if ([500, 424].includes(response.status)) {
-        validationMessage.textContent = "Internal server error";
-        return;
-      }
-
-      if (response.status === 400) {
-        validationMessage.textContent = "Invalid playlist ID";
-        return;
-      }
-
-      const playlist = await response.json();
-
-      // populate playlist description
-
-      document.getElementById(
-        "total-videos"
-      ).textContent = `Videos: ${playlist.totalVideos}`;
-
-      const channelOwner = JSON.parse(
-        localStorage.getItem("playlistListItems")
-      ).find(
-        (storedItem) => storedItem.playlistId === item.playlistId
-      ).channelOwner;
-
-      if (channelOwner) {
-        document.getElementById("channel-owner").textContent = channelOwner;
-      }
-
-      // show operations
-
-      document
-        .getElementById("playlist-operations")
-        .classList.remove("invisible");
-
-      // create list items
-      const playlistItems = document.getElementById("playlist-items");
-      playlistItems.innerHTML = "";
-
-      for (let i = 0; i < playlist.items.length; i++) {
-        playlistItems.appendChild(
-          await createPlaylistItem(i + 1, playlist.items[i])
-        );
-      }
-    } catch (err) {
-      console.log("cheese", err);
-
-      // handle error getting playlist items? toast?
-    }
+  option.addEventListener("click", (event) => {
+    handlePlaylistClick(event, item.playlistId);
   });
 
   playlistListItem.appendChild(option);
 
   return playlistListItem;
+}
+
+async function handleAddPlaylist() {
+  const playlistId = document.getElementById("playlist-id-input").value;
+  const validationMessage = document.getElementById("validation-message");
+
+  if (!playlistId) {
+    validationMessage.textContent = "Invalid playlist id";
+    return;
+  }
+
+  try {
+    const response = await fetch(`/playlist-metadata/${playlistId}`);
+
+    if ([500, 424].includes(response.status)) {
+      validationMessage.textContent = "Internal server error";
+      return;
+    }
+
+    if (response.status === 400) {
+      validationMessage.textContent = "Invalid playlist ID";
+      return;
+    }
+
+    const newPlaylistListItem = await response.json();
+
+    const playlistListItems =
+      JSON.parse(localStorage.getItem("playlistListItems")) || [];
+
+    if (
+      playlistListItems
+        .map((data) => data.playlistId)
+        .includes(newPlaylistListItem.playlistId)
+    ) {
+      validationMessage.textContent = "Duplicate playlists forbidden";
+      return;
+    }
+
+    localStorage.setItem(
+      "playlistListItems",
+      JSON.stringify([...playlistListItems, newPlaylistListItem])
+    );
+
+    closeModal();
+  } catch (err) {
+    console.log(err);
+    if ([500, 424].includes(err.statusCode)) {
+      validationMessage.textContent = `Error fetching playlist data`;
+      return;
+    }
+
+    if (err.statusCode === 400) {
+      validationMessage.textContent = `No playlist items returned for playlist`;
+      return;
+    }
+  }
+
+  renderList();
 }
 
 function renderList() {
@@ -151,60 +211,4 @@ document.addEventListener("DOMContentLoaded", renderList());
 
 document
   .getElementById("submit-playlist-button")
-  .addEventListener("click", async function () {
-    const playlistId = document.getElementById("playlist-id-input").value;
-    const validationMessage = document.getElementById("validation-message");
-
-    if (!playlistId) {
-      validationMessage.textContent = "Invalid playlist id";
-      return;
-    }
-
-    try {
-      const response = await fetch(`/playlist-metadata/${playlistId}`);
-
-      if ([500, 424].includes(response.status)) {
-        validationMessage.textContent = "Internal server error";
-        return;
-      }
-
-      if (response.status === 400) {
-        validationMessage.textContent = "Invalid playlist ID";
-        return;
-      }
-
-      const newPlaylistListItem = await response.json();
-
-      const playlistListItems =
-        JSON.parse(localStorage.getItem("playlistListItems")) || [];
-
-      if (
-        playlistListItems
-          .map((data) => data.playlistId)
-          .includes(newPlaylistListItem.playlistId)
-      ) {
-        validationMessage.textContent = "Duplicate playlists forbidden";
-        return;
-      }
-
-      localStorage.setItem(
-        "playlistListItems",
-        JSON.stringify([...playlistListItems, newPlaylistListItem])
-      );
-
-      closeModal();
-    } catch (err) {
-      console.log(err);
-      if ([500, 424].includes(err.statusCode)) {
-        validationMessage.textContent = `Error fetching playlist data`;
-        return;
-      }
-
-      if (err.statusCode === 400) {
-        validationMessage.textContent = `No playlist items returned for playlist`;
-        return;
-      }
-    }
-
-    renderList();
-  });
+  .addEventListener("click", handleAddPlaylist);
