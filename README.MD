@@ -1,6 +1,6 @@
-# Better Youtube Playlists Htmx
+# Better Youtube Playlists
 
-Buildling a better youtube playlists app using htmx and a go backend.
+Buildling a better youtube playlists app using js and a go backend.
 
 ## Infrastructure
 

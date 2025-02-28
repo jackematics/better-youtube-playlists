@@ -60,8 +60,8 @@
 - Shuffle: At the end of every video
   - Randomly select a new playlist item at the end of every video
   - Move list scroll down to the selected video
-- Loop: At the end of the playlist, loop back to the first video in the playlist
 - Bin: Remove playlists from list
+- Download: Download a list of all the videos as MP3/MP4 files
 
 ### Contact
 

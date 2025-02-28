@@ -2,7 +2,6 @@ package youtube_data
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -191,7 +190,6 @@ func fetchNextYoutubePlaylistItems(playlistId string, nextPageToken string) (*Yo
 
 func FetchYoutubePlaylistItems(playlistId string) (*YoutubePlaylistItemsResponse, *YoutubeDataError) {
 	youtubePlaylistItemsResponse, youtubeDataErr := fetchNextYoutubePlaylistItems(playlistId, "")
-	fmt.Printf("%+v\n token: ", youtubePlaylistItemsResponse.NextPageToken)
 	
 	if youtubeDataErr != nil {
 		return nil, youtubeDataErr
