@@ -50,7 +50,10 @@
           id="youtube-embed"
           class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-2 pt-2 pr-2 pl-2 pb-2 min-w-[32.5rem]"
         >
-          <div class="w-full h-full bg-black grid place-items-center relative">
+          <div
+            title="video placeholder"
+            class="w-full h-full bg-black grid place-items-center relative"
+          >
             <img
               src="/static/assets/logos/jackematica-logo.svg"
               alt="page-logo"
@@ -118,6 +121,16 @@
               class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5"
             >
               <img
+                src="/static/assets/icons/loop-bold.png"
+                alt="loop"
+                width="55"
+                height="55"
+              />
+            </button>
+            <button
+              class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5"
+            >
+              <img
                 src="/static/assets/icons/bin.png"
                 alt="loop"
                 width="48"
@@ -129,8 +142,14 @@
         <!-- playlist items -->
         <div
           id="playlist-items-container"
-          class="bg-container-dark-blue border-4 relative rounded-lg row-start-3 col-start-2 col-span-2 row-span-1 flex-auto overflow-y-scroll"
+          class="bg-container-dark-blue border-4 relative rounded-lg row-start-3 col-start-2 col-span-2 row-span-1 overflow-y-scroll"
         >
+          <div
+            id="loader-container"
+            class="absolute inset-0 flex items-center justify-center invisible"
+          >
+            <div class="loader w-[4rem] h-[4rem]"></div>
+          </div>
           <ul id="playlist-items" class="flex flex-col pt-3"></ul>
         </div>
       </div>

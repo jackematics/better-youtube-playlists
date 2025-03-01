@@ -1,6 +1,7 @@
 import { closeModal } from "./modal.js";
+import { setPlayingVideo } from "./youtube-embed.js";
 
-async function handlePlaylistItemClick(event) {
+async function handlePlaylistItemClick(event, playlistItemData) {
   // highlight selected
   document.querySelectorAll(".playlist-items").forEach((item) => {
     item.classList.remove("bg-warm-orange");
@@ -19,6 +20,8 @@ async function handlePlaylistItemClick(event) {
       (playlistItemsContainer.clientHeight / 2 - 51.2),
     behavior: "smooth",
   });
+
+  setPlayingVideo(playlistItemData.id, playlistItemData.title);
 }
 
 async function createPlaylistItem(itemNumber, playlistItemData) {
@@ -26,7 +29,7 @@ async function createPlaylistItem(itemNumber, playlistItemData) {
   playlistItem.id = playlistItemData.id;
   playlistItem.setAttribute("key", playlistItemData.id);
   playlistItem.className =
-    "playlist-items h-[3.2rem] pt-1 pb-1 pr-3 mr-2 ml-3 flex flex-row text-[1.75rem] text-left cursor-pointer text-white hover:bg-warm-orange-hover";
+    "playlist-items h-[3.2rem] pt-1 pb-1 pr-3 mr-2 ml-3 flex flex-row text-[1.75rem] text-left cursor-pointer text-white hover:bg-warm-orange-hover select-none";
 
   const indexContainer = document.createElement("div");
   indexContainer.className = "w-[4.5rem] flex justify-center";
@@ -51,19 +54,37 @@ async function createPlaylistItem(itemNumber, playlistItemData) {
   playlistItem.appendChild(thumbnail);
   playlistItem.appendChild(title);
 
-  playlistItem.addEventListener("click", handlePlaylistItemClick);
+  playlistItem.addEventListener("click", (event) =>
+    handlePlaylistItemClick(event, playlistItemData)
+  );
 
   return playlistItem;
 }
 
 async function handlePlaylistClick(event, playlistId) {
   const playlistTitle = document.getElementById("playlist-title");
+
+  // Don't refetch when selecting same playlist
+  if (playlistTitle.textContent === event.currentTarget.textContent) {
+    return;
+  }
+
+  // clears playlist items
+  const playlistItems = document.getElementById("playlist-items");
+  playlistItems.innerHTML = "";
+
+  // sets new title
   playlistTitle.textContent = event.currentTarget.textContent;
 
+  // highlights playlist
   document.querySelectorAll(".playlist").forEach((playlist) => {
     playlist.classList.remove("bg-warm-orange");
   });
   event.currentTarget.classList.add("bg-warm-orange");
+
+  // shows loading spinner
+  const loader = document.getElementById("loader-container");
+  loader.classList.remove("invisible");
 
   try {
     const response = await fetch(`/playlist-items/${playlistId}`);
@@ -101,26 +122,29 @@ async function handlePlaylistClick(event, playlistId) {
       .classList.remove("invisible");
 
     // create list items
-    const playlistItems = document.getElementById("playlist-items");
-    playlistItems.innerHTML = "";
 
     for (let i = 0; i < playlist.items.length; i++) {
       playlistItems.appendChild(
         await createPlaylistItem(i + 1, playlist.items[i])
       );
     }
+
+    // play first item in list
+    setPlayingVideo(playlist.items[0].id, playlist.items[0].title);
   } catch (err) {
     console.log("cheese", err);
 
-    // handle error getting playlist items? toast?
+    // TODO: handle error getting playlist items? toast?
   }
+
+  loader.classList.add("invisible");
 }
 
 function createPlaylistListItem(item) {
   const playlistListItem = document.createElement("li");
   playlistListItem.id = `li-${item.playlistId}`;
   playlistListItem.setAttribute("key", item.playlistId);
-  playlistListItem.className = "mb-2";
+  playlistListItem.className = "mb-2 select-none";
 
   const option = document.createElement("option");
   option.className =

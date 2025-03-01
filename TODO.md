@@ -35,14 +35,15 @@
 - :white_check_mark: ~~Selecting an item scrolls that item to the middle of the container~~
 - :white_check_mark: ~~Validate items fetch~~
 - :white_check_mark: ~~Load more than 50 items on playlist select~~
-- Loading spinner when loading items
+- :white_check_mark: ~~Loading spinner when loading items~~
+- :white_check_mark: ~~Selecting the same playlist multiple times won't refetch~~
 - Handle unavailable videos
 
 ### Video Player
 
 - :white_check_mark: ~~Default: show a graphic~~
-- :white_check_mark: On playlist item select: display and play video corresponding to selected item
-- On playlist select: Play the first video in the list
+- :white_check_mark: ~~On playlist item select: display and play video corresponding to selected item~~
+- :white_check_mark: ~~On playlist select: Play the first video in the list~~
 - On video end: move to the next playlist item which also focuses it
 - On playlist end: stop
 
@@ -60,6 +61,7 @@
 - Shuffle: At the end of every video
   - Randomly select a new playlist item at the end of every video
   - Move list scroll down to the selected video
+- Loop: At the end of the playlist, loop back to the first video in the playlist
 - Bin: Remove playlists from list
 - Download: Download a list of all the videos as MP3/MP4 files
 
