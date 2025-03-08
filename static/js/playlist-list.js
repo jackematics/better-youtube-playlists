@@ -1,14 +1,9 @@
 import { closeModal } from "./modal.js";
+import { highlightSelectedItem } from "./playlist-items.js";
 import { setPlayingVideo } from "./youtube-embed.js";
 
-async function handlePlaylistItemClick(event, playlistItemData) {
-  // highlight selected
-  document.querySelectorAll(".playlist-items").forEach((item) => {
-    item.classList.remove("bg-warm-orange");
-  });
-
-  event.currentTarget.classList.add("bg-warm-orange");
-
+async function handlePlaylistItemClick(event) {
+  highlightSelectedItem(event.currentTarget);
   // scroll to centre of container
   const playlistItemsContainer = document.getElementById(
     "playlist-items-container"
@@ -21,13 +16,13 @@ async function handlePlaylistItemClick(event, playlistItemData) {
     behavior: "smooth",
   });
 
-  setPlayingVideo(playlistItemData.id, playlistItemData.title);
+  setPlayingVideo(event.currentTarget.id);
 }
 
-async function createPlaylistItem(itemNumber, playlistItemData) {
+async function createPlaylistItem(playlistItems, i) {
   const playlistItem = document.createElement("li");
-  playlistItem.id = playlistItemData.id;
-  playlistItem.setAttribute("key", playlistItemData.id);
+  playlistItem.id = playlistItems[i].id;
+  playlistItem.setAttribute("key", playlistItems[i].id);
   playlistItem.className =
     "playlist-items h-[3.2rem] pt-1 pb-1 pr-3 mr-2 ml-3 flex flex-row text-[1.75rem] text-left cursor-pointer text-white hover:bg-warm-orange-hover select-none";
 
@@ -35,27 +30,27 @@ async function createPlaylistItem(itemNumber, playlistItemData) {
   indexContainer.className = "w-[4.5rem] flex justify-center";
 
   const index = document.createElement("p");
-  index.textContent = itemNumber;
+  index.textContent = i + 1;
 
   indexContainer.appendChild(index);
 
   const thumbnail = document.createElement("img");
-  thumbnail.src = playlistItemData.thumbnailUrl;
-  thumbnail.alt = playlistItemData.title;
+  thumbnail.src = playlistItems[i].thumbnailUrl;
+  thumbnail.alt = playlistItems[i].title;
   thumbnail.width = 70;
   thumbnail.height = 36;
   thumbnail.className = "ml-6 mr-2";
 
   const title = document.createElement("p");
   title.className = "pl-7 w-[67rem] truncate";
-  title.textContent = playlistItemData.title;
+  title.textContent = playlistItems[i].title;
 
   playlistItem.appendChild(indexContainer);
   playlistItem.appendChild(thumbnail);
   playlistItem.appendChild(title);
 
   playlistItem.addEventListener("click", (event) =>
-    handlePlaylistItemClick(event, playlistItemData)
+    handlePlaylistItemClick(event, playlistItems, i)
   );
 
   return playlistItem;
@@ -122,15 +117,13 @@ async function handlePlaylistClick(event, playlistId) {
       .classList.remove("invisible");
 
     // create list items
-
     for (let i = 0; i < playlist.items.length; i++) {
-      playlistItems.appendChild(
-        await createPlaylistItem(i + 1, playlist.items[i])
-      );
+      playlistItems.appendChild(await createPlaylistItem(playlist.items, i));
     }
 
+    highlightSelectedItem(document.getElementById(playlist.items[0].id));
     // play first item in list
-    setPlayingVideo(playlist.items[0].id, playlist.items[0].title);
+    setPlayingVideo(playlist.items[0].id);
   } catch (err) {
     console.log("cheese", err);
 

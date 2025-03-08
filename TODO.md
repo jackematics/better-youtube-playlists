@@ -22,6 +22,7 @@
   - :white_check_mark: ~~Should populate playlist items~~
   - Should show a toast if there's an error fetching playlist items
 - :white_check_mark: ~~Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded~~
+- Handle empty playlists
 
 ### Playlist Items
 
@@ -38,14 +39,15 @@
 - :white_check_mark: ~~Loading spinner when loading items~~
 - :white_check_mark: ~~Selecting the same playlist multiple times won't refetch~~
 - Handle unavailable videos
+- Handle empty playlists
 
 ### Video Player
 
 - :white_check_mark: ~~Default: show a graphic~~
 - :white_check_mark: ~~On playlist item select: display and play video corresponding to selected item~~
 - :white_check_mark: ~~On playlist select: Play the first video in the list~~
-- On video end: move to the next playlist item which also focuses it
-- On playlist end: stop
+- :white_check_mark: ~~On video end: move to the next playlist item which also focuses it~~
+- :white_check_mark: ~~On playlist end: stop~~
 
 ### Playlist Description
 

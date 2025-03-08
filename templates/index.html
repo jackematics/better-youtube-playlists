@@ -51,7 +51,8 @@
           class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-2 pt-2 pr-2 pl-2 pb-2 min-w-[32.5rem]"
         >
           <div
-            title="video placeholder"
+            id="video-container"
+            title="YouTube video"
             class="w-full h-full bg-black grid place-items-center relative"
           >
             <img
@@ -203,7 +204,10 @@
         </div>
       </div>
     </div>
-    <script type="module" src="/static/js/modal.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script type="module" src="/static/js/playlist-items.js"></script>
+    <script type="module" src="/static/js/youtube-embed.js"></script>
     <script type="module" src="/static/js/playlist-list.js"></script>
+    <script type="module" src="/static/js/modal.js"></script>
   </body>
 </html>
