@@ -51,14 +51,15 @@
 
 ### Playlist Description
 
-- :white_check_mark: Default: title only, No Playlist Selected
-- :white_check_mark: On playlist selection: Show title
-- :white_check_mark: On playlist selection: Show title, owner and number of videos
-- Show the index of the current video in the description
+- :white_check_mark: ~Default: title only, No Playlist Selected~
+- :white_check_mark: ~On playlist selection: Show title~
+- :white_check_mark: ~On playlist selection: Show title, owner and number of videos~
+- :white_check_mark: ~Show the index of the current video in the description~
+- Buy me a coffee button?
 
 ### Playlist Operations
 
-- Previous: Move to the previous playlist item
+- :white_check_mark: ~Previous: Move to the previous playlist item~
 - Next: Move to the next playlist item
 - Shuffle: At the end of every video
   - Randomly select a new playlist item at the end of every video

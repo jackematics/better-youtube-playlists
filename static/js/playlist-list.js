@@ -23,7 +23,7 @@ async function handlePlaylistItemClick(event) {
   const totalVideos = document.getElementById("total-videos");
   const pSplit = totalVideos.textContent.split(" ");
   const totalVideoCount = pSplit[pSplit.length - 1];
-  totalVideos.textContent = `Videos: ${itemIndex} / ${totalVideoCount}`;
+  totalVideos.textContent = `Video: ${itemIndex} / ${totalVideoCount}`;
 }
 
 async function createPlaylistItem(playlistItems, i) {
@@ -105,7 +105,7 @@ async function handlePlaylistClick(event, playlistId) {
 
     document.getElementById(
       "total-videos"
-    ).textContent = `Videos: 1 / ${playlist.totalVideos}`;
+    ).textContent = `Video: 1 / ${playlist.totalVideos}`;
 
     const channelOwner = JSON.parse(
       localStorage.getItem("playlistListItems")
