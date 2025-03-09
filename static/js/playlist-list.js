@@ -4,11 +4,11 @@ import { setPlayingVideo } from "./youtube-embed.js";
 
 async function handlePlaylistItemClick(event) {
   highlightSelectedItem(event.currentTarget);
+
   // scroll to centre of container
   const playlistItemsContainer = document.getElementById(
     "playlist-items-container"
   );
-
   playlistItemsContainer.scrollTo({
     top:
       event.currentTarget.offsetTop -
@@ -17,6 +17,13 @@ async function handlePlaylistItemClick(event) {
   });
 
   setPlayingVideo(event.currentTarget.id);
+
+  // set video currently playing in description
+  const itemIndex = event.currentTarget.children[0].children[0].textContent;
+  const totalVideos = document.getElementById("total-videos");
+  const pSplit = totalVideos.textContent.split(" ");
+  const totalVideoCount = pSplit[pSplit.length - 1];
+  totalVideos.textContent = `Videos: ${itemIndex} / ${totalVideoCount}`;
 }
 
 async function createPlaylistItem(playlistItems, i) {
@@ -49,9 +56,7 @@ async function createPlaylistItem(playlistItems, i) {
   playlistItem.appendChild(thumbnail);
   playlistItem.appendChild(title);
 
-  playlistItem.addEventListener("click", (event) =>
-    handlePlaylistItemClick(event, playlistItems, i)
-  );
+  playlistItem.addEventListener("click", handlePlaylistItemClick);
 
   return playlistItem;
 }
@@ -100,7 +105,7 @@ async function handlePlaylistClick(event, playlistId) {
 
     document.getElementById(
       "total-videos"
-    ).textContent = `Videos: ${playlist.totalVideos}`;
+    ).textContent = `Videos: 1 / ${playlist.totalVideos}`;
 
     const channelOwner = JSON.parse(
       localStorage.getItem("playlistListItems")
