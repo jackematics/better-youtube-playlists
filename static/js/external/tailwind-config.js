@@ -16,12 +16,13 @@ tailwind.config = {
       "cancel-red": "#BD342B",
       "cancel-red-hover": "#9E2720",
       "cancel-red-active": "#7A231D",
-      "outline-gray": "#868A8f",
-      "eggshell-white": "#E9DCC9",
+      "outline-grey-hover": "#a3a8ad",
+      "outline-grey": "#868A8f",
       black: "#000000",
       white: "#FFFFFF",
       "warm-orange": "#cc5c23",
       "warm-orange-hover": "#cc6d3d",
+      "orange-highlight": "#ff7e00",
     },
     extend: {
       backgroundImage: {

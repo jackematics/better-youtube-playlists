@@ -1,20 +1,10 @@
-import { highlightSelectedItem } from "./playlist-items.js";
+import { handleNextClick } from "./playlist-operations.js";
 
 let player;
 
 function onPlayerStateChange(event) {
   if (event.data === YT.PlayerState.ENDED) {
-    const nextVideo = document
-      .getElementById("playlist-items")
-      .querySelector(".bg-warm-orange").nextElementSibling;
-
-    if (!nextVideo) {
-      return;
-    }
-    const nextVideoId = nextVideo.getAttribute("id");
-
-    player.loadVideoById(nextVideoId);
-    highlightSelectedItem(nextVideo);
+    handleNextClick();
   }
 }
 
