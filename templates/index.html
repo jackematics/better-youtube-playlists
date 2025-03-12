@@ -90,6 +90,7 @@
           <div id="playlist-operations" class="flex flex-row invisible">
             <button
               id="previous"
+              title="previous"
               class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer hover:bg-warm-orange-hover select-none"
             >
               <img
@@ -101,6 +102,7 @@
             </button>
             <button
               id="next"
+              title="next"
               class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5 hover:bg-warm-orange-hover select-none"
             >
               <img
@@ -111,7 +113,20 @@
               />
             </button>
             <button
+              id="randomise"
+              title="randomise"
+              class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5 hover:bg-warm-orange-hover select-none"
+            >
+              <img
+                src="/static/assets/icons/dice.png"
+                alt="dice"
+                width="50"
+                height="50"
+              />
+            </button>
+            <button
               id="shuffle"
+              title="shuffle"
               class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5 hover:bg-warm-orange-hover select-none"
             >
               <img
@@ -122,6 +137,8 @@
               />
             </button>
             <button
+              id="loop"
+              title="loop"
               class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5 hover:bg-warm-orange-hover select-none"
             >
               <img
@@ -132,11 +149,13 @@
               />
             </button>
             <button
+              id="remove-playlist"
+              title="remove playlist"
               class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5 hover:bg-warm-orange-hover select-none"
             >
               <img
                 src="/static/assets/icons/bin.png"
-                alt="loop"
+                alt="bin"
                 width="48"
                 height="48"
               />

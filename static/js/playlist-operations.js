@@ -1,4 +1,4 @@
-let SHUFFLE = false;
+let RANDOMISE = false;
 
 function handlePreviousClick() {
   const prevVideo = document
@@ -16,7 +16,7 @@ export function handleNextClick() {
     .querySelector(".bg-warm-orange");
 
   let nextVideo;
-  if (SHUFFLE) {
+  if (RANDOMISE) {
     const currentItemIndex = Number.parseInt(
       currentVideo.children[0].children[0].textContent
     );
@@ -42,10 +42,10 @@ export function handleNextClick() {
   }
 }
 
-function handleShuffleClick(event) {
-  SHUFFLE = !SHUFFLE;
+function handleRandomise(event) {
+  RANDOMISE = !RANDOMISE;
 
-  if (SHUFFLE) {
+  if (RANDOMISE) {
     event.currentTarget.classList.remove("bg-white");
     event.currentTarget.classList.add("bg-orange-highlight");
   } else {
@@ -60,6 +60,4 @@ document
 
 document.getElementById("next").addEventListener("click", handleNextClick);
 
-document
-  .getElementById("shuffle")
-  .addEventListener("click", handleShuffleClick);
+document.getElementById("randomise").addEventListener("click", handleRandomise);

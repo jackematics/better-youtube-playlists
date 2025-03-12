@@ -41,6 +41,8 @@
 - :white_check_mark: ~~Selecting the same playlist multiple times won't refetch~~
 - Handle unavailable videos
 - Handle empty playlists
+- Handle private videos
+- Handle age restricted videos
 
 ### Video Player
 
@@ -81,9 +83,8 @@
 
 ### Misc
 
-- Description and Playlist Items shrinks on lower screen sizes
-- Fix skipping through playlist quickly bug
 - Make it accessible
+- Use Google Fonts? Better fontage?
 
 ### Stretch Goals
 
