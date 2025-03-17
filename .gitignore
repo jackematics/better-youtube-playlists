@@ -3,3 +3,4 @@ better-youtube-playlists-key.pem
 better-youtube-playlists
 **/.DS_Store
 .DS_Store
+.env

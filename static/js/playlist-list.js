@@ -1,3 +1,4 @@
+import { History } from "./history.js";
 import { closeModal } from "./modal.js";
 import { highlightSelectedItem } from "./playlist-items.js";
 import { setPlayingVideo } from "./youtube-embed.js";
@@ -24,6 +25,9 @@ async function handlePlaylistItemClick(event) {
   const pSplit = totalVideos.textContent.split(" ");
   const totalVideoCount = pSplit[pSplit.length - 1];
   totalVideos.textContent = `Video: ${itemIndex} / ${totalVideoCount}`;
+
+  // adds video to history of played videos
+  History.add(event.currentTarget.id);
 }
 
 async function createPlaylistItem(playlistItems, i) {

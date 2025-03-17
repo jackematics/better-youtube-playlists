@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
+	"github.com/joho/godotenv"
 )
 
 type EnvConfig struct {
@@ -17,6 +18,7 @@ type EnvConfig struct {
 func fetchYoutubeApiKey() string {
 	secretName := "YOUTUBE_API_KEY"
 	region := "eu-west-2"
+	godotenv.Load()
 
 	config, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(region))
 	if err != nil {

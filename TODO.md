@@ -23,7 +23,7 @@
   - Should show a toast if there's an error fetching playlist items
 - :white_check_mark: ~~Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded~~
 - Handle empty playlists
-- Selecting a playlist resets the playlist operations
+- Selecting a playlist resets the playlist operations and playlist history
 
 ### Playlist Items
 
@@ -64,13 +64,21 @@
 
 - :white_check_mark: ~Previous: Move to the previous playlist item~
 - :white_check_mark: ~Next: Move to the next playlist item~
-- Shuffle
+- Random
   - :white_check_mark: ~At the end of every video~
     - :white_check_mark: ~Randomly select a new playlist item~
     - :white_check_mark: ~scroll down to the selected video~
   - :white_check_mark: ~Pressing the next button~
     - :white_check_mark: ~Randomly selects a new playlist item~
-  -
+    - :white_check_mark: ~scroll down to the selected video~
+  - Pressing the previous button
+    - Returns to the previously played video
+    - Returns to the previously indexed video if the history is empty
+  - Deselecting
+    - Resets playlist history
+- Shuffle
+  - Deselecting
+    - Resets playist history
 - Loop: At the end of the playlist, loop back to the first video in the playlist
 - Bin: Remove playlists from list
 - Download: Download a list of all the videos as MP3/MP4 files
