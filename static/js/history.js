@@ -10,7 +10,11 @@ function add(id) {
   }
 }
 
-function getPrevious() {
+function getPreviousVideoId() {
+  if (HISTORY.length === 0) {
+    return null;
+  }
+
   HISTORY.pop();
 
   return HISTORY[HISTORY.length - 1];
@@ -18,5 +22,5 @@ function getPrevious() {
 
 export const History = {
   add,
-  getPrevious,
+  getPreviousVideoId,
 };

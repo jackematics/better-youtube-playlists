@@ -1,9 +1,14 @@
+import { History } from "./history.js";
+
 let RANDOMISE = false;
 
 function handlePreviousClick() {
-  const prevVideo = document
-    .getElementById("playlist-items")
-    .querySelector(".bg-warm-orange").previousElementSibling;
+  const historyPrev = History.getPreviousVideoId();
+
+  const prevVideo = historyPrev
+    ? document.getElementById(historyPrev)
+    : document.getElementById("playlist-items").querySelector(".bg-warm-orange")
+        .previousElementSibling;
 
   if (prevVideo) {
     prevVideo.click();
