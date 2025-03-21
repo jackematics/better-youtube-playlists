@@ -133,6 +133,9 @@ async function handlePlaylistClick(event, playlistId) {
     highlightSelectedItem(document.getElementById(playlist.items[0].id));
     // play first item in list
     setPlayingVideo(playlist.items[0].id);
+
+    // reset playlist history
+    History.clear();
   } catch (err) {
     console.log("cheese", err);
 
