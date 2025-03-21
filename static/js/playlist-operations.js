@@ -54,6 +54,8 @@ function handleRandomise(event) {
     event.currentTarget.classList.remove("bg-white");
     event.currentTarget.classList.add("bg-orange-highlight");
   } else {
+    History.clear();
+
     event.currentTarget.classList.remove("bg-orange-highlight");
     event.currentTarget.classList.add("bg-white");
   }

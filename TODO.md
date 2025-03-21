@@ -64,18 +64,18 @@
 
 - :white_check_mark: ~Previous: Move to the previous playlist item~
 - :white_check_mark: ~Next: Move to the next playlist item~
-- Random
+- ~Random~
   - :white_check_mark: ~At the end of every video~
     - :white_check_mark: ~Randomly select a new playlist item~
     - :white_check_mark: ~scroll down to the selected video~
   - :white_check_mark: ~Pressing the next button~
     - :white_check_mark: ~Randomly selects a new playlist item~
     - :white_check_mark: ~scroll down to the selected video~
-  - Pressing the previous button
-    - Returns to the previously played video
-    - Returns to the previously indexed video if the history is empty
-  - Deselecting
-    - Resets playlist history
+  - :white_check_mark: ~Pressing the previous button~
+    - ~Returns to the previously played video~
+    - ~Returns to the previously indexed video if the history is empty~
+  - :white_check_mark: ~Deselecting~
+    - :white_check_mark: ~Resets playlist history~
 - Shuffle
   - Deselecting
     - Resets playist history

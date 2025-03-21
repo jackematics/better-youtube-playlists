@@ -20,7 +20,12 @@ function getPreviousVideoId() {
   return HISTORY[HISTORY.length - 1];
 }
 
+function clear() {
+  HISTORY.length = 0;
+}
+
 export const History = {
   add,
   getPreviousVideoId,
+  clear,
 };
