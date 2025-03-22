@@ -60,5 +60,5 @@ func main() {
 	http.HandleFunc("/playlist-items/", playlist.GetPlaylistItems)
 
 	fmt.Println("Server started on :8000")
-	http.ListenAndServe("localhost:8000", nil)	
+	http.ListenAndServe(":8000", nil)	
 }
