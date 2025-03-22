@@ -3,17 +3,33 @@ import { closeModal } from "./modal.js";
 import { highlightSelectedItem } from "./playlist-items.js";
 import { setPlayingVideo } from "./youtube-embed.js";
 
+const playlistListItemsEl = document.getElementById("playlist-list-items");
+const playlistTitleEl = document.getElementById("playlist-title");
+const totalVideosEl = document.getElementById("total-videos");
+const selectPlaylistValidationMessageEl = document.getElementById(
+  "select-playlist-validation-message"
+);
+const playlistOperationsEl = document.getElementById("playlist-operations");
+
+const playlistItemsContainerEl = document.getElementById(
+  "playlist-items-container"
+);
+const loaderContainerEl = document.getElementById("loader-container");
+const playlistItemsEl = document.getElementById("playlist-items");
+const playlistIdInputEl = document.getElementById("playlist-id-input");
+const modalValidationMessageEl = document.getElementById(
+  "modal-validation-message"
+);
+const submitPlaylistBtnEl = document.getElementById("submit-playlist-button");
+
 async function handlePlaylistItemClick(event) {
   highlightSelectedItem(event.currentTarget);
 
   // scroll to centre of container
-  const playlistItemsContainer = document.getElementById(
-    "playlist-items-container"
-  );
-  playlistItemsContainer.scrollTo({
+  playlistItemsContainerEl.scrollTo({
     top:
       event.currentTarget.offsetTop -
-      (playlistItemsContainer.clientHeight / 2 - 51.2),
+      (playlistItemsContainerEl.clientHeight / 2 - 51.2),
     behavior: "smooth",
   });
 
@@ -21,10 +37,9 @@ async function handlePlaylistItemClick(event) {
 
   // set video currently playing in description
   const itemIndex = event.currentTarget.children[0].children[0].textContent;
-  const totalVideos = document.getElementById("total-videos");
-  const pSplit = totalVideos.textContent.split(" ");
+  const pSplit = totalVideosEl.textContent.split(" ");
   const totalVideoCount = pSplit[pSplit.length - 1];
-  totalVideos.textContent = `Video: ${itemIndex} / ${totalVideoCount}`;
+  totalVideosEl.textContent = `Video: ${itemIndex} / ${totalVideoCount}`;
 
   // adds video to history of played videos
   History.add(event.currentTarget.id);
@@ -66,19 +81,16 @@ async function createPlaylistItem(playlistItems, i) {
 }
 
 async function handlePlaylistClick(event, playlistId) {
-  const playlistTitle = document.getElementById("playlist-title");
-
   // Don't refetch when selecting same playlist
-  if (playlistTitle.textContent === event.currentTarget.textContent) {
+  if (playlistTitleEl.textContent === event.currentTarget.textContent) {
     return;
   }
 
   // clears playlist items
-  const playlistItems = document.getElementById("playlist-items");
-  playlistItems.innerHTML = "";
+  playlistItemsEl.innerHTML = "";
 
   // sets new title
-  playlistTitle.textContent = event.currentTarget.textContent;
+  playlistTitleEl.textContent = event.currentTarget.textContent;
 
   // highlights playlist
   document.querySelectorAll(".playlist").forEach((playlist) => {
@@ -87,62 +99,56 @@ async function handlePlaylistClick(event, playlistId) {
   event.currentTarget.classList.add("bg-warm-orange");
 
   // shows loading spinner
-  const loader = document.getElementById("loader-container");
-  loader.classList.remove("invisible");
+  loaderContainerEl.classList.remove("invisible");
+
+  selectPlaylistValidationMessageEl.textContent = "";
+  let validationMessage = "";
 
   try {
+    // reset playlist history
+    History.clear();
+
+    // fetch playlist items
     const response = await fetch(`/playlist-items/${playlistId}`);
 
     if ([500, 424].includes(response.status)) {
-      validationMessage.textContent = "Internal server error";
-      return;
+      validationMessage = "Internal server error";
+      throw new Error(validationMessage);
     }
 
     if (response.status === 400) {
-      validationMessage.textContent = "Invalid playlist ID";
-      return;
+      validationMessage = "Invalid playlist ID";
+      throw new Error(validationMessage);
     }
 
     const playlist = await response.json();
 
     // populate playlist description
 
-    document.getElementById(
-      "total-videos"
-    ).textContent = `Video: 1 / ${playlist.totalVideos}`;
+    totalVideosEl.textContent = `Video: 1 / ${playlist.totalVideos}`;
 
-    const channelOwner = JSON.parse(
-      localStorage.getItem("playlistListItems")
-    ).find((storedItem) => storedItem.playlistId === playlistId).channelOwner;
-
-    if (channelOwner) {
-      document.getElementById("channel-owner").textContent = channelOwner;
+    // validate empty playlist
+    if (playlist.items.length === 0) {
+      validationMessage = "Playlist is empty";
+      throw new Error(validationMessage);
     }
 
     // show operations
-
-    document
-      .getElementById("playlist-operations")
-      .classList.remove("invisible");
+    playlistOperationsEl.classList.remove("invisible");
 
     // create list items
     for (let i = 0; i < playlist.items.length; i++) {
-      playlistItems.appendChild(await createPlaylistItem(playlist.items, i));
+      playlistItemsEl.appendChild(await createPlaylistItem(playlist.items, i));
     }
 
     highlightSelectedItem(document.getElementById(playlist.items[0].id));
     // play first item in list
     setPlayingVideo(playlist.items[0].id);
-
-    // reset playlist history
-    History.clear();
   } catch (err) {
-    console.log("cheese", err);
-
-    // TODO: handle error getting playlist items? toast?
+    selectPlaylistValidationMessageEl.textContent = validationMessage;
   }
 
-  loader.classList.add("invisible");
+  loaderContainerEl.classList.add("invisible");
 }
 
 function createPlaylistListItem(item) {
@@ -167,11 +173,10 @@ function createPlaylistListItem(item) {
 }
 
 async function handleAddPlaylist() {
-  const playlistId = document.getElementById("playlist-id-input").value;
-  const validationMessage = document.getElementById("validation-message");
+  const playlistId = playlistIdInputEl.value;
 
   if (!playlistId) {
-    validationMessage.textContent = "Invalid playlist id";
+    modalValidationMessageEl.textContent = "Invalid playlist id";
     return;
   }
 
@@ -179,12 +184,12 @@ async function handleAddPlaylist() {
     const response = await fetch(`/playlist-metadata/${playlistId}`);
 
     if ([500, 424].includes(response.status)) {
-      validationMessage.textContent = "Internal server error";
+      modalValidationMessageEl.textContent = "Internal server error";
       return;
     }
 
     if (response.status === 400) {
-      validationMessage.textContent = "Invalid playlist ID";
+      modalValidationMessageEl.textContent = "Invalid playlist ID";
       return;
     }
 
@@ -198,7 +203,7 @@ async function handleAddPlaylist() {
         .map((data) => data.playlistId)
         .includes(newPlaylistListItem.playlistId)
     ) {
-      validationMessage.textContent = "Duplicate playlists forbidden";
+      modalValidationMessageEl.textContent = "Duplicate playlists forbidden";
       return;
     }
 
@@ -211,12 +216,12 @@ async function handleAddPlaylist() {
   } catch (err) {
     console.log(err);
     if ([500, 424].includes(err.statusCode)) {
-      validationMessage.textContent = `Error fetching playlist data`;
+      modalValidationMessageEl.textContent = `Error fetching playlist data`;
       return;
     }
 
     if (err.statusCode === 400) {
-      validationMessage.textContent = `No playlist items returned for playlist`;
+      modalValidationMessageEl.textContent = `No playlist items returned for playlist`;
       return;
     }
   }
@@ -225,19 +230,16 @@ async function handleAddPlaylist() {
 }
 
 function renderList() {
-  const playlistList = document.getElementById("playlist-list-items");
-  playlistList.innerHTML = "";
+  playlistListItemsEl.innerHTML = "";
 
   const playlistListItems =
     JSON.parse(localStorage.getItem("playlistListItems")) || [];
 
   playlistListItems.forEach((item) => {
-    playlistList.appendChild(createPlaylistListItem(item));
+    playlistListItemsEl.appendChild(createPlaylistListItem(item));
   });
 }
 
 document.addEventListener("DOMContentLoaded", renderList());
 
-document
-  .getElementById("submit-playlist-button")
-  .addEventListener("click", handleAddPlaylist);
+submitPlaylistBtnEl.addEventListener("click", handleAddPlaylist);

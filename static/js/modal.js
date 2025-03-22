@@ -1,21 +1,29 @@
+const addPlaylistModalEl = document.getElementById("add-playlist-modal");
+const playlistIdInputEl = document.getElementById("playlist-id-input");
+const modalValidationMessageEl = document.getElementById(
+  "modal-validation-message"
+);
+const openPlaylistModalBtnEl = document.getElementById(
+  "open-add-playlist-modal-btn"
+);
+const closeAddPlaylistModalBtnEl = document.getElementById(
+  "close-add-playlist-modal-btn"
+);
+
 export function closeModal() {
-  document.getElementById("add-playlist-modal").classList.add("invisible");
+  addPlaylistModalEl.classList.add("invisible");
   clearModal();
 }
 
 function clearModal() {
-  document.getElementById("playlist-id-input").value = "";
-  document.getElementById("validation-message").textContent = "";
+  playlistIdInputEl("playlist-id-input").value = "";
+  modalValidationMessageEl("modal-validation-message").textContent = "";
 }
 
-document
-  .getElementById("open-add-playlist-modal-btn")
-  .addEventListener("click", function () {
-    document.getElementById("add-playlist-modal").classList.remove("invisible");
-  });
+openPlaylistModalBtnEl.addEventListener("click", function () {
+  addPlaylistModalEl.classList.remove("invisible");
+});
 
-document
-  .getElementById("close-add-playlist-modal-btn")
-  .addEventListener("click", function () {
-    closeModal();
-  });
+closeAddPlaylistModalBtnEl.addEventListener("click", function () {
+  closeModal();
+});

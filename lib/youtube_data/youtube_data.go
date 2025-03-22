@@ -179,11 +179,6 @@ func fetchNextYoutubePlaylistItems(playlistId string, nextPageToken string) (*Yo
 		return nil, &YoutubeDataError{Code: http.StatusFailedDependency, Message: "Error retrieving playlist data from Youtube"}
 	}
 
-	if len(response_object.Items) == 0 {
-		log.Println("No playlist items returned for playlist id " + playlistId)
-
-		return nil, &YoutubeDataError{Code: http.StatusBadRequest, Message: "Invalid playlist id"}
-	}
 
 	return &response_object, nil
 }
@@ -209,6 +204,10 @@ func FetchYoutubePlaylistItems(playlistId string) (*YoutubePlaylistItemsResponse
 	}
 
 	youtubePlaylistItemsResponse.Items = aggregatedItems
+
+	if len(youtubePlaylistItemsResponse.Items) == 0 {
+		return nil, &YoutubeDataError{Code: http.StatusBadRequest, Message: "No playlist items returned"}
+	}
 
 	return youtubePlaylistItemsResponse, nil
 }

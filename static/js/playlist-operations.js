@@ -2,13 +2,19 @@ import { History } from "./history.js";
 
 let RANDOMISE = false;
 
+const playlistItemsEl = document.getElementById("playlist-items");
+const totalVideosEl = document.getElementById("total-videos");
+
+const previousEl = document.getElementById("previous");
+const nextEl = document.getElementById("next");
+const randomiseEl = document.getElementById("randomise");
+
 function handlePreviousClick() {
   const historyPrev = History.getPreviousVideoId();
 
   const prevVideo = historyPrev
     ? document.getElementById(historyPrev)
-    : document.getElementById("playlist-items").querySelector(".bg-warm-orange")
-        .previousElementSibling;
+    : playlistItemsEl.querySelector(".bg-warm-orange").previousElementSibling;
 
   if (prevVideo) {
     prevVideo.click();
@@ -16,18 +22,14 @@ function handlePreviousClick() {
 }
 
 export function handleNextClick() {
-  const currentVideo = document
-    .getElementById("playlist-items")
-    .querySelector(".bg-warm-orange");
+  const currentVideo = playlistItemsEl.querySelector(".bg-warm-orange");
 
   let nextVideo;
   if (RANDOMISE) {
     const currentItemIndex = Number.parseInt(
       currentVideo.children[0].children[0].textContent
     );
-    const totalVideosSplit = document
-      .getElementById("total-videos")
-      .textContent.split(" ");
+    const totalVideosSplit = totalVideosEl.textContent.split(" ");
     const totalVideoCount = Number.parseInt(
       totalVideosSplit[totalVideosSplit.length - 1]
     );
@@ -37,7 +39,7 @@ export function handleNextClick() {
       nextLiIndex = Math.floor(Math.random() * totalVideoCount);
     } while (nextLiIndex === currentItemIndex);
 
-    nextVideo = document.getElementById("playlist-items").children[nextLiIndex];
+    nextVideo = playlistItemsEl.children[nextLiIndex];
   } else {
     nextVideo = currentVideo.nextElementSibling;
   }
@@ -61,10 +63,6 @@ function handleRandomise(event) {
   }
 }
 
-document
-  .getElementById("previous")
-  .addEventListener("click", handlePreviousClick);
-
-document.getElementById("next").addEventListener("click", handleNextClick);
-
-document.getElementById("randomise").addEventListener("click", handleRandomise);
+previousEl.addEventListener("click", handlePreviousClick);
+nextEl.addEventListener("click", handleNextClick);
+randomiseEl.addEventListener("click", handleRandomise);

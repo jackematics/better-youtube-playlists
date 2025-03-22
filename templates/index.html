@@ -17,7 +17,6 @@
       >
         <!-- playlist-list -->
         <div
-          id="playlist-list"
           class="bg-container-dark-blue min-w-[16rem] border-4 relative rounded-lg col-span-1 row-span-3 flex-none"
         >
           <h2 class="text-white text-4xl pl-5 pt-5 pb-5 inline-block truncate">
@@ -47,7 +46,6 @@
         </div>
         <!-- youtube-embed -->
         <div
-          id="youtube-embed"
           class="bg-container-dark-blue border-4 relative rounded-lg col-span-1 row-span-2 pt-2 pr-2 pl-2 pb-2 min-w-[32.5rem]"
         >
           <div
@@ -75,12 +73,12 @@
             No Playlist Selected
           </h2>
           <p
-            id="channel-owner"
-            class="text-white text-4xl font-semibold mt-8 ml-5"
+            id="total-videos"
+            class="text-white text-3xl font-semibold mt-2 ml-5"
           ></p>
           <p
-            id="total-videos"
-            class="text-white text-4xl font-semibold mt-12 ml-5"
+            id="select-playlist-validation-message"
+            class="text-cancel-red text-2xl font-semibold mt-2 ml-5"
           ></p>
         </div>
         <!-- playlist operations -->
@@ -114,7 +112,7 @@
             </button>
             <button
               id="randomise"
-              title="randomise"
+              title="randomise next"
               class="w-16 h-16 bg-white rounded-lg border-2 flex items-center justify-center cursor-pointer ml-5 hover:bg-warm-orange-hover select-none"
             >
               <img
@@ -204,7 +202,7 @@
             </div>
             <div class="h-5 mt-1 ml-16">
               <p
-                id="validation-message"
+                id="modal-validation-message"
                 class="text-cancel-red text-xl font-bold"
               ></p>
             </div>
