@@ -1,6 +1,7 @@
 import { History } from "./history.js";
 import { closeModal } from "./modal.js";
 import { highlightSelectedItem } from "./playlist-items.js";
+import { resetOperationsState } from "./playlist-operations.js";
 import { setPlayingVideo } from "./youtube-embed.js";
 
 const playlistListItemsEl = document.getElementById("playlist-list-items");
@@ -108,6 +109,9 @@ async function handlePlaylistClick(event, playlistId) {
     // reset playlist history
     History.clear();
 
+    // reset playlist operations
+    resetOperationsState();
+
     // fetch playlist items
     const response = await fetch(`/playlist-items/${playlistId}`);
 
@@ -124,7 +128,6 @@ async function handlePlaylistClick(event, playlistId) {
     const playlist = await response.json();
 
     // populate playlist description
-
     totalVideosEl.textContent = `Video: 1 / ${playlist.totalVideos}`;
 
     // validate empty playlist
@@ -144,6 +147,7 @@ async function handlePlaylistClick(event, playlistId) {
     highlightSelectedItem(document.getElementById(playlist.items[0].id));
     // play first item in list
     setPlayingVideo(playlist.items[0].id);
+    History.add(playlist.items[0].id);
   } catch (err) {
     selectPlaylistValidationMessageEl.textContent = validationMessage;
   }

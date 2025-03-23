@@ -49,17 +49,23 @@ export function handleNextClick() {
   }
 }
 
-function handleRandomise(event) {
+function handleRandomise() {
   RANDOMISE = !RANDOMISE;
 
   if (RANDOMISE) {
-    event.currentTarget.classList.remove("bg-white");
-    event.currentTarget.classList.add("bg-orange-highlight");
+    randomiseEl.classList.remove("bg-white");
+    randomiseEl.classList.add("bg-orange-highlight");
   } else {
     History.clear();
 
-    event.currentTarget.classList.remove("bg-orange-highlight");
-    event.currentTarget.classList.add("bg-white");
+    randomiseEl.classList.remove("bg-orange-highlight");
+    randomiseEl.classList.add("bg-white");
+  }
+}
+
+export function resetOperationsState() {
+  if (RANDOMISE) {
+    handleRandomise();
   }
 }
 
