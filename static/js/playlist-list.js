@@ -1,7 +1,10 @@
 import { History } from "./history.js";
 import { closeModal } from "./modal.js";
-import { highlightSelectedItem } from "./playlist-items.js";
-import { resetOperationsState } from "./playlist-operations.js";
+import { createPlaylistItem, highlightSelectedItem } from "./playlist-items.js";
+import {
+  resetOperationsState,
+  setOriginalPlaylistItems,
+} from "./playlist-operations.js";
 import { setPlayingVideo } from "./youtube-embed.js";
 
 const playlistListItemsEl = document.getElementById("playlist-list-items");
@@ -12,9 +15,6 @@ const selectPlaylistValidationMessageEl = document.getElementById(
 );
 const playlistOperationsEl = document.getElementById("playlist-operations");
 
-const playlistItemsContainerEl = document.getElementById(
-  "playlist-items-container"
-);
 const loaderContainerEl = document.getElementById("loader-container");
 const playlistItemsEl = document.getElementById("playlist-items");
 const playlistIdInputEl = document.getElementById("playlist-id-input");
@@ -22,64 +22,6 @@ const modalValidationMessageEl = document.getElementById(
   "modal-validation-message"
 );
 const submitPlaylistBtnEl = document.getElementById("submit-playlist-button");
-
-async function handlePlaylistItemClick(event) {
-  highlightSelectedItem(event.currentTarget);
-
-  // scroll to centre of container
-  playlistItemsContainerEl.scrollTo({
-    top:
-      event.currentTarget.offsetTop -
-      (playlistItemsContainerEl.clientHeight / 2 - 51.2),
-    behavior: "smooth",
-  });
-
-  setPlayingVideo(event.currentTarget.id);
-
-  // set video currently playing in description
-  const itemIndex = event.currentTarget.children[0].children[0].textContent;
-  const pSplit = totalVideosEl.textContent.split(" ");
-  const totalVideoCount = pSplit[pSplit.length - 1];
-  totalVideosEl.textContent = `Video: ${itemIndex} / ${totalVideoCount}`;
-
-  // adds video to history of played videos
-  History.add(event.currentTarget.id);
-}
-
-async function createPlaylistItem(playlistItems, i) {
-  const playlistItem = document.createElement("li");
-  playlistItem.id = playlistItems[i].id;
-  playlistItem.setAttribute("key", playlistItems[i].id);
-  playlistItem.className =
-    "playlist-items h-[3.2rem] pt-1 pb-1 pr-3 mr-2 ml-3 flex flex-row text-[1.75rem] text-left cursor-pointer text-white hover:bg-warm-orange-hover select-none";
-
-  const indexContainer = document.createElement("div");
-  indexContainer.className = "w-[4.5rem] flex justify-center";
-
-  const index = document.createElement("p");
-  index.textContent = i + 1;
-
-  indexContainer.appendChild(index);
-
-  const thumbnail = document.createElement("img");
-  thumbnail.src = playlistItems[i].thumbnailUrl;
-  thumbnail.alt = playlistItems[i].title;
-  thumbnail.width = 70;
-  thumbnail.height = 36;
-  thumbnail.className = "ml-6 mr-2";
-
-  const title = document.createElement("p");
-  title.className = "pl-7 w-[67rem] truncate";
-  title.textContent = playlistItems[i].title;
-
-  playlistItem.appendChild(indexContainer);
-  playlistItem.appendChild(thumbnail);
-  playlistItem.appendChild(title);
-
-  playlistItem.addEventListener("click", handlePlaylistItemClick);
-
-  return playlistItem;
-}
 
 async function handlePlaylistClick(event, playlistId) {
   // Don't refetch when selecting same playlist
@@ -141,10 +83,12 @@ async function handlePlaylistClick(event, playlistId) {
 
     // create list items
     for (let i = 0; i < playlist.items.length; i++) {
-      playlistItemsEl.appendChild(await createPlaylistItem(playlist.items, i));
+      playlistItemsEl.appendChild(createPlaylistItem(i + 1, playlist.items[i]));
     }
 
+    setOriginalPlaylistItems(Array.from(playlistItemsEl.children));
     highlightSelectedItem(document.getElementById(playlist.items[0].id));
+
     // play first item in list
     setPlayingVideo(playlist.items[0].id);
     History.add(playlist.items[0].id);

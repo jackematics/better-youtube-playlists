@@ -1,6 +1,8 @@
 import { History } from "./history.js";
 
 let RANDOMISE = false;
+let SHUFFLE = false;
+let ORIGINAL_PLAYLIST_ITEMS = [];
 
 const playlistItemsEl = document.getElementById("playlist-items");
 const totalVideosEl = document.getElementById("total-videos");
@@ -8,6 +10,7 @@ const totalVideosEl = document.getElementById("total-videos");
 const previousEl = document.getElementById("previous");
 const nextEl = document.getElementById("next");
 const randomiseEl = document.getElementById("randomise");
+const shuffleEl = document.getElementById("shuffle");
 
 function handlePreviousClick() {
   const historyPrev = History.getPreviousVideoId();
@@ -63,12 +66,67 @@ function handleRandomise() {
   }
 }
 
+export function setOriginalPlaylistItems(playlistItems) {
+  ORIGINAL_PLAYLIST_ITEMS = playlistItems;
+}
+
+function handleShuffle() {
+  SHUFFLE = !SHUFFLE;
+
+  if (SHUFFLE) {
+    shuffleEl.classList.remove("bg-white");
+    shuffleEl.classList.add("bg-orange-highlight");
+
+    const newPlaylistItemIds = [];
+    const oldPlaylistItems = Array.from(playlistItemsEl.children);
+
+    // shuffle playlist
+    while (oldPlaylistItems.length) {
+      const randomIndex = Math.floor(Math.random() * oldPlaylistItems.length);
+      newPlaylistItemIds.push(oldPlaylistItems.splice(randomIndex, 1)[0]);
+    }
+
+    playlistItemsEl.innerHTML = "";
+
+    for (let i = 0; i < newPlaylistItemIds.length; i++) {
+      const indexEl = newPlaylistItemIds[i].querySelector("p");
+      indexEl.textContent = i + 1;
+
+      playlistItemsEl.appendChild(newPlaylistItemIds[i]);
+    }
+
+    playlistItemsEl.children[0].click();
+  } else {
+    History.clear();
+
+    // shuffle button styling
+    shuffleEl.classList.remove("bg-orange-highlight");
+    shuffleEl.classList.add("bg-white");
+
+    // unshuffle playlist
+    playlistItemsEl.innerHTML = "";
+    for (let i = 0; i < ORIGINAL_PLAYLIST_ITEMS.length; i++) {
+      const indexEl = ORIGINAL_PLAYLIST_ITEMS[i].querySelector("p");
+      indexEl.textContent = i + 1;
+
+      playlistItemsEl.appendChild(ORIGINAL_PLAYLIST_ITEMS[i]);
+    }
+
+    playlistItemsEl.children[0].click();
+  }
+}
+
 export function resetOperationsState() {
   if (RANDOMISE) {
     handleRandomise();
+  }
+
+  if (SHUFFLE) {
+    handleShuffle();
   }
 }
 
 previousEl.addEventListener("click", handlePreviousClick);
 nextEl.addEventListener("click", handleNextClick);
 randomiseEl.addEventListener("click", handleRandomise);
+shuffleEl.addEventListener("click", handleShuffle);

@@ -64,7 +64,7 @@
 
 - :white_check_mark: ~Previous: Move to the previous playlist item~
 - :white_check_mark: ~Next: Move to the next playlist item~
-- ~Random~
+- :white_check_mark: ~Random~
   - :white_check_mark: ~At the end of every video~
     - :white_check_mark: ~Randomly select a new playlist item~
     - :white_check_mark: ~scroll down to the selected video~
@@ -76,9 +76,13 @@
     - ~Returns to the previously indexed video if the history is empty~
   - :white_check_mark: ~Deselecting~
     - :white_check_mark: ~Resets playlist history~
-- Shuffle
-  - Deselecting
-    - Resets playist history
+- :white_check_mark: ~Shuffle~
+  - :white_check_mark: ~Selecting~
+    - :white_check_mark: ~Shuffles the order of all playlist items~
+    - :white_check_mark: ~Updates the video indices correspondingly in the description and playlist item~
+  - :white-check_mark: ~Deselecting~
+    - :white_check_mark: ~Resets playlist history~
+    - :white_check_mark: ~Sets the playlist back to the original~
 - Loop: At the end of the playlist, loop back to the first video in the playlist
 - Bin: Remove playlists from list
 - Download: Download a list of all the videos as MP3/MP4 files
