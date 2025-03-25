@@ -2,6 +2,7 @@ import { History } from "./history.js";
 
 let RANDOMISE = false;
 let SHUFFLE = false;
+let LOOP = false;
 let ORIGINAL_PLAYLIST_ITEMS = [];
 
 const playlistItemsEl = document.getElementById("playlist-items");
@@ -11,13 +12,19 @@ const previousEl = document.getElementById("previous");
 const nextEl = document.getElementById("next");
 const randomiseEl = document.getElementById("randomise");
 const shuffleEl = document.getElementById("shuffle");
+const loopEl = document.getElementById("loop");
 
 function handlePreviousClick() {
   const historyPrev = History.getPreviousVideoId();
 
-  const prevVideo = historyPrev
+  let prevVideo = historyPrev
     ? document.getElementById(historyPrev)
     : playlistItemsEl.querySelector(".bg-warm-orange").previousElementSibling;
+
+  // loop to end if configured
+  if (!prevVideo && LOOP) {
+    prevVideo = playlistItemsEl.lastElementChild;
+  }
 
   if (prevVideo) {
     prevVideo.click();
@@ -45,6 +52,11 @@ export function handleNextClick() {
     nextVideo = playlistItemsEl.children[nextLiIndex];
   } else {
     nextVideo = currentVideo.nextElementSibling;
+
+    // loop to beginning if configured
+    if (!nextVideo && LOOP) {
+      nextVideo = playlistItemsEl.children[0];
+    }
   }
 
   if (nextVideo) {
@@ -116,6 +128,18 @@ function handleShuffle() {
   }
 }
 
+function handleLoop() {
+  LOOP = !LOOP;
+
+  if (LOOP) {
+    loopEl.classList.remove("bg-white");
+    loopEl.classList.add("bg-orange-highlight");
+  } else {
+    loopEl.classList.remove("bg-orange-highlight");
+    loopEl.classList.add("bg-white");
+  }
+}
+
 export function resetOperationsState() {
   if (RANDOMISE) {
     handleRandomise();
@@ -124,9 +148,14 @@ export function resetOperationsState() {
   if (SHUFFLE) {
     handleShuffle();
   }
+
+  if (LOOP) {
+    handleLoop();
+  }
 }
 
 previousEl.addEventListener("click", handlePreviousClick);
 nextEl.addEventListener("click", handleNextClick);
 randomiseEl.addEventListener("click", handleRandomise);
 shuffleEl.addEventListener("click", handleShuffle);
+loopEl.addEventListener("click", handleLoop);

@@ -83,7 +83,9 @@
   - :white-check_mark: ~Deselecting~
     - :white_check_mark: ~Resets playlist history~
     - :white_check_mark: ~Sets the playlist back to the original~
-- Loop: At the end of the playlist, loop back to the first video in the playlist
+- :white_check_mark: ~Loop~:
+  - :white_check_mark: ~At the end of the playlist, when moving to the next item, loop back to the first video in the playlist~
+  - :white_check_mark: ~At the beginning of the playlist, when moving to the previous item, loop back to the first video in the playlist~
 - Bin: Remove playlists from list
 - Download: Download a list of all the videos as MP3/MP4 files
 - Clicking next / prev button shortcuts will move to the next / prev video even when not on the same tab
