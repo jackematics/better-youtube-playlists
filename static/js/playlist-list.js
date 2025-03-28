@@ -50,6 +50,8 @@ async function handlePlaylistClick(event, playlistId) {
 
     resetOperationsState();
 
+    playlistOperationsEl.classList.remove("invisible");
+
     const response = await fetch(`/playlist-items/${playlistId}`);
 
     if ([500, 424].includes(response.status)) {
@@ -71,8 +73,6 @@ async function handlePlaylistClick(event, playlistId) {
       throw new Error(validationMessage);
     }
 
-    playlistOperationsEl.classList.remove("invisible");
-
     playlistItemsEl.innerHTML = "";
     for (let i = 0; i < playlist.items.length; i++) {
       playlistItemsEl.appendChild(createPlaylistItem(i + 1, playlist.items[i]));
@@ -87,7 +87,8 @@ async function handlePlaylistClick(event, playlistId) {
     destroyPlayer();
     totalVideosEl.textContent = "";
     selectPlaylistValidationMessageEl.textContent = validationMessage;
-    playlistOperationsEl.classList.add("invisible");
+    playlistItemsEl.innerHTML = "";
+    setOriginalPlaylistItems([]);
   }
 
   loaderContainerEl.classList.add("invisible");

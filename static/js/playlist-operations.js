@@ -18,15 +18,19 @@ const loopEl = document.getElementById("loop");
 const removePlaylistEl = document.getElementById("remove-playlist");
 
 function handlePreviousClick() {
+  if (!ORIGINAL_PLAYLIST_ITEMS.length) {
+    return;
+  }
+
   const historyPrev = History.getPreviousVideoId();
 
   let prevVideo = historyPrev
     ? document.getElementById(historyPrev)
-    : playlistItemsEl.querySelector(".bg-warm-orange").previousElementSibling;
+    : playlistItemsEl.querySelector(".bg-warm-orange")?.previousElementSibling;
 
   // loop to end if configured
   if (!prevVideo && LOOP) {
-    prevVideo = playlistItemsEl.lastElementChild;
+    prevVideo = playlistItemsEl?.lastElementChild;
   }
 
   if (prevVideo) {
@@ -35,9 +39,14 @@ function handlePreviousClick() {
 }
 
 export function handleNextClick() {
+  if (!ORIGINAL_PLAYLIST_ITEMS.length) {
+    return;
+  }
+
   const currentVideo = playlistItemsEl.querySelector(".bg-warm-orange");
 
   let nextVideo;
+
   if (RANDOMISE) {
     const currentItemIndex = Number.parseInt(
       currentVideo.children[0].children[0].textContent
@@ -95,6 +104,10 @@ function handleShuffle() {
     const newPlaylistItemIds = [];
     const oldPlaylistItems = Array.from(playlistItemsEl.children);
 
+    if (!oldPlaylistItems.length) {
+      return;
+    }
+
     // shuffle playlist
     while (oldPlaylistItems.length) {
       const randomIndex = Math.floor(Math.random() * oldPlaylistItems.length);
@@ -117,6 +130,10 @@ function handleShuffle() {
     // shuffle button styling
     shuffleEl.classList.remove("bg-orange-highlight");
     shuffleEl.classList.add("bg-white");
+
+    if (!ORIGINAL_PLAYLIST_ITEMS.length) {
+      return;
+    }
 
     // unshuffle playlist
     playlistItemsEl.innerHTML = "";
@@ -150,7 +167,7 @@ function handleRemovePlaylist() {
 
   removePlaylist(selectedPlaylistId);
 
-  location.reload();
+  // location.reload();
 }
 
 export function resetOperationsState() {

@@ -3,6 +3,7 @@ package playlist
 import (
 	"encoding/json"
 	"net/http"
+	"regexp"
 	"strings"
 
 	"github.com/jackematics/better-youtube-playlists/lib/youtube_data"
@@ -14,6 +15,13 @@ func GetPlaylistItems(writer http.ResponseWriter, reader *http.Request) {
 
 	if playlistId == "" {
 		http.Error(writer, "Empty playlist ID", http.StatusBadRequest)
+		return
+	}
+
+	playlistIdRegex := regexp.MustCompile("^PL[A-Za-z0-9_-]+$")
+
+	if !playlistIdRegex.MatchString(playlistId) {
+		http.Error(writer, "Invalid playlist ID", http.StatusBadRequest)
 		return
 	}
 

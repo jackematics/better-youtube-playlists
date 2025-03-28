@@ -49,3 +49,31 @@ func TestGetPlaylistItemsFailsWithEmptyPlaylistId(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 	assert.Equal(t, "Empty playlist ID\n", recorder.Body.String())
 }
+
+type TestCase struct {
+	desc string
+	playlistId string
+}
+
+var regexFailures = []TestCase{
+	{ desc: "No 'PL' prefix", playlistId: "lsadkfh9238-alsdkfj_" },
+	{ desc: "Contains whitespace", playlistId: " PLlsadkfh9238-alsdkfj_" },
+	{ desc: "Contains special char", playlistId: "PLlsad|fh9238-alsdkfj_" },
+}
+
+func TestGetPlaylistItemsFailsWithInvalidPlaylistIds(t *testing.T) {
+	for _, testCase := range regexFailures {
+		req, err := http.NewRequest("GET", "/playlist-items/" + testCase.playlistId, nil)
+
+		assert.Equal(t, nil, err)
+
+		req.Header.Set("Content-Type", "application/json")
+
+		recorder := httptest.NewRecorder()
+
+		playlist.GetPlaylistItems(recorder, req)
+
+		assert.Equal(t, http.StatusBadRequest, recorder.Code)
+		assert.Equal(t, "Invalid playlist ID\n", recorder.Body.String())
+	}
+}

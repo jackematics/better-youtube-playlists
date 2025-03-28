@@ -113,4 +113,4 @@
 
 ### Bugs
 
-- Handle case when I pass in ||PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS: error is Error decoding youtube metadata error resopnse: invalid character '<' looking for beginning of value when it should be a bad request. Possibly need validation on special characters like || or whitespace. Regex?
+- None spotted atm!
