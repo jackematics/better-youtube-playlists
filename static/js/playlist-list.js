@@ -72,6 +72,7 @@ async function handlePlaylistClick(event, playlistId) {
 
     playlistOperationsEl.classList.remove("invisible");
 
+    playlistItemsEl.innerHTML = "";
     for (let i = 0; i < playlist.items.length; i++) {
       playlistItemsEl.appendChild(createPlaylistItem(i + 1, playlist.items[i]));
     }

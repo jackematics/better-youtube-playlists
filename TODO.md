@@ -23,6 +23,8 @@
 - :white_check_mark: ~~Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded~~
 - Handle empty playlists
 - Selecting a playlist resets the playlist operations and playlist history
+- :white_check_mark: ~~Playlist is sorted alphabetically~~
+- Add vertical scrolling if too many playlists are added.
 
 ### Playlist Items
 
@@ -111,6 +113,5 @@
 
 ### Bugs
 
-- Playlists being added on top of each other when switching between them (probably related to history)
 - Fix switching to a playlist with no elements in it still playing song from a previous playlist
-- Handle case when I pass in ||PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS: error is Error decoding youtube metadata error resopnse: invalid character '<' looking for beginning of value when it should be a bad request. Possibly need validation on special characters like ||. Regex?
+- Handle case when I pass in ||PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS: error is Error decoding youtube metadata error resopnse: invalid character '<' looking for beginning of value when it should be a bad request. Possibly need validation on special characters like || or whitespace. Regex?
