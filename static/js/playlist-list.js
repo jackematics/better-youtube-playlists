@@ -5,7 +5,7 @@ import {
   resetOperationsState,
   setOriginalPlaylistItems,
 } from "./playlist-operations.js";
-import { setPlayingVideo } from "./youtube-embed.js";
+import { destroyPlayer, setPlayingVideo } from "./youtube-embed.js";
 import { addPlaylist, getPlaylists } from "./localStorage.js";
 
 const playlistListItemsEl = document.getElementById("playlist-list-items");
@@ -14,6 +14,7 @@ const totalVideosEl = document.getElementById("total-videos");
 const selectPlaylistValidationMessageEl = document.getElementById(
   "select-playlist-validation-message"
 );
+
 const playlistOperationsEl = document.getElementById("playlist-operations");
 
 const loaderContainerEl = document.getElementById("loader-container");
@@ -83,7 +84,10 @@ async function handlePlaylistClick(event, playlistId) {
     setPlayingVideo(playlist.items[0].id);
     History.add(playlist.items[0].id);
   } catch (err) {
+    destroyPlayer();
+    totalVideosEl.textContent = "";
     selectPlaylistValidationMessageEl.textContent = validationMessage;
+    playlistOperationsEl.classList.add("invisible");
   }
 
   loaderContainerEl.classList.add("invisible");

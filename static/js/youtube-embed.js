@@ -1,5 +1,8 @@
 import { handleNextClick } from "./playlist-operations.js";
 
+const videoContainerId = "video-container";
+const videoContainerEl = document.getElementById(videoContainerId);
+
 let player;
 
 function onPlayerStateChange(event) {
@@ -12,7 +15,7 @@ export function setPlayingVideo(videoId) {
   if (player) {
     player.loadVideoById(videoId);
   } else {
-    player = new YT.Player("video-container", {
+    player = new YT.Player(videoContainerId, {
       className: "w-full h-full",
       videoId,
       title: "youtube video",
@@ -27,4 +30,21 @@ export function setPlayingVideo(videoId) {
       },
     });
   }
+}
+
+export function destroyPlayer() {
+  if (player) {
+    player.stopVideo();
+    player.destroy();
+
+    player = null;
+  }
+
+  videoContainerEl.innerHTML = "";
+  const placeholderImgEl = document.createElement("img");
+  placeholderImgEl.src = "/static/assets/logos/jackematica-logo.svg";
+  placeholderImgEl.alt = "page-logo";
+  placeholderImgEl.width = 210;
+  placeholderImgEl.height = 210;
+  videoContainerEl.appendChild(placeholderImgEl);
 }

@@ -16,7 +16,7 @@
   - :white_check_mark: ~~Log handle playlist quota exceeded (code 403) and return validation message to user~~
   - :white_check_mark: ~~Log error with youtube api and return validation message to user~~
   - :white_check_mark: ~~Log error with youtube api key and return validation message to user~~
-- Select playlist
+- :white_check_mark: ~~Select playlist~~
   - :white_check_mark: ~~Should populate the playlist description~~
   - :white_check_mark: ~~Should highlight the selected playlist~~
   - :white_check_mark: ~~Should populate playlist items~~
@@ -113,5 +113,4 @@
 
 ### Bugs
 
-- Fix switching to a playlist with no elements in it still playing song from a previous playlist
 - Handle case when I pass in ||PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS: error is Error decoding youtube metadata error resopnse: invalid character '<' looking for beginning of value when it should be a bad request. Possibly need validation on special characters like || or whitespace. Regex?
