@@ -6,6 +6,7 @@ import {
   setOriginalPlaylistItems,
 } from "./playlist-operations.js";
 import { setPlayingVideo } from "./youtube-embed.js";
+import { addPlaylist, getPlaylists } from "./localStorage.js";
 
 const playlistListItemsEl = document.getElementById("playlist-list-items");
 const playlistTitleEl = document.getElementById("playlist-title");
@@ -29,13 +30,9 @@ async function handlePlaylistClick(event, playlistId) {
     return;
   }
 
-  // clears playlist items
   playlistItemsEl.innerHTML = "";
-
-  // sets new title
   playlistTitleEl.textContent = event.currentTarget.textContent;
 
-  // highlights playlist
   document.querySelectorAll(".playlist").forEach((playlist) => {
     playlist.classList.remove("bg-warm-orange");
   });
@@ -48,13 +45,10 @@ async function handlePlaylistClick(event, playlistId) {
   let validationMessage = "";
 
   try {
-    // reset playlist history
     History.clear();
 
-    // reset playlist operations
     resetOperationsState();
 
-    // fetch playlist items
     const response = await fetch(`/playlist-items/${playlistId}`);
 
     if ([500, 424].includes(response.status)) {
@@ -69,19 +63,15 @@ async function handlePlaylistClick(event, playlistId) {
 
     const playlist = await response.json();
 
-    // populate playlist description
     totalVideosEl.textContent = `Video: 1 / ${playlist.totalVideos}`;
 
-    // validate empty playlist
     if (playlist.items.length === 0) {
       validationMessage = "Playlist is empty";
       throw new Error(validationMessage);
     }
 
-    // show operations
     playlistOperationsEl.classList.remove("invisible");
 
-    // create list items
     for (let i = 0; i < playlist.items.length; i++) {
       playlistItemsEl.appendChild(createPlaylistItem(i + 1, playlist.items[i]));
     }
@@ -89,7 +79,6 @@ async function handlePlaylistClick(event, playlistId) {
     setOriginalPlaylistItems(Array.from(playlistItemsEl.children));
     highlightSelectedItem(document.getElementById(playlist.items[0].id));
 
-    // play first item in list
     setPlayingVideo(playlist.items[0].id);
     History.add(playlist.items[0].id);
   } catch (err) {
@@ -101,7 +90,7 @@ async function handlePlaylistClick(event, playlistId) {
 
 function createPlaylistListItem(item) {
   const playlistListItem = document.createElement("li");
-  playlistListItem.id = `li-${item.playlistId}`;
+  playlistListItem.id = `${item.playlistId}`;
   playlistListItem.setAttribute("key", item.playlistId);
   playlistListItem.className = "mb-2 select-none";
 
@@ -143,8 +132,7 @@ async function handleAddPlaylist() {
 
     const newPlaylistListItem = await response.json();
 
-    const playlistListItems =
-      JSON.parse(localStorage.getItem("playlistListItems")) || [];
+    const playlistListItems = getPlaylists();
 
     if (
       playlistListItems
@@ -155,10 +143,7 @@ async function handleAddPlaylist() {
       return;
     }
 
-    localStorage.setItem(
-      "playlistListItems",
-      JSON.stringify([...playlistListItems, newPlaylistListItem])
-    );
+    addPlaylist(newPlaylistListItem);
 
     closeModal();
   } catch (err) {
@@ -180,10 +165,13 @@ async function handleAddPlaylist() {
 function renderList() {
   playlistListItemsEl.innerHTML = "";
 
-  const playlistListItems =
-    JSON.parse(localStorage.getItem("playlistListItems")) || [];
+  const playlists = getPlaylists();
+  playlists.sort(
+    (itemA, itemB) =>
+      itemA.playlistTitle.charCodeAt(0) - itemB.playlistTitle.charCodeAt(0)
+  );
 
-  playlistListItems.forEach((item) => {
+  playlists.forEach((item) => {
     playlistListItemsEl.appendChild(createPlaylistListItem(item));
   });
 }

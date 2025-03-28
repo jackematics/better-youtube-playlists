@@ -1,10 +1,12 @@
 import { History } from "./history.js";
+import { removePlaylist } from "./localStorage.js";
 
 let RANDOMISE = false;
 let SHUFFLE = false;
 let LOOP = false;
 let ORIGINAL_PLAYLIST_ITEMS = [];
 
+const playlistEl = document.getElementById("playlist-list-items");
 const playlistItemsEl = document.getElementById("playlist-items");
 const totalVideosEl = document.getElementById("total-videos");
 
@@ -13,6 +15,7 @@ const nextEl = document.getElementById("next");
 const randomiseEl = document.getElementById("randomise");
 const shuffleEl = document.getElementById("shuffle");
 const loopEl = document.getElementById("loop");
+const removePlaylistEl = document.getElementById("remove-playlist");
 
 function handlePreviousClick() {
   const historyPrev = History.getPreviousVideoId();
@@ -140,6 +143,16 @@ function handleLoop() {
   }
 }
 
+function handleRemovePlaylist() {
+  const selectedPlaylistId = [...playlistEl.querySelectorAll("li")].find((li) =>
+    li.querySelector("option.bg-warm-orange")
+  ).id;
+
+  removePlaylist(selectedPlaylistId);
+
+  location.reload();
+}
+
 export function resetOperationsState() {
   if (RANDOMISE) {
     handleRandomise();
@@ -159,3 +172,4 @@ nextEl.addEventListener("click", handleNextClick);
 randomiseEl.addEventListener("click", handleRandomise);
 shuffleEl.addEventListener("click", handleShuffle);
 loopEl.addEventListener("click", handleLoop);
+removePlaylistEl.addEventListener("click", handleRemovePlaylist);

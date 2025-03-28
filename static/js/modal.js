@@ -16,8 +16,8 @@ export function closeModal() {
 }
 
 function clearModal() {
-  playlistIdInputEl("playlist-id-input").value = "";
-  modalValidationMessageEl("modal-validation-message").textContent = "";
+  playlistIdInputEl.value = "";
+  modalValidationMessageEl.textContent = "";
 }
 
 openPlaylistModalBtnEl.addEventListener("click", function () {

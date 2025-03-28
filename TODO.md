@@ -20,7 +20,6 @@
   - :white_check_mark: ~~Should populate the playlist description~~
   - :white_check_mark: ~~Should highlight the selected playlist~~
   - :white_check_mark: ~~Should populate playlist items~~
-  - Should show a toast if there's an error fetching playlist items
 - :white_check_mark: ~~Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded~~
 - Handle empty playlists
 - Selecting a playlist resets the playlist operations and playlist history
@@ -54,40 +53,41 @@
 
 ### Playlist Description
 
-- :white_check_mark: ~Default: title only, No Playlist Selected~
-- :white_check_mark: ~On playlist selection: Show title~
-- :white_check_mark: ~On playlist selection: Show title, owner and number of videos~
-- :white_check_mark: ~Show the index of the current video in the description~
+- :white_check_mark: ~~Default: title only, No Playlist Selected~~
+- :white_check_mark: ~~On playlist selection: Show title~~
+- :white_check_mark: ~~On playlist selection: Show title, owner and number of videos~~
+- :white_check_mark: ~~Show the index of the current video in the description~~
 - Buy me a coffee button?
 
 ### Playlist Operations
 
-- :white_check_mark: ~Previous: Move to the previous playlist item~
-- :white_check_mark: ~Next: Move to the next playlist item~
-- :white_check_mark: ~Random~
-  - :white_check_mark: ~At the end of every video~
-    - :white_check_mark: ~Randomly select a new playlist item~
-    - :white_check_mark: ~scroll down to the selected video~
-  - :white_check_mark: ~Pressing the next button~
-    - :white_check_mark: ~Randomly selects a new playlist item~
-    - :white_check_mark: ~scroll down to the selected video~
-  - :white_check_mark: ~Pressing the previous button~
-    - ~Returns to the previously played video~
-    - ~Returns to the previously indexed video if the history is empty~
-  - :white_check_mark: ~Deselecting~
-    - :white_check_mark: ~Resets playlist history~
-- :white_check_mark: ~Shuffle~
-  - :white_check_mark: ~Selecting~
-    - :white_check_mark: ~Shuffles the order of all playlist items~
-    - :white_check_mark: ~Updates the video indices correspondingly in the description and playlist item~
-  - :white-check_mark: ~Deselecting~
-    - :white_check_mark: ~Resets playlist history~
-    - :white_check_mark: ~Sets the playlist back to the original~
-- :white_check_mark: ~Loop~:
-  - :white_check_mark: ~At the end of the playlist, when moving to the next item, loop back to the first video in the playlist~
-  - :white_check_mark: ~At the beginning of the playlist, when moving to the previous item, loop back to the first video in the playlist~
-- Bin: Remove playlists from list
-- Download: Download a list of all the videos as MP3/MP4 files
+- :white_check_mark: ~~Previous: Move to the previous playlist item~~
+- :white_check_mark: ~~Next: Move to the next playlist item~~
+- :white_check_mark: ~~Random~~
+  - :white_check_mark: ~~At the end of every video~~
+    - :white_check_mark: ~~Randomly select a new playlist item~~
+    - :white_check_mark: ~~scroll down to the selected video~~
+  - :white_check_mark: ~~Pressing the next button~~
+    - :white_check_mark: ~~Randomly selects a new playlist item~~
+    - :white_check_mark: ~~scroll down to the selected video~~
+  - :white_check_mark: ~~Pressing the previous button~~
+    - ~~Returns to the previously played video~~
+    - ~~Returns to the previously indexed video if the history is empty~~
+  - :white_check_mark: ~~Deselecting~~
+    - :white_check_mark: ~~Resets playlist history~~
+- :white_check_mark: ~~Shuffle~~
+  - :white_check_mark: ~~Selecting~~
+    - :white_check_mark: ~~Shuffles the order of all playlist items~~
+    - :white_check_mark: ~~Updates the video indices correspondingly in the description and playlist item~~
+  - :white_check_mark: ~~Deselecting~~
+    - :white_check_mark: ~~Resets playlist history~~
+    - :white_check_mark: ~~Sets the playlist back to the original~~
+- :white_check_mark: ~~Loop~~:
+  - :white_check_mark: ~~At the end of the playlist, when moving to the next item, loop back to the first video in the playlist~~
+  - :white_check_mark: ~~At the beginning of the playlist, when moving to the previous item, loop back to the first video in the playlist~~
+- :white_check_mark: ~~Bin~~:
+  - :white_check_mark: ~~Removes playlist from list~~
+  - :white_check_mark: ~~Refreshes page?~~
 - Clicking next / prev button shortcuts will move to the next / prev video even when not on the same tab
 
 ### Contact
@@ -107,7 +107,10 @@
 - Ads
 - Merged playlists
 - Keyboard shortcuts if possible
+- Download: Download a list of all the videos as MP3/MP4 files
 
-### Refactoring
+### Bugs
 
-- Add more sad path tests
+- Playlists being added on top of each other when switching between them (probably related to history)
+- Fix switching to a playlist with no elements in it still playing song from a previous playlist
+- Handle case when I pass in ||PLtcQcWdp-TodMQIlHfbpniiKVH9gHbiUS: error is Error decoding youtube metadata error resopnse: invalid character '<' looking for beginning of value when it should be a bad request. Possibly need validation on special characters like ||. Regex?
