@@ -19,7 +19,7 @@ export function addPlaylist(playlistListItem) {
 export function removePlaylist(playlistId) {
   const playlistListItems = getPlaylists();
   playlistListItems.splice(
-    playlistListItems.find((item) => item.playlistId === playlistId),
+    playlistListItems.findIndex((item) => item.playlistId === playlistId),
     1
   );
 

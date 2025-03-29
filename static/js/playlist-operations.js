@@ -167,7 +167,7 @@ function handleRemovePlaylist() {
 
   removePlaylist(selectedPlaylistId);
 
-  // location.reload();
+  location.reload();
 }
 
 export function resetOperationsState() {
