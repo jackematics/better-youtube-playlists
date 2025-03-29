@@ -13,36 +13,43 @@
   <body class="w-screen h-screen bg-background-dark-blue">
     <div class="w-full h-full">
       <div
-        class="grid grid-rows-[1fr,0.2fr,1.8fr] grid-cols-[0.45fr,1.1fr,1.35fr] gap-3 h-full w-full p-3 flex"
+        class="grid grid-rows-[1fr,0.2fr,1.8fr] grid-cols-[0.45fr,1.1fr,1.45fr] gap-3 h-full w-full p-3 flex"
       >
         <!-- playlist-list -->
         <div
-          class="bg-container-dark-blue min-w-[16rem] border-4 relative rounded-lg col-span-1 row-span-3 flex-none"
+          class="bg-container-dark-blue min-w-[16rem] border-4 relative rounded-lg col-span-1 row-span-2 flex-none grid grid-rows-[0.55fr,2fr,0.45fr]"
         >
-          <h2 class="text-white text-4xl pl-5 pt-5 pb-5 inline-block truncate">
+          <h2
+            class="text-white text-4xl pl-5 pt-3 pb-5 inline-block truncate row-start-1 row-span-1"
+          >
             Playlists
           </h2>
-          <ul id="playlist-list-items" class="pl-3 flex flex-col"></ul>
-          <button
-            class="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-[14.75rem] h-11 rounded-lg border-2 flex bg-warm-orange hover:bg-warm-orange-hover"
-          >
-            <div
-              class="w-10 h-10 bg-white rounded-lg border-2 flex items-center justify-center"
+          <ul
+            id="playlist-list-items"
+            class="pt-2 pl-3 border-y-4 flex flex-col row-start-2 row-span-1 overflow-y-scroll"
+          ></ul>
+          <div class="row-start-3 row-span-1 grid place-items-center">
+            <button
+              class="w-[14.75rem] h-11 rounded-lg border-2 flex bg-warm-orange hover:bg-warm-orange-hover"
             >
-              <img
-                src="/static/assets/icons/plus.png"
-                alt="add playlist"
-                width="24"
-                height="24"
-              />
-            </div>
-            <div
-              id="open-add-playlist-modal-btn"
-              class="text-white text-3xl font-semibold pl-3 pt-0.5"
-            >
-              Add Playlist
-            </div>
-          </button>
+              <div
+                class="w-10 h-10 bg-white rounded-lg border-2 flex items-center justify-center"
+              >
+                <img
+                  src="/static/assets/icons/plus.png"
+                  alt="add playlist"
+                  width="24"
+                  height="24"
+                />
+              </div>
+              <div
+                id="open-add-playlist-modal-btn"
+                class="text-white text-3xl font-semibold pl-3 pt-0.5"
+              >
+                Add Playlist
+              </div>
+            </button>
+          </div>
         </div>
         <!-- youtube-embed -->
         <div
