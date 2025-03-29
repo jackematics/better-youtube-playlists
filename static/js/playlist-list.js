@@ -74,8 +74,22 @@ async function handlePlaylistClick(event, playlistId) {
     }
 
     playlistItemsEl.innerHTML = "";
+    let unavailableVideoCount = 0;
     for (let i = 0; i < playlist.items.length; i++) {
-      playlistItemsEl.appendChild(createPlaylistItem(i + 1, playlist.items[i]));
+      if (
+        ["Private video", "Deleted video"].includes(playlist.items[i].title)
+      ) {
+        unavailableVideoCount++;
+        continue;
+      }
+
+      playlistItemsEl.appendChild(
+        createPlaylistItem(i + 1 - unavailableVideoCount, playlist.items[i])
+      );
+    }
+
+    if (unavailableVideoCount > 0) {
+      totalVideosEl.textContent += ` (${unavailableVideoCount} unavailable videos hidden)`;
     }
 
     setOriginalPlaylistItems(Array.from(playlistItemsEl.children));

@@ -21,10 +21,10 @@
   - :white_check_mark: ~~Should highlight the selected playlist~~
   - :white_check_mark: ~~Should populate playlist items~~
 - :white_check_mark: ~~Cache: should cache playlist list data so users returning to the site will automatically have playlists loaded~~
-- Handle empty playlists
-- Selecting a playlist resets the playlist operations and playlist history
+- :white_check_mark: ~~Handle empty playlists~~
+- :white_check_mark: ~~Selecting a playlist resets the playlist operations and playlist history~~
 - :white_check_mark: ~~Playlist is sorted alphabetically~~
-- Add vertical scrolling if too many playlists are added.
+- :white_check_mark: ~~Add vertical scrolling if too many playlists are added.~~
 
 ### Playlist Items
 
@@ -40,10 +40,10 @@
 - :white_check_mark: ~~Load more than 50 items on playlist select~~
 - :white_check_mark: ~~Loading spinner when loading items~~
 - :white_check_mark: ~~Selecting the same playlist multiple times won't refetch~~
-- Handle unavailable videos
-- Handle empty playlists
-- Handle private videos
-- Handle age restricted videos
+- :white_check_mark: ~~Handle unavailable videos~~
+- :white_check_mark: ~~Handle empty playlists~~
+- :white_check_mark: ~~Handle private videos~~
+- Limit obscenely large playlists (more than 10_000 videos? Maybe look at cost of calling the youtube api first)
 
 ### Video Player
 
