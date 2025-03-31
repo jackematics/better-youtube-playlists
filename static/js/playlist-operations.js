@@ -1,5 +1,5 @@
 import { History } from "./history.js";
-import { removePlaylist } from "./localStorage.js";
+import { removePlaylist } from "./local-storage.js";
 
 let RANDOMISE = false;
 let SHUFFLE = false;

@@ -6,7 +6,7 @@ import {
   setOriginalPlaylistItems,
 } from "./playlist-operations.js";
 import { destroyPlayer, setPlayingVideo } from "./youtube-embed.js";
-import { addPlaylist, getPlaylists } from "./localStorage.js";
+import { addPlaylist, getPlaylists } from "./local-storage.js";
 
 const playlistListItemsEl = document.getElementById("playlist-list-items");
 const playlistTitleEl = document.getElementById("playlist-title");
