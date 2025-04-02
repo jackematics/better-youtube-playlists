@@ -1,7 +1,7 @@
 import { History } from "./history.js";
 import { setPlayingVideo } from "./youtube-embed.js";
+import { CurrentVideoState } from "./playlist-description.js";
 
-const totalVideosEl = document.getElementById("total-videos");
 const playlistItemsContainerEl = document.getElementById(
   "playlist-items-container"
 );
@@ -28,10 +28,12 @@ function handlePlaylistItemClick(event) {
   setPlayingVideo(event.currentTarget.id);
 
   // set video currently playing in description
-  const itemIndex = event.currentTarget.children[0].children[0].textContent;
-  const pSplit = totalVideosEl.textContent.split(" ");
-  const totalVideoCount = pSplit[pSplit.length - 1];
-  totalVideosEl.textContent = `Video: ${itemIndex} / ${totalVideoCount}`;
+  CurrentVideoState.setState({
+    currentIndex: Number.parseInt(
+      event.currentTarget.children[0].children[0].textContent
+    ),
+  });
+  CurrentVideoState.render();
 
   // adds video to history of played videos
   History.add(event.currentTarget.id);

@@ -112,5 +112,3 @@
 - Download: Download a list of all the videos as MP3/MP4 files
 
 ### Bugs
-
-- None spotted atm!

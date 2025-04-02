@@ -1,5 +1,6 @@
 import { History } from "./history.js";
 import { removePlaylist } from "./local-storage.js";
+import { CurrentVideoState } from "./playlist-description.js";
 
 let RANDOMISE = false;
 let SHUFFLE = false;
@@ -8,7 +9,6 @@ let ORIGINAL_PLAYLIST_ITEMS = [];
 
 const playlistEl = document.getElementById("playlist-list-items");
 const playlistItemsEl = document.getElementById("playlist-items");
-const totalVideosEl = document.getElementById("total-videos");
 
 const previousEl = document.getElementById("previous");
 const nextEl = document.getElementById("next");
@@ -48,18 +48,12 @@ export function handleNextClick() {
   let nextVideo;
 
   if (RANDOMISE) {
-    const currentItemIndex = Number.parseInt(
-      currentVideo.children[0].children[0].textContent
-    );
-    const totalVideosSplit = totalVideosEl.textContent.split(" ");
-    const totalVideoCount = Number.parseInt(
-      totalVideosSplit[totalVideosSplit.length - 1]
-    );
+    const { currentIndex, totalVideos } = CurrentVideoState.getState();
 
     let nextLiIndex;
     do {
-      nextLiIndex = Math.floor(Math.random() * totalVideoCount);
-    } while (nextLiIndex === currentItemIndex);
+      nextLiIndex = Math.floor(Math.random() * totalVideos);
+    } while (nextLiIndex === currentIndex);
 
     nextVideo = playlistItemsEl.children[nextLiIndex];
   } else {

@@ -7,10 +7,10 @@ import {
 } from "./playlist-operations.js";
 import { destroyPlayer, setPlayingVideo } from "./youtube-embed.js";
 import { addPlaylist, getPlaylists } from "./local-storage.js";
+import { CurrentVideoState } from "./playlist-description.js";
 
 const playlistListItemsEl = document.getElementById("playlist-list-items");
 const playlistTitleEl = document.getElementById("playlist-title");
-const totalVideosEl = document.getElementById("total-videos");
 const selectPlaylistValidationMessageEl = document.getElementById(
   "select-playlist-validation-message"
 );
@@ -66,8 +66,6 @@ async function handlePlaylistClick(event, playlistId) {
 
     const playlist = await response.json();
 
-    totalVideosEl.textContent = `Video: 1 / ${playlist.totalVideos}`;
-
     if (playlist.items.length === 0) {
       validationMessage = "Playlist is empty";
       throw new Error(validationMessage);
@@ -88,9 +86,12 @@ async function handlePlaylistClick(event, playlistId) {
       );
     }
 
-    if (unavailableVideoCount > 0) {
-      totalVideosEl.textContent += ` (${unavailableVideoCount} unavailable videos hidden)`;
-    }
+    CurrentVideoState.setState({
+      currentIndex: 1,
+      totalVideos: playlist.totalVideos,
+      unavailableVideoCount,
+    });
+    CurrentVideoState.render();
 
     setOriginalPlaylistItems(Array.from(playlistItemsEl.children));
     highlightSelectedItem(document.getElementById(playlist.items[0].id));
@@ -99,7 +100,8 @@ async function handlePlaylistClick(event, playlistId) {
     History.add(playlist.items[0].id);
   } catch (err) {
     destroyPlayer();
-    totalVideosEl.textContent = "";
+    CurrentVideoState.clear();
+    CurrentVideoState.render();
     selectPlaylistValidationMessageEl.textContent = validationMessage;
     playlistItemsEl.innerHTML = "";
     setOriginalPlaylistItems([]);
