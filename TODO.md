@@ -91,6 +91,7 @@
   - :white_check_mark: ~~Removes playlist from list~~
   - :white_check_mark: ~~Refreshes page?~~
 - Clicking next / prev button shortcuts will move to the next / prev video even when not on the same tab
+- Use SVGs for icons instead of PNGs
 
 ### Contact
 
