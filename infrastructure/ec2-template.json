@@ -144,55 +144,55 @@
         "AvailabilityZones": { "Fn::GetAZs": "" },
         "TargetGroupARNs": [{ "Ref": "AppTargetGroup" }]
       }
+    },
+    "AppTargetGroup": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "Name": "AppTargetGroup",
+        "Port": 8000,
+        "Protocol": "HTTP",
+        "VpcId": "vpc-012ba9d92f5593473",
+        "TargetType": "instance",
+        "HealCheckPath": "/",
+        "HealthCheckIntervalSeconds": 30,
+        "HealthCheckTimeoutSeconds": 5,
+        "HealthyThresholdCount": 2,
+        "UnhealthyThresholdCount": 2
+      }
+    },
+    "AppLoadBalancer": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "Name": "AppLoadBalancer",
+        "Subnets": [
+          "subnet-017727e618260a9fd",
+          "subnet-0345a9dce42946c74",
+          "subnet-02784e219b9efaedf"
+        ],
+        "SecurityGroups": [{ "Ref": "InstanceSecurityGroup" }],
+        "Scheme": "internet-facing",
+        "Type": "application"
+      }
+    },
+    "AppLoadBalancerListener": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "Type": "forward",
+            "TargetGroupArn": { "Ref": "AppTargetGroup" }
+          }
+        ],
+        "LoadBalancerArn": { "Ref": "AppLoadBalancer" },
+        "Port": 80,
+        "Protocol": "HTTP"
+      }
     }
   },
   "Outputs": {
     "AutoScalingGroupName": {
       "Description": "Name of the Auto Scaling Group",
       "Value": { "Ref": "AutoScalingGroup" }
-    }
-  },
-  "AppTargetGroup": {
-    "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
-    "Properties": {
-      "Name": "AppTargetGroup",
-      "Port": 8000,
-      "Protocol": "HTTP",
-      "VpcId": "vpc-012ba9d92f5593473",
-      "TargetType": "instance",
-      "HealCheckPath": "/",
-      "HealthCheckIntervalSeconds": 30,
-      "HealthCheckTimeoutSeconds": 5,
-      "HealthyThresholdCount": 2,
-      "UnhealthyThresholdCount": 2
-    }
-  },
-  "AppLoadBalancer": {
-    "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
-    "Properties": {
-      "Name": "AppLoadBalancer",
-      "Subnets": [
-        "subnet-017727e618260a9fd",
-        "subnet-0345a9dce42946c74",
-        "subnet-02784e219b9efaedf"
-      ],
-      "SecurityGroups": [{ "Ref": "InstanceSecurityGroup" }],
-      "Scheme": "internet-facing",
-      "Type": "application"
-    }
-  },
-  "AppLoadBalancerListener": {
-    "Type": "AWS::ElasticLoadBalancingV2::Listener",
-    "Properties": {
-      "DefaultActions": [
-        {
-          "Type": "forward",
-          "TargetGroupArn": { "Ref": "AppTargetGroup" }
-        }
-      ],
-      "LoadBalancerArn": { "Ref": "AppLoadBalancer" },
-      "Port": 80,
-      "Protocol": "HTTP"
     }
   }
 }
