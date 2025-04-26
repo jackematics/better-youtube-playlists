@@ -160,6 +160,21 @@
         "UnhealthyThresholdCount": 2
       }
     },
+    "LoadBalancerSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Security group for ALB allowing HTTP access",
+        "VpcId": "vpc-012ba9d92f5593473",
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "CidrIp": "0.0.0.0/0"
+          }
+        ]
+      }
+    },
     "AppLoadBalancer": {
       "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
       "Properties": {
@@ -169,7 +184,7 @@
           "subnet-0345a9dce42946c74",
           "subnet-02784e219b9efaedf"
         ],
-        "SecurityGroups": [{ "Ref": "InstanceSecurityGroup" }],
+        "SecurityGroups": [{ "Ref": "LoadBalancerSecurityGroup" }],
         "Scheme": "internet-facing",
         "Type": "application"
       }
