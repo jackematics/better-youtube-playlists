@@ -153,7 +153,7 @@
         "Protocol": "HTTP",
         "VpcId": "vpc-012ba9d92f5593473",
         "TargetType": "instance",
-        "HealCheckPath": "/",
+        "HealthCheckPath": "/",
         "HealthCheckIntervalSeconds": 30,
         "HealthCheckTimeoutSeconds": 5,
         "HealthyThresholdCount": 2,
